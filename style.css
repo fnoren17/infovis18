@@ -4,17 +4,18 @@
 }
 h1 {
     text-align: center;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     color: white;
 }
 body {
-    background-color: #00004d;
+    background-color: #00334d;
 }
 .background {
   fill: none;
   pointer-events: all;
 }
 #countries, #states {
-  fill: #00994d;
+  fill: #196666;
   stroke: #fff;
   stroke-linejoin: round;
   stroke-linecap: round;
