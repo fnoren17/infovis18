@@ -1,6 +1,6 @@
     var m_width = $("#map").width(),
-        width = 938,
-        height = 500,
+        width = 938 *1.3, //to fit screen better
+        height = 500 *1.3,
         country,
         state;
 
