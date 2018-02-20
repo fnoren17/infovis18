@@ -19,7 +19,7 @@ body {
   stroke: #fff;
   stroke-linejoin: round;
   stroke-linecap: round;
-  stroke-width: 0.2;
+  stroke-width: 0.4;
 }
 #countries .active, #states .active {
   fill: #89a;
