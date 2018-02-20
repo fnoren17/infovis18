@@ -54,7 +54,7 @@
         .duration(750)
         .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
         .selectAll(["#countries", "#states", "#cities"])
-        .style("stroke-width", 1.0 / xyz[2] + "px")
+        //.style("stroke-width", 1.0 / xyz[2] + "px")
         .selectAll(".city")
         .attr("d", path.pointRadius(20.0 / xyz[2]));
         if(d){
