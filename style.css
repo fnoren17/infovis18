@@ -32,7 +32,7 @@ body {
   stroke: #fff;
 }
 pre.prettyprint {
-  border: 1px solid #ccc;
+  //border: 1px solid #ccc;
   margin-bottom: 0;
   padding: 9.5px;
 }
