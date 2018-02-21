@@ -1,0 +1,35 @@
+{
+  "Exporter": "Brazil",
+  "children": [
+    {
+      "name": "Europe",
+      "children": [
+        {
+        "name": "Sweden", 
+        "children": [
+          {"name": "Soy", "size": 1555},
+          {"name": "Rubber", "size": 780},
+          {"name": "Plywood", "size": 6012},
+          {"name": "Total_co2", "size": 8347}
+        ]},
+        {
+        "name": "Norway",
+        "children": [
+          {"name": "Soy", "size": 1200},
+          {"name": "Rubber", "size": 500},
+          {"name": "Plywood", "size": 761},
+          {"name": "Total_co2", "size": 2461},
+        ]}
+      ]},
+      {
+        "name": "Africa",
+        "children": [
+          {
+            "name": "Ghana",
+            "children": [
+            {"name": "Soy", "size": 1254},
+            {"name": "Rubber", "size": 123},
+            {"name": "Total_co2", "size": 1377},
+          ]}
+        ]}
+      ]} 
