@@ -61,10 +61,10 @@ function constructVesselCountryArray ()
 {
   for (var i = 0; i < vesselArray.length; i++)
   {
-    if (i == 0)
-    {
-      console.log(vesselArray[0]);
-    }
+    // if (i == 0)
+    // {
+    //   console.log(vesselArray[0]);
+    // }
     var vessel = vesselArray[i].vesselId;
     var lat = vesselArray[i].lat;
     var lng = vesselArray[i].lng;
@@ -77,6 +77,42 @@ function constructVesselCountryArray ()
                                                                   // call vesselIDReplacer after all getJSONs have been done to compensate
     });
   }
+}
+
+var x = 0;
+var loopArray = function(arr) {
+    customAlert(arr[x],function(){
+        // set x to next item
+        x++;
+
+        // any more items in array? continue loop
+        if(x < arr.length) {
+            loopArray(arr);   
+        }
+        else {
+          console.log("we are done!");
+          console.log(vesselCountryArray);
+        }
+    }); 
+}
+
+function customAlert(vessel,callback) {
+
+    // Here we do the stuff
+    // console.log(vessel);
+    console.log(vessel);
+
+    var lat = vessel.lat;
+    var lng = vessel.lng;
+    var urlPart = "lat=" +lat +"&lon=" +lng;
+    var url = "https://nominatim.openstreetmap.org/reverse?format=json&" +urlPart +"&zoom=0&addressdetails=1";
+    $.getJSON(url, function(json){
+      var country = json.address.country;
+      vesselCountryArray.push({"VesselID": vessel.vesselId, "DestinationCountry": country}); // vesselID is wrong here, always the last in the list
+      callback();                                                           // call vesselIDReplacer after all getJSONs have been done to compensate
+    });
+
+    
 }
 
 
@@ -118,9 +154,10 @@ function main ()
 {
   initMap();
   vesselDestination();
-  constructVesselCountryArray();
-  console.log("Manually call vesselIDReplacer() in the console once getJSON-stuff is complete to set the right vessel to the right country. \n\nI don't know how to call vesselIDReplacer() once a getJSON is complete with the right vessel. ");
-  console.log("Print vesselCountryArray to see that it is faulty. ");
-  console.log("Call vesselIDReplacer() which should make it right (given that all getJSON calls have been done. ");
+  // constructVesselCountryArray();
+  loopArray(vesselArray);
+  // console.log("Manually call vesselIDReplacer() in the console once getJSON-stuff is complete to set the right vessel to the right country. \n\nI don't know how to call vesselIDReplacer() once a getJSON is complete with the right vessel. ");
+  // console.log("Print vesselCountryArray to see that it is faulty. ");
+  // console.log("Call vesselIDReplacer() which should make it right (given that all getJSON calls have been done. ");
 
 }
