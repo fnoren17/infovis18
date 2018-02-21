@@ -58,10 +58,14 @@ d3.json("dummyData.json", function(error, root) {
             return 1 }
             })
       .on("click", click)
+    .on("mouseover",mouseover)
     .append("title")
       .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
 });
 
+function mouseover(d){
+    console.log(d.data.name)
+}
 function click(d) {
   svg.transition()
       .duration(750)
