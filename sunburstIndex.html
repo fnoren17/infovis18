@@ -4,9 +4,15 @@
 path {
   stroke: #fff;
 }
+    .text{
+        position: absolute;
+        font-family: sans-serif;
+        
+    }
 </style>
 <body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
 <script>
 
 var width = 960,
@@ -44,7 +50,12 @@ d3.json("dummyData.json", function(error, root) {
   root = d3.hierarchy(root); //Root är mittencirkeln!
   root.sum(function(d) { return d.size; });
     
-
+    d3.selectAll("body")
+    .append("div")
+    .attr("class", "text")
+    .attr("width", 200)
+    .attr("height", 200)
+    .style("opacity", 1);
     
     svg.selectAll("path")
       .data(partition(root).descendants())
@@ -59,15 +70,41 @@ d3.json("dummyData.json", function(error, root) {
         else {
             return 1 }
             })
-      .on("click", click)
+    .on("click", click)
     .on("mouseover",mouseover)
-    .append("title")
-    .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
+    .on("mousemove",mousemove)
+    .on("mouseout", mouseout)
+    //.append("title")
+    //.text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
 });
+    
+
+    
 function mouseover(d){
     //Fade the segments
     d3.selectAll("path")
-      .style("opacity", 0.3);
+      .style("opacity", function(a){
+        if(a == d){
+            return 1;
+        } else {
+            return 0.5;
+        }
+    });
+}
+    
+    function mousemove(d){
+    d3.selectAll(".text")
+    .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
+    //.attr("style", "left:" + event.clientX + "px")
+    .html(d.data.name + "\n" + formatNumber(d.value));
+    }
+    
+    function mouseout(d){
+    d3.selectAll("path")
+        .style("opacity", 1);
+    d3.selectAll(".text")
+        .style("display", "none");
+    
 }
 
 function click(d) {
