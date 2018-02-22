@@ -33,6 +33,13 @@
         .enter()
         .append("path")
         .attr("id", function(d) { return d.id; })
+        .attr("style", function(d){
+              console.log(d.properties.name)
+              if (d.properties.name == "Brazil") {
+                  console.log("hej brazil")
+                  return "fill: #d8965d";
+              }
+          })
         .attr("d", path)
         .on("click", country_clicked);
     });
@@ -91,35 +98,6 @@
         d3.selectAll("path")
           .style("visibility", "visible");
         zoom(xyz);
-      }
-    }
-
-    function state_clicked(d) {
-      g.selectAll("#cities").remove();
-
-      if (d && state !== d) {
-        var xyz = get_xyz(d);
-        state = d;
-
-        country_code = state.id.substring(0, 3).toLowerCase();
-        state_name = state.properties.name;
-
-        d3.json("/json/cities_" + country_code + ".topo.json", function(error, us) {
-          g.append("g")
-            .attr("id", "cities")
-            .selectAll("path")
-            .data(topojson.feature(us, us.objects.cities).features.filter(function(d) { return state_name == d.properties.state; }))
-            .enter()
-            .append("path")
-            .attr("id", function(d) { return d.properties.name; })
-            .attr("class", "city")
-            .attr("d", path.pointRadius(20 / xyz[2]));
-
-          zoom(xyz);
-        });      
-      } else {
-        state = null;
-        country_clicked(country);
       }
     }
 
