@@ -21,7 +21,46 @@ var x = d3.scaleLinear()
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
+var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
+
+function color(object) {
+    
+    console.log(object)
+    if (object.depth == 0) {
+        object.data.color = {colorR: 255, colorG: 255, colorB: 255};
+    }
+    else if (object.depth == 1) {
+        var parent = object.parent;
+        var numbChildren = parent.children.length;
+        for (i=0; i < color_scheme.length; i++) {
+            if (color_scheme[i].continent == object.data.name) {
+                object.data.color = color_scheme[i].color;
+            }
+        }
+    }
+    else {
+        var scalar;
+        var arr = object.parent.children;
+        for (var i = 0, len = arr.length; i < len; i++) {
+          if(arr[i].data.name == object.data.name){
+                var scalar = ((i+1)*5*object.depth);
+             }
+        }
+        var parentColor = object.parent.data.color;
+        var numbChildren = object.parent.children.length;
+        console.log("numbchildren",numbChildren);
+        console.log("parentColor",parentColor);
+        var skillnadR = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
+        
+        console.log("skillnadR", skillnadR)
+        var skillnadG = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
+        var skillnadB = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
+        object.data.color = {colorR: parentColor.colorR - skillnadR, colorG: parentColor.colorG - skillnadG, colorB: parentColor.colorB - skillnadB};
+        //d.colorR < 0 ? d.colorR=0 : d.colorR
+    }
+}
+    
+    console.log(d3.schemeCategory20);
 
 var partition = d3.partition();
     
@@ -50,7 +89,8 @@ d3.json("dummyData.json", function(error, root) {
       .data(partition(root).descendants())
       .enter().append("path")
       .attr("d", arc)
-      .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+      .style("fill", function(d) { color(d); 
+                    return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
         .style("opacity", function(d) { 
         if (d.data.name == "Brazil") {
             console.log("Setting opacity for middle circle to zero")
