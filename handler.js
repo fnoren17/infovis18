@@ -25,6 +25,7 @@
 
     var g = svg.append("g");
 
+
     d3.json("countries.topo.json", function(error, us) {
       g.append("g")
         .attr("id", "countries")
@@ -33,13 +34,15 @@
         .enter()
         .append("path")
         .attr("id", function(d) { return d.id; })
-        .attr("style", function(d){
-              console.log(d.properties.name)
-              if (d.properties.name == "Brazil") {
-                  console.log("hej brazil")
-                  return "fill: #d8965d";
-              }
-          })
+        .styles({"fill": function(d){
+            if (d.properties.name == "Brazil"){
+                return "#d8965d"
+            }
+        }, "pointer-events": function(d){
+            if(d.properties.name != "Brazil"){
+                return "none";
+            }
+        }})
         .attr("d", path)
         .on("click", country_clicked);
     });
@@ -54,6 +57,9 @@
                     return "hidden";
                 }
             });
+            // vm i fulhax
+            setTimeout(function(){ window.location.href = 'sunburstIndex.html';},1000)
+           
         }
 
     function zoom(xyz, d) {
@@ -65,7 +71,7 @@
         .selectAll(".city")
         .attr("d", path.pointRadius(20.0 / xyz[2]));
         if(d){
-        zoomed(d);
+            zoomed(d);
         }
     }
 

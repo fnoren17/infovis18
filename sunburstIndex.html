@@ -1,17 +1,29 @@
 <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        path {
+          stroke: #fff;
+        }
+        .text{
+            position: absolute;
+            font-family: sans-serif;
+            padding:10px;
+            background: #fff;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
 <meta charset="utf-8">
-<style>
-path {
-  stroke: #fff;
-}
-    .text{
-    position: absolute;
-        font-family: sans-serif;
-}
-</style>
-<body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="row">
+    <h1>Brazil</h1></div>
+    <div class="wrap" id="wrap">
+    </div>
 <script>
 
 var width = 960,
@@ -32,7 +44,7 @@ function color(object) {
     
     console.log(object)
     if (object.depth == 0) {
-        object.data.color = {colorR: 255, colorG: 255, colorB: 255};
+        object.data.color = {colorR: 0, colorG: 0, colorB: 0};
     }
     else if (object.depth == 1) {
         var parent = object.parent;
@@ -76,7 +88,7 @@ var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten. S�
     .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
 
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#wrap").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
@@ -102,14 +114,14 @@ d3.json("dummyData.json", function(error, root) {
       .attr("d", arc)
       .style("fill", function(d) { color(d); 
                     return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
-        .style("opacity", function(d) { 
-        if (d.data.name == "Brazil") {
-            console.log("Setting opacity for middle circle to zero")
-            return 0
-        }
-        else {
-            return 1 }
-            })
+//        .style("opacity", function(d) { 
+//        if (d.data.name == "Brazil") {
+//            console.log("Setting opacity for middle circle to zero")
+//            return 0
+//        }
+//        else {
+//            return 1 }
+//            })
     .on("click", click)
     .on("mouseover",mouseover)
     .on("mousemove",mousemove)
@@ -159,3 +171,5 @@ function click(d) {
 
 d3.select(self.frameElement).style("height", height + "px");
 </script>
+</body>
+</html>
