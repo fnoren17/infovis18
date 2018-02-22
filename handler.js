@@ -37,7 +37,7 @@
               console.log(d.properties.name)
               if (d.properties.name == "Brazil") {
                   console.log("hej brazil")
-                  return "fill: #248f8f";
+                  return "fill: #d8965d";
               }
           })
         .attr("d", path)

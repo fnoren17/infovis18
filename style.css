@@ -4,33 +4,49 @@
 }
 h1 {
     text-align: center;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-family: "Avenir Next";
+    font-weight: normal;
     color: white;
 }
 body {
-    background-color: #00334d;
+    background-image: 
+        -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
+    
+        -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
+    
+        -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%, 0) 0%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,.15) 100%),
+    
+        linear-gradient(150deg, hsl(0,5%,8%) 10%, 
+        rgb(0,0,0) 70%, 
+        rgb(0,0,0) 10%,
+        rgb(0,0,0) 30%);
 }
 .background {
   fill: none;
   pointer-events: all;
 }
+
 #countries, #states {
-  fill: #196666;
-  stroke: #fff;
+  fill: #e4b388;
+  stroke: #000;
   stroke-linejoin: round;
   stroke-linecap: round;
-  stroke-width: 0.4;
+  stroke-width: 0.08;
 }
-#countries .active, #states .active {
-  fill: #89a;
+
+#countries .active {
+  fill: #dab89b;
 }
+
 #cities {
   stroke-width: 0;
 }
+
 .city {
   fill: #345;
   stroke: #fff;
 }
+
 pre.prettyprint {
   //border: 1px solid #ccc;
   margin-bottom: 0;
