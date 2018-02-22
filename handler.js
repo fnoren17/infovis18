@@ -25,6 +25,10 @@
 
     var g = svg.append("g");
 
+    // Tooltip för mouseover
+    var div = d3.select("#map").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 
     d3.json("countries.topo.json", function(error, us) {
       g.append("g")
@@ -44,9 +48,23 @@
             }
         }})
         .attr("d", path)
-        .on("click", country_clicked);
+        .on("click", country_clicked)
+        .on("mouseover", function(d) { // Tanken är att när man hovrar över ett land så kan man få snabbinfo
+              div.transition()
+                  .duration(200)
+                  .style("opacity", .9);
+              div	.html(d.properties.name + "<br>" + "Export:" + "<br>" + "Import:")
+                  //console.log(d)
+                  .style("left", (d3.event.pageX) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+              })
+          .on("mouseout", function(d) {
+              div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+          });
     });
-        
+
         function zoomed(d){
             console.log(d.properties.name);
             d3.selectAll("path")
@@ -59,7 +77,7 @@
             });
             // vm i fulhax
             setTimeout(function(){ window.location.href = 'sunburstIndex.html';},1000)
-           
+
         }
 
     function zoom(xyz, d) {
@@ -97,7 +115,7 @@
         var xyz = get_xyz(d);
         country = d;
         zoom(xyz, d);
-        
+
       } else {
         var xyz = [width / 2, height / 1.5, 1];
         country = null;
