@@ -44,7 +44,9 @@ d3.json("dummyData.json", function(error, root) {
   root = d3.hierarchy(root); //Root är mittencirkeln!
   root.sum(function(d) { return d.size; });
     
-  svg.selectAll("path")
+
+    
+    svg.selectAll("path")
       .data(partition(root).descendants())
       .enter().append("path")
       .attr("d", arc)
@@ -60,12 +62,14 @@ d3.json("dummyData.json", function(error, root) {
       .on("click", click)
     .on("mouseover",mouseover)
     .append("title")
-      .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
+    .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
 });
-
 function mouseover(d){
-    console.log(d.data.name)
+    //Fade the segments
+    d3.selectAll("path")
+      .style("opacity", 0.3);
 }
+
 function click(d) {
   svg.transition()
       .duration(750)
