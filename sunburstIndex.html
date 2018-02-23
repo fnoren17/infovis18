@@ -26,21 +26,15 @@
     <div class="wrap" id="wrap">
     </div>
 <script>
-
 var width = 960,
     height = 700,
     radius = (Math.min(width, height) / 2) - 10;
-
 var formatNumber = d3.format(",d");
-
 var x = d3.scaleLinear()
     .range([0, 2 * Math.PI]); //Längd av arcs?
-
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
-
 var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
-
 function color(object) {
     
     console.log(object)
@@ -79,7 +73,6 @@ function color(object) {
 }
     
     console.log(d3.schemeCategory20);
-
 var partition = d3.partition();
     
 var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten. Så första är den blåa cirkeln, men alla dess children som egenskaper i objektet. Nästa är den ljusblåa "analytics", med alla dess children, osv. 
@@ -87,14 +80,11 @@ var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten. S�
     .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
-
-
 var svg = d3.select("#wrap").append("svg")
     .attr("width", width)
     .attr("height", height)
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
-
 d3.json("dummyData.json", function(error, root) {
   if (error) throw error;
   
@@ -107,7 +97,6 @@ d3.json("dummyData.json", function(error, root) {
     .attr("width", 200)
     .attr("height", 200)
     .style("opacity", 1);
-
     
     svg.selectAll("path")
       .data(partition(root).descendants())
@@ -156,7 +145,6 @@ function mouseover(d){
         .style("display", "none");
     
 }
-
 function click(d) {
   svg.transition()
       .duration(750)
@@ -169,7 +157,6 @@ function click(d) {
     .selectAll("path")
       .attrTween("d", function(d) { return function() { return arc(d); }; });
 }
-
 d3.select(self.frameElement).style("height", height + "px");
 </script>
 </body>
