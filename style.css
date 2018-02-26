@@ -24,6 +24,20 @@ body {
         rgb(0,0,0) 10%,
         rgb(0,0,0) 30%);
 }
+
+.text{
+    position: absolute;
+    font-family: sans-serif;
+    padding:10px;
+    background: #fff;
+    border-radius: 4px;
+    display: none;
+}
+
+path {
+  stroke: #fff;
+}
+
 .background {
   fill: none;
   pointer-events: all;
