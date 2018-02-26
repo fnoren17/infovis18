@@ -34,13 +34,25 @@
       .defer(d3.json, "dummyData.json")
       .await(analyze);
 
-    // Här är datan om utsläppen
-    function analyze(error, dummyData) {
-      if(error) { console.log(error); }
+  // Här är datan om utsläppen
+  function analyze(error, dummyData) {
+    if(error) { console.log(error); }
 
-      console.log(dummyData);
-      return dummyData;
+    //console.log(dummyData.children.length);
+    //console.log(dummyData.children[0].children.length);
+    //return dummyData;
+
+    totCountries = 0; // Totala antalet länder
+    totEmission = 0; // Det totala utsälppet för alla exporter
+    for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+      for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+        totCountries = totCountries + 1
+        for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+          totEmission = totEmission + dummyData.children[i].children[j].children[k].size
+        }
+      }
     }
+
 
     d3.json("countries.topo.json", function(error, us) {
       g.append("g")
@@ -51,18 +63,27 @@
         .append("path")
         .attr("id", function(d) { return d.id; })
         .styles({"fill": function(d){
-            var tempNum = Math.floor(Math.random() * 4);
+            var tempNum = 0;
+            for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+              for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+                if (dummyData.children[i].children[j].name == d.properties.name) {
+                  for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+                    tempNum = tempNum + dummyData.children[i].children[j].children[k].size
+                  }
+                }
+              }
+            }
             if (d.properties.name == "Brazil"){
-                return "#d8965d"
-            } // Såhär kan man göra color coding, fast med riktiga värden för tempNum
-            if (tempNum == 0){
-              return "#e4b388"
-            } else if (tempNum == 1) {
-              return "#F5DEB3"
-            } else if (tempNum == 2) {
+                return "#808080"
+            }
+            if ((tempNum / totEmission) > (1 / totCountries)) {
               return "#d8965d"
-            } else if (tempNum == 3) {
+            } else if ((tempNum / totEmission) > (0.75 / totCountries)) {
               return "#D2B48C"
+            } else if ((tempNum / totEmission) > (0.5 / totCountries)) {
+              return "#F5DEB3"
+            } else {
+              return "#FAEBD7"
             }
         }, "pointer-events": function(d){
             if(d.properties.name != "Brazil"){
@@ -86,6 +107,7 @@
                   .style("opacity", 0);
           });
     });
+  }
 
         function zoomed(d){
             console.log(d.properties.name);
