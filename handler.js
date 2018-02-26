@@ -34,11 +34,14 @@
         .append("path")
         .attr("id", function(d) { return d.id; })
         .attr("style", function(d){
-              console.log(d.properties.name)
-              if (d.properties.name == "Brazil") {
-                  console.log("hej brazil")
-                  return "fill: #efa131";
-              }
+            console.log(d.properties.name)
+                if (d.properties.name == "Brazil") {
+                console.log("hej brazil")
+                return "fill: #efa131; stroke: black";
+            }
+            else {
+                return "stroke: black";
+            }
           })
         .attr("d", path)
         .on("click", country_clicked);
