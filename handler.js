@@ -1,12 +1,12 @@
     var m_width = $("#map").width(),
-        width = 938 *1.3, //to fit screen better
-        height = 500 *1.3,
+        width = 400, //to fit screen better
+        height = 400,
         country,
         state;
 
     var projection = d3.geoMercator()
-        .scale(150)
-        .translate([width / 2, height / 1.5]);
+        .scale(50)
+        .translate([width / 2, height / 1.60]);
 
     var path = d3.geoPath()
         .projection(projection);
@@ -25,7 +25,6 @@
 
     var g = svg.append("g");
 
-
     d3.json("countries.topo.json", function(error, us) {
       g.append("g")
         .attr("id", "countries")
@@ -34,15 +33,13 @@
         .enter()
         .append("path")
         .attr("id", function(d) { return d.id; })
-        .styles({"fill": function(d){
-            if (d.properties.name == "Brazil"){
-                return "#d8965d"
-            }
-        }, "pointer-events": function(d){
-            if(d.properties.name != "Brazil"){
-                return "none";
-            }
-        }})
+        .attr("style", function(d){
+              console.log(d.properties.name)
+              if (d.properties.name == "Brazil") {
+                  console.log("hej brazil")
+                  return "fill: #248f8f";
+              }
+          })
         .attr("d", path)
         .on("click", country_clicked);
     });
@@ -57,9 +54,6 @@
                     return "hidden";
                 }
             });
-            // vm i fulhax
-            setTimeout(function(){ window.location.href = 'sunburstIndex.html';},1000)
-           
         }
 
     function zoom(xyz, d) {
@@ -71,7 +65,7 @@
         .selectAll(".city")
         .attr("d", path.pointRadius(20.0 / xyz[2]));
         if(d){
-            zoomed(d);
+        zoomed(d);
         }
     }
 
