@@ -14,7 +14,6 @@ var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB
 
 function color(object) {
     
-    console.log(object)
     if (object.depth == 0) {
         object.data.color = {colorR: 0, colorG: 0, colorB: 0};
     }
@@ -37,11 +36,8 @@ function color(object) {
         }
         var parentColor = object.parent.data.color;
         var numbChildren = object.parent.children.length;
-        console.log("numbchildren",numbChildren);
-        console.log("parentColor",parentColor);
         var skillnadR = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
         
-        console.log("skillnadR", skillnadR)
         var skillnadG = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
         var skillnadB = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
         object.data.color = {colorR: parentColor.colorR - skillnadR, colorG: parentColor.colorG - skillnadG, colorB: parentColor.colorB - skillnadB};
