@@ -34,10 +34,10 @@ var x = d3.scaleLinear()
     .range([0, 2 * Math.PI]); //Längd av arcs?
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
-var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
+var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];
 function color(object) {
-    
-    console.log(object)
+
+    //console.log(object)
     if (object.depth == 0) {
         object.data.color = {colorR: 0, colorG: 0, colorB: 0};
     }
@@ -60,22 +60,22 @@ function color(object) {
         }
         var parentColor = object.parent.data.color;
         var numbChildren = object.parent.children.length;
-        console.log("numbchildren",numbChildren);
-        console.log("parentColor",parentColor);
+        //console.log("numbchildren",numbChildren);
+        //console.log("parentColor",parentColor);
         var skillnadR = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
-        
-        console.log("skillnadR", skillnadR)
+
+        //console.log("skillnadR", skillnadR)
         var skillnadG = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
         var skillnadB = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
         object.data.color = {colorR: parentColor.colorR - skillnadR, colorG: parentColor.colorG - skillnadG, colorB: parentColor.colorB - skillnadB};
         //d.colorR < 0 ? d.colorR=0 : d.colorR
     }
 }
-    
-    console.log(d3.schemeCategory20);
+
+    //console.log(d3.schemeCategory20);
 var partition = d3.partition();
-    
-var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten. Så första är den blåa cirkeln, men alla dess children som egenskaper i objektet. Nästa är den ljusblåa "analytics", med alla dess children, osv. 
+
+var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten. Så första är den blåa cirkeln, men alla dess children som egenskaper i objektet. Nästa är den ljusblåa "analytics", med alla dess children, osv.
     .startAngle(function(d) {return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
     .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
     .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
@@ -85,24 +85,89 @@ var svg = d3.select("#wrap").append("svg")
     .attr("height", height)
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+
+d3.queue()
+      .defer(d3.json, "dummyData.json")
+      .await(analyze);
+
+// Här är datan om utsläppen
+function analyze(error, dummyData) {
+  if(error) { console.log(error); }
+
+  var countryData = []; // Ländernas totala emission i import från Brazil
+  var tempNum = 0;
+  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+      for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+        tempNum = tempNum + dummyData.children[i].children[j].children[k].size
+      }
+      countryData.push({"name": dummyData.children[i].children[j].name, "size": tempNum})
+      tempNum = 0;
+    }
+    //console.log(countryData);
+  }
+
+  // Sortera så att högst emission är först
+  countryData.sort(function (a, b) {
+    console.log("sorterar");
+    return b.size - a.size;
+    //console.log(countryData);
+  });
+
 d3.json("dummyData.json", function(error, root) {
   if (error) throw error;
-  
+
+  // Här ska datan in
+  function tabulate(countryData, columns) {
+		var table = d3.select('body').append('table')
+		var thead = table.append('thead')
+		var	tbody = table.append('tbody');
+
+		// append the header row
+		thead.append('tr')
+		  .selectAll('th')
+		  .data(columns).enter()
+		  .append('th')
+		    .text(function (column) { return column; });
+
+		// create a row for each object in the data
+		var rows = tbody.selectAll('tr')
+		  .data(countryData)
+		  .enter()
+		  .append('tr');
+
+		// create a cell in each row for each column
+		var cells = rows.selectAll('td')
+		  .data(function (row) {
+		    return columns.map(function (column) {
+		      return {column: column, value: row[column]};
+		    });
+		  })
+		  .enter()
+		  .append('td')
+		    .text(function (d) { return d.value; });
+
+	  return table;
+	}
+
+	// render the table(s)
+	tabulate(countryData, ['Country', 'Emission']); // 2 column table
+
   root = d3.hierarchy(root); //Root är mittencirkeln!
   root.sum(function(d) { return d.size; });
-    
+
     d3.selectAll("body")
     .append("div")
     .attr("class", "text")
     .attr("width", 200)
     .attr("height", 200)
     .style("opacity", 1);
-    
+
     svg.selectAll("path")
       .data(partition(root).descendants())
       .enter().append("path")
       .attr("d", arc)
-      .style("fill", function(d) { color(d); 
+      .style("fill", function(d) { color(d);
                     return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
     .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
     .on("click", click)
@@ -112,35 +177,36 @@ d3.json("dummyData.json", function(error, root) {
     .append("title")
     .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
 });
+}
 function mouseover(d){
     //Fade the segments
     d3.selectAll("path")
       .style("opacity", function(a){
-        
+
         if(a == d && a.depth != 0){
             return 1;
         } else if(a.depth == 0){
             return 0;
-        } 
+        }
         else {
             return 0.5;
         }
     });
 }
-    
+
     function mousemove(d){
     d3.selectAll(".text")
     .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
     //.attr("style", "left:" + event.clientX + "px")
     .html(d.data.name + "\n" + formatNumber(d.value));
     }
-    
+
     function mouseout(d){
     d3.selectAll("path")
         .style("opacity", function(d){return d.depth == 0 ? 0 : 1});
     d3.selectAll(".text")
         .style("display", "none");
-    
+
 }
 function click(d) {
   svg.transition()
