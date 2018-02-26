@@ -85,10 +85,6 @@
             } else {
               return "#FAEBD7"
             }
-        }, "pointer-events": function(d){
-            if(d.properties.name != "Brazil"){
-                return "none";
-            }
         }})
         .attr("d", path)
         .on("click", country_clicked)
@@ -96,7 +92,31 @@
               div.transition()
                   .duration(200)
                   .style("opacity", .9);
-              div	.html(d.properties.name + "<br>" + "Export:" + "<br>" + "Import:")
+                  top2 = [{"name": "No Import", "size": 0}, {"name": "No Import", "size": 0}]; // De två produkterna med mest emission
+                  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+                    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+                        if (dummyData.children[i].children[j].name == d.properties.name) {
+                          country = dummyData.children[i].children[j].children // Produkter
+                          for (k=0;k<country.length;k++) {
+                            if (top2.length < 2) {
+                                top2.push(country[k])
+                            } else {
+                              if (top2[0].size < country[k].size) {
+                                top2.shift();
+                                top2.push(country[k]);
+                              } else if (top2[1].size < country[k].size) {
+                                  top2.pop();
+                                  top2.push(country[k]);
+                              }
+                            }
+                          }
+                          if (top2[0] < top2[1]) {
+                            top2.reverse();
+                          }
+                        }
+                    }
+                  }
+              div	.html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
                   //console.log(d)
                   .style("left", (d3.event.pageX) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
