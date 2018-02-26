@@ -26,31 +26,14 @@
     <div class="wrap" id="wrap">
     </div>
 <script>
-let width = 960,
+var width = 960,
     height = 700,
-    radius = (Math.min(width, height) / 2) - 10,
-    node
+    radius = (Math.min(width, height) / 2) - 10;
 var formatNumber = d3.format(",d");
-  
-const svg = d3.select("#wrap")
-              .append("svg")
-              .attr("width", width)
-              .attr("height", height)
-              .append("g")
-              .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")")
-
-const x = d3.scaleLinear().range([0, 2 * Math.PI])
-const y = d3.scaleLinear().range([0, radius])
-
-const colors = d3.scaleOrdinal(d3.schemeCategory20)
-const partition = d3.partition()
-
-const arc = d3.arc()
-  .startAngle(d => Math.max(0, Math.min(2 * Math.PI, x(d.x0))))
-  .endAngle(d => Math.max(0, Math.min(2 * Math.PI, x(d.x1))))
-  .innerRadius(d => Math.max(0, y(d.y0)))
-  .outerRadius(d => Math.max(0, y(d.y1)))
-
+var x = d3.scaleLinear()
+    .range([0, 2 * Math.PI]); //Längd av arcs?
+var y = d3.scaleSqrt()
+    .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
 var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
 function color(object) {
     
@@ -88,71 +71,64 @@ function color(object) {
         //d.colorR < 0 ? d.colorR=0 : d.colorR
     }
 }
-
-d3.json("dummyData.json", function(error, root){
-  if (error) return console.error(error)
+    
+    console.log(d3.schemeCategory20);
+var partition = d3.partition();
+    
+var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten. Så första är den blåa cirkeln, men alla dess children som egenskaper i objektet. Nästa är den ljusblåa "analytics", med alla dess children, osv. 
+    .startAngle(function(d) {return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
+var svg = d3.select("#wrap").append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
+d3.json("dummyData.json", function(error, root) {
+  if (error) throw error;
+  
+  root = d3.hierarchy(root); //Root är mittencirkeln!
+  root.sum(function(d) { return d.size; });
+    
     d3.selectAll("body")
     .append("div")
     .attr("class", "text")
     .attr("width", 200)
     .attr("height", 200)
     .style("opacity", 1);
-  const gSlices = svg.selectAll("g").data(partition(d3.hierarchy(root).sum(d => d.size)).descendants(), function (d) { return d.data.id }).enter().append("g")
-
-  gSlices.exit().remove()
-  
-  gSlices.append("path")
-      .style("fill", function(d) { 
-      color(d); 
-      return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"
-    })
-      .on("click", click)
-      .on("mouseover", mouseover)
-      .on("mousemove",mousemove)
-      .on("mouseout", mouseout)
-  
-  gSlices.append("text")
-         .attr("dy", ".35em")
-         .text(function (d) { return d.parent ? d.data.name : "" })
-         .attr("id", function (d) { return "w" + d.data.name })
-         .attr("fill", "#000")
-         .attr("stroke", "fff")
-         .attr("visibility", function(d){return d.depth == 1 ? "visible" : "hidden"}); 
-
-  svg.selectAll("path")
-     .transition("update")
-     .duration(750).attrTween("d", function (d, i) {
-       return arcTweenPath(d, i)
-     })
-
-  svg.selectAll("text")
-     .transition("update")
-     .duration(750)
-     .attrTween("transform", function (d, i) { return arcTweenText(d, i)})
-     .attr("text-anchor", function (d) { 
-       return d.textAngle > 180 ? "start" : "end" 
-     })
-     .attr("dx", function (d) { 
-       return d.textAngle > 180 ? 27: 27
-     })
-     .attr("opacity", function (e) { 
-      return e.x1 - e.x0 > 0.01 ? 1 : 0 
-     })
-
-})
     
+    svg.selectAll("path")
+      .data(partition(root).descendants())
+      .enter().append("path")
+      .attr("d", arc)
+      .style("fill", function(d) { color(d); 
+                    return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
+    .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
+    .on("click", click)
+    .on("mouseover",mouseover)
+    .on("mousemove",mousemove)
+    .on("mouseout", mouseout)
+    .append("title")
+    .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
+});
 function mouseover(d){
     //Fade the segments
     d3.selectAll("path")
       .style("opacity", function(a){
-        if(a == d){
+        
+        if(a == d && a.depth != 0){
             return 1;
-        } else {
+        } else if(a.depth == 0){
+            return 0;
+        } 
+        else {
             return 0.5;
         }
     });
 }
-function mousemove(d){
+    
+    function mousemove(d){
     d3.selectAll(".text")
     .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
     //.attr("style", "left:" + event.clientX + "px")
@@ -161,90 +137,24 @@ function mousemove(d){
     
     function mouseout(d){
     d3.selectAll("path")
-        .style("opacity", 1);
+        .style("opacity", function(d){return d.depth == 0 ? 0 : 1});
     d3.selectAll(".text")
         .style("display", "none");
     
 }
-
-function arcTweenText(a, i) {
-  var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : 0), x1: (a.x1s ? a.x1s : 0), y0: (a.y0s ? a.y0s : 0), y1: (a.y1s ? a.y1s : 0) }, a)
-
-  function tween(t) {
-    var b = oi(t)
-    var ang = ((x((b.x0 + b.x1) / 2) - Math.PI / 2) / Math.PI * 180)
-
-    b.textAngle = (ang > 90) ? 180 + ang : ang
-    a.centroid = arc.centroid(b)
-
-    return "translate(" + arc.centroid(b) + ")rotate(" + b.textAngle + ")"
-  }
-  return tween
-}
-  
-function arcTweenPath(a, i) {
-  var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : 0), x1: (a.x1s ? a.x1s : 0), y0: (a.y0s ? a.y0s : 0), y1: (a.y1s ? a.y1s : 0) }, a)
-
-  function tween(t) {
-    var b = oi(t)
-
-    a.x0s = b.x0
-    a.x1s = b.x1
-    a.y0s = b.y0
-    a.y1s = b.y1
-
-    return arc(b)
-  }
-  if (i == 0 && node) { 
-    var xd = d3.interpolate(x.domain(), [node.x0, node.x1])
-    var yd = d3.interpolate(y.domain(), [node.y0, 1])
-    var yr = d3.interpolate(y.range(), [node.y0 ? 40 : 0, radius])
-
-    return function (t) {
-      x.domain(xd(t))
-      y.domain(yd(t)).range(yr(t))
-
-      return tween(t)
-    }
-  } else {
-    // first build
-    return tween
-  }
-}
-
 function click(d) {
-  node = d
-  const total = d.x1 - d.x0
-
-  svg.selectAll("path")
-     .transition("click")
-     .duration(750)
-     .attrTween("d", function (d, i) { return arcTweenPath(d, i)})
-
-  svg.selectAll("text")
-     .transition("click")
-     .attr("opacity", 1)
-     .duration(750)
-     .attrTween("transform", function (d, i) { 
-       return arcTweenText(d) 
+  svg.transition()
+      .duration(750)
+      .tween("scale", function() {
+        var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+            yd = d3.interpolate(y.domain(), [d.y0, 1]),
+            yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
       })
-     .attr("text-anchor", function (d) { 
-       return d.textAngle > 180 ? "start" : "end"
-     })
-     .attr("dx", function (d) {
-       if(d.data.name.length > 3) {
-         return d.textAngle > 180 ? -23 : 23
-       }
-       return d.textAngle > 180 ? -13 : 13
-     })
-     .attr("visibility", function (e) {
-       // hide & show text
-      return e.parent == d || e == d ? "visible" : "hidden";
-      
-      
-     })
-     
- }
+    .selectAll("path")
+      .attrTween("d", function(d) { return function() { return arc(d); }; });
+}
+d3.select(self.frameElement).style("height", height + "px");
 </script>
 </body>
 </html>
