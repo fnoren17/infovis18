@@ -30,7 +30,8 @@
             .style("fill", "none")
             .style("pointer-events", "all")
             .call(d3.zoom()
-                .scaleExtent([1 / 2, 4])
+                .scaleExtent([1,4])
+                .translateExtent([[0,0], [m_width, m_width * height / width]])
                 .on("zoom", zoomed));
 
         function zoomed() {
