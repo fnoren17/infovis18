@@ -30,6 +30,8 @@ let width = 960,
     height = 700,
     radius = (Math.min(width, height) / 2) - 10,
     node
+
+//Function for rounding out and making numbers more readable
 var formatNumber = d3.format(",d");
   
 const svg = d3.select("#wrap")
@@ -42,9 +44,9 @@ const svg = d3.select("#wrap")
 const x = d3.scaleLinear().range([0, 2 * Math.PI])
 const y = d3.scaleLinear().range([0, radius])
 
-const colors = d3.scaleOrdinal(d3.schemeCategory20)
 const partition = d3.partition()
 
+//Data for each arc
 const arc = d3.arc()
   .startAngle(d => Math.max(0, Math.min(2 * Math.PI, x(d.x0))))
   .endAngle(d => Math.max(0, Math.min(2 * Math.PI, x(d.x1))))
@@ -52,16 +54,17 @@ const arc = d3.arc()
   .outerRadius(d => Math.max(0, y(d.y1)))
 
 var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
+    
 function color(object) {
     
-    console.log(object)
+    //console.log(object)
     if (object.depth == 0) {
         object.data.color = {colorR: 0, colorG: 0, colorB: 0};
     }
     else if (object.depth == 1) {
         var parent = object.parent;
         var numbChildren = parent.children.length;
-        for (i=0; i < color_scheme.length; i++) {
+        for (i = 0; i < color_scheme.length; i++) {
             if (color_scheme[i].continent == object.data.name) {
                 object.data.color = color_scheme[i].color;
             }
@@ -77,15 +80,13 @@ function color(object) {
         }
         var parentColor = object.parent.data.color;
         var numbChildren = object.parent.children.length;
-        console.log("numbchildren",numbChildren);
-        console.log("parentColor",parentColor);
-        var skillnadR = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
+        //console.log("numbchildren",numbChildren);
+        //console.log("parentColor",parentColor);
+        var diffR = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
+        var diffG = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
+        var diffB = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
         
-        console.log("skillnadR", skillnadR)
-        var skillnadG = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
-        var skillnadB = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
-        object.data.color = {colorR: parentColor.colorR - skillnadR, colorG: parentColor.colorG - skillnadG, colorB: parentColor.colorB - skillnadB};
-        //d.colorR < 0 ? d.colorR=0 : d.colorR
+        object.data.color = {colorR: parentColor.colorR - diffR, colorG: parentColor.colorG - diffG, colorB: parentColor.colorB - diffB};
     }
 }
 
@@ -97,18 +98,19 @@ d3.json("dummyData.json", function(error, root){
     .attr("width", 200)
     .attr("height", 200)
     .style("opacity", 1);
-  const gSlices = svg.selectAll("g").data(partition(d3.hierarchy(root).sum(d => d.size)).descendants(), function (d) { return d.data.id }).enter().append("g")
+  
+const gSlices = svg.selectAll("g")
+    .data(partition(d3.hierarchy(root).sum(d => d.size)).descendants(), function (d) { return d.data.id }).enter().append("g")
 
   gSlices.exit().remove()
   
   gSlices.append("path")
       .style("fill", function(d) { 
-      color(d); 
-      return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"
+      color(d); return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"
     })
       .on("click", click)
       .on("mouseover", mouseover)
-      .on("mousemove",mousemove)
+      .on("mousemove", mousemove)
       .on("mouseout", mouseout)
   
   gSlices.append("text")
@@ -142,7 +144,7 @@ d3.json("dummyData.json", function(error, root){
 })
     
 function mouseover(d){
-    //Fade the segments
+    //Fade other segments
     d3.selectAll("path")
       .style("opacity", function(a){
         if(a == d){
@@ -153,12 +155,13 @@ function mouseover(d){
     });
 }
 function mousemove(d){
+    //Show tooptip 
     d3.selectAll(".text")
-    .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
-    //.attr("style", "left:" + event.clientX + "px")
-    .html(d.data.name + "\n" + formatNumber(d.value));
+        .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
+        .html(d.data.name + "\n" + formatNumber(d.value));
     }
     
+    //Hide tooltip
     function mouseout(d){
     d3.selectAll("path")
         .style("opacity", 1);
