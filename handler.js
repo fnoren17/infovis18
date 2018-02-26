@@ -30,6 +30,18 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+    d3.queue()
+      .defer(d3.json, "dummyData.json")
+      .await(analyze);
+
+    // Här är datan om utsläppen
+    function analyze(error, dummyData) {
+      if(error) { console.log(error); }
+
+      console.log(dummyData);
+      return dummyData;
+    }
+
     d3.json("countries.topo.json", function(error, us) {
       g.append("g")
         .attr("id", "countries")
@@ -39,8 +51,18 @@
         .append("path")
         .attr("id", function(d) { return d.id; })
         .styles({"fill": function(d){
+            var tempNum = Math.floor(Math.random() * 4);
             if (d.properties.name == "Brazil"){
                 return "#d8965d"
+            } // Såhär kan man göra color coding, fast med riktiga värden för tempNum
+            if (tempNum == 0){
+              return "#e4b388"
+            } else if (tempNum == 1) {
+              return "#F5DEB3"
+            } else if (tempNum == 2) {
+              return "#d8965d"
+            } else if (tempNum == 3) {
+              return "#D2B48C"
             }
         }, "pointer-events": function(d){
             if(d.properties.name != "Brazil"){
