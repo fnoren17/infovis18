@@ -80,6 +80,7 @@ d3.json("dummyData.json", function(error, root) {
     svg.selectAll("path")
       .data(partition(root).descendants())
       .enter().append("path")
+	  .attr("display", function(d){return d.depth ? null : "none"})
       .attr("d", arc)
       .style("fill", function(d) { color(d); 
                     return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
@@ -88,8 +89,7 @@ d3.json("dummyData.json", function(error, root) {
     .on("mouseover",mouseover)
     .on("mousemove",mousemove)
     .on("mouseout", mouseout)
-    .append("title")
-    .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
+    
 });
 
 function mouseover(d){
@@ -128,8 +128,8 @@ function click(d) {
       .duration(750)
       .tween("scale", function() {
         var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-            yd = d3.interpolate(y.domain(), [d.y0, 1]),
-            yr = d3.interpolate(y.range(), [d.y0 ? 20 : 0, radius]);
+            yd = d3.interpolate(y.domain(), [0, 1]),
+            yr = d3.interpolate(y.range(), [d.y0 ? 0 : 0, radius]);
         return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
       })
     .selectAll("path")
