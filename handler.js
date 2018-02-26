@@ -5,7 +5,7 @@
         state;
 
     var projection = d3.geoMercator()
-        .scale(50)
+        .scale(60)
         .translate([width / 2, height / 1.60]);
 
     var path = d3.geoPath()
