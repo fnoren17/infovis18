@@ -68,7 +68,7 @@ d3.json("dummyData.json", function(error, root) {
         .attr("height", 200)
         .style("opacity", 1);
 
-    svg.selectAll("path")
+   svg.selectAll("path")
         .data(partition(root).descendants())
         .enter().append("path")
         .attr("class", "sunburst")
@@ -80,9 +80,9 @@ d3.json("dummyData.json", function(error, root) {
         .on("click", click)
         .on("mouseover",mouseover)
         .on("mousemove",mousemove)
-        .on("mouseout", mouseout)
-
+        .on("mouseout", mouseout);
 });
+
 
 function mouseover(d){
 //Fade the segments
@@ -130,9 +130,8 @@ function click(d) {
 }
 
 function clickFromCountry(country){
-    var a = //välj noden och få ut den på samma format som på rad 116. How to?!
-    click(a);
-
+    var a = svg.select("#" + country).data();
+    click(a[0]);
 }
 
 d3.select(self.frameElement).style("height", height + "px");
