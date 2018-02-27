@@ -40,18 +40,107 @@ function zoomed() {
 
 var g = svg.append("g");
 
-d3.json("countries.topo.json", function(error, us) {
-    g.append("g")
-        .attr("id", "countries")
-        .selectAll("path")
-        .data(topojson.feature(us, us.objects.countries).features)
-        .enter()
-        .append("path")
-        .attr("id", function(d) { return d.id; })
-        .attr("style", function(d){return d.properties.name == "Brazil" ? "fill: #efa131; stroke: black" : "stroke: black"})
-        .attr("d", path)
-        .on("click", country_clicked);
-});
+// Tooltip för mouseover
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+d3.queue()
+    .defer(d3.json, "dummyData.json")
+    .await(analyze);
+
+// Här är datan om utsläppen
+function analyze(error, dummyData) {
+  if(error) { console.log(error); }
+
+  totCountries = 0; // Totala antalet länder
+  totEmission = 0; // Det totala utsälppet för alla exporter
+  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+      totCountries = totCountries + 1
+      for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+        totEmission = totEmission + dummyData.children[i].children[j].children[k].size
+      }
+    }
+  }
+
+  d3.json("countries.topo.json", function(error, us) {
+      g.append("g")
+          .attr("id", "countries")
+          .selectAll("path")
+          .data(topojson.feature(us, us.objects.countries).features)
+          .enter()
+          .append("path")
+          .attr("id", function(d) { return d.id; })
+          .styles({"fill": function(d){
+            var tempNum = 0;
+            for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+              for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+                if (dummyData.children[i].children[j].name == d.properties.name) {
+                  for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+                    tempNum = tempNum + dummyData.children[i].children[j].children[k].size
+                  }
+                }
+              }
+            }
+            if (d.properties.name == "Brazil"){
+                return "#808080"
+            }
+            if ((tempNum / totEmission) > (1 / totCountries)) {
+              return "#d8965d"
+            } else if ((tempNum / totEmission) > (0.75 / totCountries)) {
+              return "#D2B48C"
+            } else if ((tempNum / totEmission) > (0.5 / totCountries)) {
+              return "#F5DEB3"
+            } else {
+              return "#FAEBD7"
+            }
+          }})
+
+          .attr("d", path)
+          .on("click", country_clicked)
+          .on("mouseover", function(d) { // Tanken är att när man hovrar över ett land så kan man få snabbinfo
+              //console.log(d)
+              div.transition()
+                  .duration(200)
+                  .style("opacity", .9);
+                  top2 = [{"name": "No Import", "size": 0}, {"name": "No Import", "size": 0}]; // De två produkterna med mest emission
+                  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+                    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+                        if (dummyData.children[i].children[j].name == d.properties.name) {
+                          country = dummyData.children[i].children[j].children // Produkter
+                          for (k=0;k<country.length;k++) {
+                            if (top2.length < 2) {
+                                top2.push(country[k])
+                            } else {
+                              if (top2[0].size < country[k].size) {
+                                top2.shift();
+                                top2.push(country[k]);
+                              } else if (top2[1].size < country[k].size) {
+                                  top2.pop();
+                                  top2.push(country[k]);
+                              }
+                            }
+                          }
+                          if (top2[0] < top2[1]) {
+                            top2.reverse();
+                          }
+                        }
+                    }
+                  }
+              div	.html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
+                  //console.log(d)
+                  .style("left", (d3.event.pageX + 10) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+              })
+          .on("mouseout", function(d) {
+              div.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+          });
+  });
+
+}
 
 function country_clicked(d) {
     console.log("You clicked on " + d.properties.name);
