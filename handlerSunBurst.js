@@ -10,7 +10,18 @@ var x = d3.scaleLinear()
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
 
-var color_scheme = [{continent: "Latin America and the Caribbean", color: {colorR: 160, colorG: 121, colorB: 255}}, {continent: "Southern Asia", color:{colorR: 134, colorG: 255, colorB: 121}}, {continent: "South-eastern Asia", color:{colorR: 255, colorG: 121, colorB: 121}}, {continent: "Western Europe", color:{colorR: 255, colorG: 121, colorB: 241}}, {continent: "Eastern Asia", color:{colorR: 121, colorG: 121, colorB: 255}}, {continent: "Southern Europe", color:{colorR: 247, colorG: 255, colorB: 121}}, {continent: "Northern Europe", color:{colorR: 180, colorG: 57, colorB: 57}}, {continent: "Northern America", color:{colorR: 121, colorG: 255, colorB: 171}}, {continent: "Northern Africa", color:{colorR: 190, colorG: 165, colorB: 110}}, {continent: "Sub-Saharan Africa", color:{colorR: 87, colorG: 91, colorB: 178}}, {continent: "Eastern Europe", color:{colorR: 255, colorG: 190, colorB: 121}}, {continent: "Western Asia", color:{colorR: 165, colorG: 60, colorB: 159}}];
+var color_scheme = [{continent: "Latin America and the Caribbean", color: {colorR: 238, colorG: 99, colorB: 99}}, 
+{continent: "Southern Asia", color:{colorR: 238, colorG: 158, colorB: 99}}, 
+{continent: "South-eastern Asia", color:{colorR: 238, colorG: 220, colorB: 99}}, 
+{continent: "Western Europe", color:{colorR: 204, colorG: 238, colorB: 99}}, 
+{continent: "Eastern Asia", color:{colorR: 99, colorG: 238, colorB: 99}}, 
+{continent: "Southern Europe", color:{colorR: 99, colorG: 238, colorB: 171}}, 
+{continent: "Northern Europe", color:{colorR: 99, colorG: 238, colorB: 210}}, 
+{continent: "Northern America", color:{colorR: 99, colorG: 187, colorB: 238}}, 
+{continent: "Northern Africa", color:{colorR: 102, colorG: 99, colorB: 238}}, 
+{continent: "Sub-Saharan Africa", color:{colorR: 148, colorG: 99, colorB: 238}}, 
+{continent: "Eastern Europe", color:{colorR: 207, colorG: 99, colorB: 238}}, 
+{continent: "Western Asia", color:{colorR: 238, colorG: 99, colorB: 187}}];
 
 function color(object) {
         
@@ -26,27 +37,20 @@ function color(object) {
             }
         }
     }
-    else if (object.depth > 1) {
+    else {
         var scalar;
-        var mixColor;
-        var arr = object.parent.children; //alla children till varje region
-             
+        var arr = object.parent.children;
+        for (var i = 0, len = arr.length; i < len; i++) {
+            if(arr[i].data.name == object.data.name){
+                var scalar = ((i+1)*5*object.depth);
+            }
+        }
         var parentColor = object.parent.data.color;
         var numbChildren = object.parent.children.length;
-        
-//        if (object.parent.data.name == "Latin America and the Caribbean") {
-//            mixColor = object.parent.parent.children[1].data.color
-//        }
-//        else if (object.parent.data.name == "Southern Asia") {
-//            mixColor = object.parent.parent.children[3].data.color
-//        }
-//        
-//        console.log(mixColor)
-    
-        var skillnadR = parseInt((parentColor.colorR/numbChildren));
-        var skillnadG = parseInt((parentColor.colorG/numbChildren));
-        var skillnadB = parseInt((parentColor.colorB/numbChildren));
-        object.data.color = {colorR: parentColor.colorR - skillnadR, colorG: parentColor.colorG - skillnadG, colorB: parentColor.colorB - skillnadB};
+        var rDiff = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
+        var gDiff = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
+        var bDiff = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
+        object.data.color = {colorR: parentColor.colorR - rDiff, colorG: parentColor.colorG - gDiff, colorB: parentColor.colorB - bDiff};
         //d.colorR < 0 ? d.colorR=0 : d.colorR
     }
 }
