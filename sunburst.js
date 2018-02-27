@@ -113,9 +113,9 @@ function mouseout(d){
 }
 
 function click(d) {
-    console.log(d)
+    //console.log(d)
     svg.transition()
-        .duration(750)
+        .duration(2000)
         .tween("scale", function(){
             var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
                 yd = d3.interpolate(y.domain(), [0, 1]),

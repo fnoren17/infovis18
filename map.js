@@ -54,7 +54,8 @@ d3.json("countries.topo.json", function(error, us) {
 });
 
 function country_clicked(d) {
-    console.log("You clicked on " + d.properties.name);
+    //console.log("You clicked on " + d.properties.name);
+	console.log("clicked " + d.objects.countries.bbox);
     clickFromCountry(d.properties.name);
 }
 
