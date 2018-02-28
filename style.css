@@ -16,9 +16,10 @@ body {
     margin: 0;
     padding: 0;
     min-height:100%;
-    background-image:
-    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
-    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
+
+    background-image: 
+    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0) 6%, hsla(0,0%,100%, .1) 7.5%),
+    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)4%, hsla(0,0%,  0%,.03) 4.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%, 0) 0%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,.15) 100%),
     linear-gradient(150deg, hsl(0,5%,8%) 10%,
         rgb(0,0,0) 70%,
