@@ -143,6 +143,7 @@ function analyze(error, dummyData) {
 }
 
 function country_clicked(d) {
+    console.log(d)
     console.log("You clicked on " + d.properties.name);
     clickFromCountry(d.properties.name);
 }
