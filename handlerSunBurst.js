@@ -70,7 +70,7 @@ var svg = d3.select("#sunburst").append("svg")
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
-d3.json("data.json", function(error, root) {
+d3.json("data_v4.json", function(error, root) {
   if (error) throw error;
   
   root = d3.hierarchy(root); //Root är mittencirkeln!
