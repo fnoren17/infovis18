@@ -3,7 +3,7 @@ height = 700,
 radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");
-
+var currentNode;
 var x = d3.scaleLinear()
     .range([0, 2 * Math.PI]); //Längd av arcs?
 
@@ -113,7 +113,9 @@ function mouseout(d){
 }
 
 function click(d) {
-    console.log(d)
+    if(currentNode == d){
+        d = d.parent;
+    }
     svg.transition()
         .duration(750)
         .tween("scale", function(){
@@ -127,6 +129,7 @@ function click(d) {
         })
         .selectAll("path")
         .attrTween("d", function(d) { return function() { return arc(d); }; });
+    currentNode = d;
 }
 
 function clickFromCountry(country){
