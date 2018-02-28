@@ -3,6 +3,8 @@ height = 700,
 radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");
+var currentNode;
+var latestClicked;
 
 var x = d3.scaleLinear()
     .range([0, 2 * Math.PI]); //Längd av arcs?
@@ -112,14 +114,31 @@ function mouseout(d){
         .style("display", "none");
 }
 
-function click(d) {
-    console.log(d)
+function click(a, d) {
+    if (a.depth == 0) {
+        console.log("Brasilien klickat. Ingen stroke på den jäveln inte.")
+        latestClicked.style.strokeWidth = ""
+
+    }
+    else if (a.depth == 1) {
+        latestClicked.style.strokeWidth = ""
+    }
+    else {
+        if (currentNode == a) {
+            a = a.parent
+            latestClicked.style.strokeWidth = ""
+        }
+        else {
+            latestClicked = document.getElementById(d.id)
+            latestClicked.style.strokeWidth = 1
+        }
+    }
     svg.transition()
         .duration(750)
         .tween("scale", function(){
-            var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+            var xd = d3.interpolate(x.domain(), [a.x0, a.x1]),
                 yd = d3.interpolate(y.domain(), [0, 1]),
-                yr = d3.interpolate(y.range(), [d.y0 ? 0 : 0, radius]);
+                yr = d3.interpolate(y.range(), [a.y0 ? 0 : 0, radius]);
             return function(t){
                 x.domain(xd(t)); 
                 y.domain(yd(t)).range(yr(t)); 
@@ -127,11 +146,12 @@ function click(d) {
         })
         .selectAll("path")
         .attrTween("d", function(d) { return function() { return arc(d); }; });
+    currentNode = a;
 }
 
-function clickFromCountry(country){
-    var a = svg.select("#" + country).data();
-    click(a[0]);
+function clickFromCountry(d){
+    var a = svg.select("#" + d.properties.name).data();
+    click(a[0], d);
 }
 
 d3.select(self.frameElement).style("height", height + "px");
