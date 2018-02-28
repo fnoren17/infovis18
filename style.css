@@ -10,7 +10,7 @@ h1 {
 }
 html {
     min-height:100%;
-    overflow: hidden;
+    overflow: auto;
 }
 body {
     margin: 0;
@@ -87,6 +87,7 @@ pre.prettyprint {
     left: 0;
     right: 0;
 	z-index: 2;
+    border: 2px red solid;
 	border-radius: 100%;
 	overflow:hidden;
 
