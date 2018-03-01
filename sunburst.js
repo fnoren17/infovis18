@@ -116,6 +116,7 @@ function mouseout(d){
 
 
 function click(a, d) {
+    console.log(d);
     if (a.depth == 0) {
         latestClicked.style.strokeWidth = ""
 
@@ -129,8 +130,10 @@ function click(a, d) {
             latestClicked.style.strokeWidth = ""
         }
         else {
-            latestClicked = document.getElementById(d.id)
-            latestClicked.style.strokeWidth = 1
+            if(d.id){
+                latestClicked = document.getElementById(d.id)
+                latestClicked.style.strokeWidth = 1
+            }
         }
 
     }
