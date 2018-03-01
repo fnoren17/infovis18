@@ -116,15 +116,14 @@ function mouseout(d){
 
 
 function click(a, d) {
-    console.log(d);
-    if (a.depth == 0) {
+    if(latestClicked){
+        latestClicked.style.strokeWidth = "";
+    }
+    if(a.depth == 1 && latestClicked){
         latestClicked.style.strokeWidth = ""
+    }
 
-    }
-    else if (a.depth == 1) {
-        latestClicked.style.strokeWidth = ""
-    }
-    else {
+if(a.depth == 2) {
         if (currentNode == a) {
             a = a.parent
             latestClicked.style.strokeWidth = ""
@@ -134,8 +133,23 @@ function click(a, d) {
                 latestClicked = document.getElementById(d.id)
                 latestClicked.style.strokeWidth = 1
             }
+            else{
+                map = d3.selectAll("g#countries").selectAll("path")
+                .filter(function(e){return e.properties.name == a.data.name});
+                data = map.data()[0];
+                latestClicked = document.getElementById(data.id)
+                latestClicked.style.strokeWidth = 1
+                
+            }
         }
 
+    }
+    if(a.depth == 3){
+        map = d3.selectAll("g#countries").selectAll("path")
+            .filter(function(e){return e.properties.name == a.parent.data.name});
+        data = map.data()[0];
+        latestClicked = document.getElementById(data.id)
+        latestClicked.style.strokeWidth = 1
     }
     svg.transition()
         .duration(750)
