@@ -158,6 +158,11 @@ function click(a, d) {
 function clickFromCountry(d){
     var a = svg.select("#" + d.properties.name).data();
     click(a[0], d);
+    drawTimeline(d.properties.name)
+}
+
+function drawTimeline(object) {
+    
 }
 
 d3.select(self.frameElement).style("height", height + "px");
