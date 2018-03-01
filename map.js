@@ -95,7 +95,7 @@ function analyze(error, dummyData) {
             } else {
               return "#FAEBD7"
             }
-          }})
+          }, "stroke": "black"})
 
           .attr("d", path)
           .on("click", country_clicked)
@@ -128,7 +128,8 @@ function analyze(error, dummyData) {
                         }
                     }
                   }
-              div	.html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
+              div	
+                  .html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
                   //console.log(d)
                   .style("left", (d3.event.pageX + 10) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
@@ -144,7 +145,8 @@ function analyze(error, dummyData) {
 
 function country_clicked(d) {
     console.log("You clicked on " + d.properties.name);
-    clickFromCountry(d.properties.name);
+    //b._groups[0][0].style.strokeWidth = 10
+    clickFromCountry(d);
 }
 
 $(window).resize(function() {
