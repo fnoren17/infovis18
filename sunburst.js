@@ -45,8 +45,8 @@ var partition = d3.partition();
 var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten.
     .startAngle(function(d) {return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
     .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x1))); })
-    .innerRadius(function(d) { return Math.max(0, y(d.y0)); })
-    .outerRadius(function(d) { return Math.max(0, y(d.y1)); });
+    .innerRadius(function(d) { return Math.max(0, y(d.y0)/1.2); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y1)/1.2); });
 
 
 var svg = d3.select("#sunburst").append("svg")

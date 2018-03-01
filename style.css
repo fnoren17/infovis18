@@ -80,14 +80,14 @@ pre.prettyprint {
 
 #map {
     position: absolute;
-    width: 333px;
-    height: 333px;
+    width: 277px;
+    height: 277px;
     top:0;
     bottom: 0;
     left: 0;
     right: 0;
 	z-index: 2;
-    border: 2px red solid;
+    border: 2px solid red;
 	border-radius: 100%;
 	overflow:hidden;
 

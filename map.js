@@ -31,7 +31,7 @@ svg.append("rect")
     .style("pointer-events", "all")
     .call(d3.zoom()
     .scaleExtent([1,4])
-    .translateExtent([[0,0], [m_width, m_width * height / width]])
+    .translateExtent([[0,0], [350, 277]])
     .on("zoom", zoomed));
 
 function zoomed() {
@@ -128,10 +128,10 @@ d3.json("countries.topo.json", function(error, us) {
                 }
             }
         }
-div	.html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
-//console.log(d)
+        div	.html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
+        //console.log(d)
 
-})
+    })
 .on("mousemove", function(d){
 d3.select(".tooltip")
 .style("left", (d3.event.pageX + 10) + "px")
