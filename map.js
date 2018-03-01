@@ -74,18 +74,36 @@ function analyze(error, dummyData) {
           .attr("id", function(d) { return d.id; })
           .styles({"fill": function(d){
             var tempNum = 0;
+            var countryMapColor;
             for (i=0;i<dummyData.children.length;i++) { // Kontinenter
               for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
                 if (dummyData.children[i].children[j].name == d.properties.name) {
+                  // If country has color attribute
+                  if (dummyData.children[i].children[j].color) {
+                    countryMapColor = dummyData.children[i].children[j].color;
+                    //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
+                    return countryMapColor;
+                  } else {
+                  // Else, return some dark color
+                    //console.log("Country has no color attribute. Returning some color.");
+                    return "#474646"
+                  }
+
+                  /*
+                  // Heat map code
                   for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
                     tempNum = tempNum + dummyData.children[i].children[j].children[k].size
                   }
+                  // End of Heat map code
+                  */
                 }
               }
             }
             if (d.properties.name == "Brazil"){
                 return "#808080"
             }
+            /*
+            // Heat map code
             if ((tempNum / totEmission) > (1 / totCountries)) {
               return "#d8965d"
             } else if ((tempNum / totEmission) > (0.75 / totCountries)) {
@@ -95,6 +113,8 @@ function analyze(error, dummyData) {
             } else {
               return "#FAEBD7"
             }
+            // Heat map code
+            */
           }, "stroke": "black"})
 
           .attr("d", path)
@@ -128,7 +148,7 @@ function analyze(error, dummyData) {
                         }
                     }
                   }
-              div	
+              div
                   .html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
                   //console.log(d)
                   .style("left", (d3.event.pageX + 10) + "px")
