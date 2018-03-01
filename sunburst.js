@@ -133,8 +133,14 @@ function click(a, d) {
     if(latestClicked){
         latestClicked.style.strokeWidth = "";
     }
-    if(a.depth == 1 && latestClicked){
-        latestClicked.style.strokeWidth = ""
+    if(a.depth == 1){
+        if(currentNode == a){
+            a = a.parent;
+        }
+        
+        if(latestClicked){
+            latestClicked.style.strokeWidth = ""
+        }
     }
 
 if(a.depth == 2) {
