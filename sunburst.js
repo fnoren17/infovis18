@@ -12,20 +12,34 @@ var x = d3.scaleLinear()
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
 
-var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
+var color_scheme = [{continent: "Latin America and the Caribbean", color: {colorR: 238, colorG: 99, colorB: 99}}, 
+{continent: "Southern Asia", color:{colorR: 238, colorG: 158, colorB: 99}}, 
+{continent: "South-eastern Asia", color:{colorR: 238, colorG: 220, colorB: 99}}, 
+{continent: "Western Europe", color:{colorR: 204, colorG: 238, colorB: 99}}, 
+{continent: "Eastern Asia", color:{colorR: 99, colorG: 238, colorB: 99}}, 
+{continent: "Southern Europe", color:{colorR: 99, colorG: 238, colorB: 171}}, 
+{continent: "Northern Europe", color:{colorR: 99, colorG: 238, colorB: 210}}, 
+{continent: "Northern America", color:{colorR: 99, colorG: 187, colorB: 238}}, 
+{continent: "Northern Africa", color:{colorR: 102, colorG: 99, colorB: 238}}, 
+{continent: "Sub-Saharan Africa", color:{colorR: 148, colorG: 99, colorB: 238}}, 
+{continent: "Eastern Europe", color:{colorR: 207, colorG: 99, colorB: 238}}, 
+{continent: "Western Asia", color:{colorR: 238, colorG: 99, colorB: 187}}];
 
 function color(object) {
+        
     if (object.depth == 0) {
         object.data.color = {colorR: 0, colorG: 0, colorB: 0};
-    } else if (object.depth == 1) {
+    }
+    else if (object.depth == 1) { 
         var parent = object.parent;
-        var numbChildren = parent.children.length;
+        var numbChildren = object.children.length;
         for (i=0; i < color_scheme.length; i++) {
             if (color_scheme[i].continent == object.data.name) {
                 object.data.color = color_scheme[i].color;
             }
         }
-    } else {
+    }
+    else {
         var scalar;
         var arr = object.parent.children;
         for (var i = 0, len = arr.length; i < len; i++) {
