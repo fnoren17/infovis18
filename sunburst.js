@@ -4,26 +4,42 @@ radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");
 var currentNode;
+var latestClicked;
+
 var x = d3.scaleLinear()
     .range([0, 2 * Math.PI]); //Längd av arcs?
 
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
 
-var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];  
+var color_scheme = [{continent: "Latin America and the Caribbean", color: {colorR: 238, colorG: 99, colorB: 99}}, 
+{continent: "Southern Asia", color:{colorR: 238, colorG: 158, colorB: 99}}, 
+{continent: "South-eastern Asia", color:{colorR: 238, colorG: 220, colorB: 99}}, 
+{continent: "Western Europe", color:{colorR: 204, colorG: 238, colorB: 99}}, 
+{continent: "Eastern Asia", color:{colorR: 99, colorG: 238, colorB: 99}}, 
+{continent: "Southern Europe", color:{colorR: 99, colorG: 238, colorB: 171}}, 
+{continent: "Northern Europe", color:{colorR: 99, colorG: 238, colorB: 210}}, 
+{continent: "Northern America", color:{colorR: 99, colorG: 187, colorB: 238}}, 
+{continent: "Northern Africa", color:{colorR: 102, colorG: 99, colorB: 238}}, 
+{continent: "Sub-Saharan Africa", color:{colorR: 148, colorG: 99, colorB: 238}}, 
+{continent: "Eastern Europe", color:{colorR: 207, colorG: 99, colorB: 238}}, 
+{continent: "Western Asia", color:{colorR: 238, colorG: 99, colorB: 187}}];
 
 function color(object) {
+        
     if (object.depth == 0) {
         object.data.color = {colorR: 0, colorG: 0, colorB: 0};
-    } else if (object.depth == 1) {
+    }
+    else if (object.depth == 1) { 
         var parent = object.parent;
-        var numbChildren = parent.children.length;
+        var numbChildren = object.children.length;
         for (i=0; i < color_scheme.length; i++) {
             if (color_scheme[i].continent == object.data.name) {
                 object.data.color = color_scheme[i].color;
             }
         }
-    } else {
+    }
+    else {
         var scalar;
         var arr = object.parent.children;
         for (var i = 0, len = arr.length; i < len; i++) {
@@ -55,7 +71,7 @@ var svg = d3.select("#sunburst").append("svg")
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
-d3.json("dummyData.json", function(error, root) {
+d3.json("data.json", function(error, root) {
     if (error) throw error;
 
     root = d3.hierarchy(root); //Root är mittencirkeln!
@@ -112,16 +128,49 @@ function mouseout(d){
         .style("display", "none");
 }
 
-function click(d) {
-    if(currentNode == d){
-        d = d.parent;
+
+function click(a, d) {
+    if(latestClicked){
+        latestClicked.style.strokeWidth = "";
+    }
+    if(a.depth == 1 && latestClicked){
+        latestClicked.style.strokeWidth = ""
+    }
+
+if(a.depth == 2) {
+        if (currentNode == a) {
+            a = a.parent
+            latestClicked.style.strokeWidth = ""
+        }
+        else {
+            if(d.id){
+                latestClicked = document.getElementById(d.id)
+                latestClicked.style.strokeWidth = 1
+            }
+            else{
+                map = d3.selectAll("g#countries").selectAll("path")
+                .filter(function(e){return e.properties.name == a.data.name});
+                data = map.data()[0];
+                latestClicked = document.getElementById(data.id)
+                latestClicked.style.strokeWidth = 1
+                
+            }
+        }
+
+    }
+    if(a.depth == 3){
+        map = d3.selectAll("g#countries").selectAll("path")
+            .filter(function(e){return e.properties.name == a.parent.data.name});
+        data = map.data()[0];
+        latestClicked = document.getElementById(data.id)
+        latestClicked.style.strokeWidth = 1
     }
     svg.transition()
         .duration(750)
         .tween("scale", function(){
-            var xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
+            var xd = d3.interpolate(x.domain(), [a.x0, a.x1]),
                 yd = d3.interpolate(y.domain(), [0, 1]),
-                yr = d3.interpolate(y.range(), [d.y0 ? 0 : 0, radius]);
+                yr = d3.interpolate(y.range(), [a.y0 ? 0 : 0, radius]);
             return function(t){
                 x.domain(xd(t)); 
                 y.domain(yd(t)).range(yr(t)); 
@@ -129,12 +178,14 @@ function click(d) {
         })
         .selectAll("path")
         .attrTween("d", function(d) { return function() { return arc(d); }; });
-    currentNode = d;
+
+    currentNode = a;
+
 }
 
-function clickFromCountry(country){
-    var a = svg.select("#" + country).data();
-    click(a[0]);
+function clickFromCountry(d){
+    var a = svg.select("#" + d.properties.name).data();
+    click(a[0], d);
 }
 
 d3.select(self.frameElement).style("height", height + "px");
