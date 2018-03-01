@@ -114,9 +114,9 @@ function mouseout(d){
         .style("display", "none");
 }
 
+
 function click(a, d) {
     if (a.depth == 0) {
-        console.log("Brasilien klickat. Ingen stroke på den jäveln inte.")
         latestClicked.style.strokeWidth = ""
 
     }
@@ -132,6 +132,7 @@ function click(a, d) {
             latestClicked = document.getElementById(d.id)
             latestClicked.style.strokeWidth = 1
         }
+
     }
     svg.transition()
         .duration(750)
@@ -146,7 +147,9 @@ function click(a, d) {
         })
         .selectAll("path")
         .attrTween("d", function(d) { return function() { return arc(d); }; });
+
     currentNode = a;
+
 }
 
 function clickFromCountry(d){
