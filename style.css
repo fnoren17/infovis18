@@ -17,7 +17,7 @@ body {
     padding: 0;
     min-height:100%;
 
-    background-image: 
+    background-image:
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0) 6%, hsla(0,0%,100%, .1) 7.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)4%, hsla(0,0%,  0%,.03) 4.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%, 0) 0%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,.15) 100%),
@@ -115,8 +115,8 @@ pre.prettyprint {
 div.tooltip {
     position: absolute;
     text-align: center;
-    width: 120px;
-    height: 42px;
+    width: 80px;
+    height: 26px;
     padding: 2px;
     font: 12px sans-serif;
     background: #FFF8DC;
