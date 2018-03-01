@@ -52,6 +52,10 @@ body {
 	
 }
 
+a:hover {
+ cursor:pointer;
+}
+
 #menu{
 	padding:20px;
 	display: block;

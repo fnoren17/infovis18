@@ -32,7 +32,7 @@
 			  	<a class="navbar-brand" href="index.html">Mission Emission</a>
 				</div>
 
-				<form class="navbar-form navbar-right" action="/action_page.php">
+				<form class="navbar-form navbar-right" action="/index.html">
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search for country" name="search">
 					</div>
@@ -41,8 +41,45 @@
 			</div>
 		</nav>
 		
-		
-		
+		<!--Modal help-->
+	    <div class="modal fade" id="helpModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal help-content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Help modal</h4>
+					</div>
+					<div class="modal-body">
+						<p>Some text in the modal.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+	  </div>
+      <!-- Modal info-->
+	  <div class="modal fade" id="infoModal" role="dialog">
+		  <div class="modal-dialog">
+			  <!-- Modal info-content-->
+			  <div class="modal-content">
+				  <div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h4 class="modal-title">Info modal</h4>
+				  </div>
+				  <div class="modal-body">
+					  <p>Some text in the modal.</p>
+				  </div>
+				  <div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  </div>
+			  </div>
+		  </div>
+		</div>
+
+
+
 		<!--Loader icon-->
 		<div id="loader"></div>
 		<div style="display:none;" id="loadedDiv" class="animate-bottom">
@@ -52,8 +89,8 @@
 				<div id="map" class="col-sm-6"></div>
 				<div id="sunburst" class="col-sm-6"></div>
 				<div class="rows">
-					<a href="index.html"><i id="info" class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
-					<a href="index.html"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
+					<a data-toggle="modal" data-target="#helpModal"><i id="info" class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
+					<a data-toggle="modal" data-target="#infoModal"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
 				</div>
 			</div>
 		</div>
