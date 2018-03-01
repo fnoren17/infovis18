@@ -46,7 +46,7 @@ var g = svg.append("g");
     .style("opacity", 0);
 
 d3.queue()
-    .defer(d3.json, "dummyData.json")
+    .defer(d3.json, "data.json")
     .await(analyze);
 
 // Här är datan om utsläppen
