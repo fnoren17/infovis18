@@ -30,5 +30,22 @@
         <script src="map.js"></script>
         <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
+        <script>
+            // Load our data
+            d3.queue()
+            .defer(d3.json, "data.json")
+            .defer(d3.json, "countries.topo.json")
+            .await(render);
+
+            function render(error,data, mapdata){
+                // Draw the map
+                drawmap(data,mapdata);
+                // Give searchbar acess to the data
+                searchbar(data);
+                // Draw the sunburst
+                drawSunburst(data);
+            }
+
+        </script>
     </body>
 </html>
