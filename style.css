@@ -198,3 +198,75 @@ pre.prettyprint {
     width: 100%;
     height: 700px;
 }
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 80px;
+    height: 26px;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: #FFF8DC;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+/* Dropdown knapp */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown fokus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+/* sökfält */
+#myInput {
+  /*border-box: box-sizing;*/
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+/* sökfältet när det klickas på */
+#myInput:focus {outline: 3px solid #ddd;}
+
+/* diven för innehållet i dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* innehållet i dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+
+/* länkarna innuti dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* ändrar förgen på länkarna när man hoovrar */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+

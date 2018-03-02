@@ -22,6 +22,7 @@
         <!-- CSS code -->
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
+
 	
     <body onload="loadFunction()">
 		
@@ -95,7 +96,20 @@
 			</div>
 		</div>
 		
+    
+        <div class="container">
+            <div id="map" class="col-sm-12"></div>
+            <div id="sunburst" class="col-sm-12"></div>
+
+            <div class="dropdown">
+              <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+              <div id="myDropdown" class="dropdown-content">
+              </div>
+            </div>
+        </div>
+
         <script src="map.js"></script>
+        <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
 		<script src="loaderfunc.js"></script>
     </body>
