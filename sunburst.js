@@ -130,11 +130,18 @@ function mouseout(d){
 
 
 function click(a, d) {
+    console.log(a);
     if(latestClicked){
         latestClicked.style.strokeWidth = "";
     }
-    if(a.depth == 1 && latestClicked){
-        latestClicked.style.strokeWidth = ""
+    if(a.depth == 1){
+        if(currentNode == a){
+            a = a.parent;
+        }
+        
+        if(latestClicked){
+            latestClicked.style.strokeWidth = ""
+        }
     }
 
 if(a.depth == 2) {
@@ -143,18 +150,15 @@ if(a.depth == 2) {
             latestClicked.style.strokeWidth = ""
         }
         else {
-            if(d.id){
-                latestClicked = document.getElementById(d.id)
-                latestClicked.style.strokeWidth = 1
-            }
-            else{
                 map = d3.selectAll("g#countries").selectAll("path")
                 .filter(function(e){return e.properties.name == a.data.name});
                 data = map.data()[0];
+                if(data){
                 latestClicked = document.getElementById(data.id)
                 latestClicked.style.strokeWidth = 1
+                }
                 
-            }
+            
         }
 
     }
@@ -162,8 +166,10 @@ if(a.depth == 2) {
         map = d3.selectAll("g#countries").selectAll("path")
             .filter(function(e){return e.properties.name == a.parent.data.name});
         data = map.data()[0];
+        if(data){
         latestClicked = document.getElementById(data.id)
         latestClicked.style.strokeWidth = 1
+        }
     }
     svg.transition()
         .duration(750)
@@ -185,7 +191,8 @@ if(a.depth == 2) {
 
 function clickFromCountry(d){
     var a = svg.select("#" + d.properties.name).data();
-    click(a[0], d);
+    console.log(a);
+    //click(a[0], d);
 }
 
 d3.select(self.frameElement).style("height", height + "px");
