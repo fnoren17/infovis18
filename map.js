@@ -152,6 +152,9 @@ function analyze(error, dummyData) {
                   .style("left", (d3.event.pageX + 10) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
               })
+        .on("mousemove", function(d){
+          div.styles({"left": (d3.event.clientX + 10) + "px", "top": (d3.event.clientY - 28) + "px"})
+      })
           .on("mouseout", function(d) {
               div.transition()
                   .duration(500)
