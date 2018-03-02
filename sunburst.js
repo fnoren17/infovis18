@@ -90,7 +90,7 @@ d3.json("data.json", function(error, root) {
         .attr("class", "sunburst")
         .attr("display", function(d){return d.depth ? null : "none"})
         .attr("d", arc)
-        .attr("id", function(d){return d.data.name})
+        .attr("id", function(d){return d.data.name.replace(/\s+/g, '');})
         .style("fill", function(d) { color(d); return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
         .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
         .on("click", click)
@@ -130,26 +130,43 @@ function mouseout(d){
 
 
 function click(a, d) {
-    console.log(d);
-    if (a.depth == 0) {
-        latestClicked.style.strokeWidth = ""
+    if(latestClicked){
+        latestClicked.style.strokeWidth = "";
+    }
+    if(a.depth == 1){
+        if(currentNode == a){
+            a = a.parent;
+        }
+        
+        if(latestClicked){
+            latestClicked.style.strokeWidth = ""
+        }
+    }
 
-    }
-    else if (a.depth == 1) {
-        latestClicked.style.strokeWidth = ""
-    }
-    else {
+if(a.depth == 2) {
         if (currentNode == a) {
             a = a.parent
             latestClicked.style.strokeWidth = ""
         }
         else {
-            if(d.id){
-                latestClicked = document.getElementById(d.id)
+                map = d3.selectAll("g#countries").selectAll("path")
+                .filter(function(e){return e.properties.name == a.data.name});
+                data = map.data()[0];
+                if(data){
+                latestClicked = document.getElementById(data.id)
                 latestClicked.style.strokeWidth = 1
-            }
+                }           
         }
 
+    }
+    if(a.depth == 3){
+        map = d3.selectAll("g#countries").selectAll("path")
+            .filter(function(e){return e.properties.name == a.parent.data.name});
+        data = map.data()[0];
+        if(data){
+        latestClicked = document.getElementById(data.id)
+        latestClicked.style.strokeWidth = 1
+        }
     }
     svg.transition()
         .duration(750)
@@ -170,8 +187,10 @@ function click(a, d) {
 }
 
 function clickFromCountry(d){
-    var a = svg.select("#" + d.properties.name).data();
+    var a = d3.selectAll("path#" + d.properties.name.replace(/\s+/g, '')).data();
+    if(a.length != 0){
     click(a[0], d);
+    }
 }
 
 d3.select(self.frameElement).style("height", height + "px");

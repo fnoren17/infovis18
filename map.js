@@ -102,16 +102,35 @@ function analyze(error, dummyData) {
             if (d.properties.name == "Brazil"){
                 return "#808080"
             }
+
             /*
             // Heat map code
-            if ((tempNum / totEmission) > (1 / totCountries)) {
-              return "#d8965d"
-            } else if ((tempNum / totEmission) > (0.75 / totCountries)) {
-              return "#D2B48C"
+            if ((tempNum / totEmission) > (64 / totCountries)) {
+              return "#996633"
+            } else if ((tempNum / totEmission) > (32 / totCountries)) {
+              return "#ac7339"
+            } else if ((tempNum / totEmission) > (16 / totCountries)) {
+              return "#bf8040"
+            } else if ((tempNum / totEmission) > (8 / totCountries)) {
+              return "#c68c53"
+            } else if ((tempNum / totEmission) > (4 / totCountries)) {
+              return "#cc9966"
+            } else if ((tempNum / totEmission) > (2 / totCountries)) {
+              return "#d2a679"
+            } else if ((tempNum / totEmission) > (1 / totCountries)) {
+              return "#d9b38c"
             } else if ((tempNum / totEmission) > (0.5 / totCountries)) {
-              return "#F5DEB3"
+              return "#dfbf9f"
+            } else if ((tempNum / totEmission) > (0.25 / totCountries)) {
+              return "#e6ccb3	"
+            } else if ((tempNum / totEmission) > (0.12 / totCountries)) {
+              return "#ecd9c6"
+            } else if ((tempNum / totEmission) > (0.06 / totCountries)) {
+              return "#f2e6d9"
+            } else if ((tempNum / totEmission) > (0 / totCountries)) {
+              return "#f9f2ec"
             } else {
-              return "#FAEBD7"
+              return "#ffffff"
             }
             // Heat map code
             */
@@ -124,36 +143,39 @@ function analyze(error, dummyData) {
               div.transition()
                   .duration(200)
                   .style("opacity", .9);
-                  top2 = [{"name": "No Import", "size": 0}, {"name": "No Import", "size": 0}]; // De två produkterna med mest emission
-                  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
-                    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
-                        if (dummyData.children[i].children[j].name == d.properties.name) {
-                          country = dummyData.children[i].children[j].children // Produkter
-                          for (k=0;k<country.length;k++) {
-                            if (top2.length < 2) {
-                                top2.push(country[k])
-                            } else {
-                              if (top2[0].size < country[k].size) {
-                                top2.shift();
-                                top2.push(country[k]);
-                              } else if (top2[1].size < country[k].size) {
-                                  top2.pop();
-                                  top2.push(country[k]);
-                              }
-                            }
-                          }
-                          if (top2[0] < top2[1]) {
-                            top2.reverse();
-                          }
-                        }
-                    }
-                  }
+                  // top2 = [{"name": "No Import", "size": 0}, {"name": "No Import", "size": 0}]; // De två produkterna med mest emission
+                  // for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+                  //   for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+                  //       if (dummyData.children[i].children[j].name == d.properties.name) {
+                  //         country = dummyData.children[i].children[j].children // Produkter
+                  //         for (k=0;k<country.length;k++) {
+                  //           if (top2.length < 2) {
+                  //               top2.push(country[k])
+                  //           } else {
+                  //             if (top2[0].size < country[k].size) {
+                  //               top2.shift();
+                  //               top2.push(country[k]);
+                  //             } else if (top2[1].size < country[k].size) {
+                  //                 top2.pop();
+                  //                 top2.push(country[k]);
+                  //             }
+                  //           }
+                  //         }
+                  //         if (top2[0] < top2[1]) {
+                  //           top2.reverse();
+                  //         }
+                  //       }
+                  //   }
+                  // }
               div
-                  .html(d.properties.name + "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
+                  .html(d.properties.name) //+ "<br>" + top2[0].name + ": " + top2[0].size + "<br>" + top2[1].name + ": " + top2[1].size)
                   //console.log(d)
                   .style("left", (d3.event.pageX + 10) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
               })
+        .on("mousemove", function(d){
+          div.styles({"left": (d3.event.clientX + 10) + "px", "top": (d3.event.clientY - 28) + "px"})
+      })
           .on("mouseout", function(d) {
               div.transition()
                   .duration(500)
@@ -164,6 +186,7 @@ function analyze(error, dummyData) {
 }
 
 function country_clicked(d) {
+    console.log(d)
     console.log("You clicked on " + d.properties.name);
     //b._groups[0][0].style.strokeWidth = 10
     clickFromCountry(d);
