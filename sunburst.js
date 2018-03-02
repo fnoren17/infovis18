@@ -156,9 +156,7 @@ if(a.depth == 2) {
                 if(data){
                 latestClicked = document.getElementById(data.id)
                 latestClicked.style.strokeWidth = 1
-                }
-                
-            
+                }           
         }
 
     }
@@ -192,7 +190,7 @@ if(a.depth == 2) {
 function clickFromCountry(d){
     var a = svg.select("#" + d.properties.name).data();
     console.log(a);
-    //click(a[0], d);
+    click(a[0], d);
 }
 
 d3.select(self.frameElement).style("height", height + "px");
