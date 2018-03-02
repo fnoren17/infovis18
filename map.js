@@ -162,6 +162,7 @@ function analyze(error, dummyData) {
 }
 
 function country_clicked(d) {
+    console.log(d)
     console.log("You clicked on " + d.properties.name);
     //b._groups[0][0].style.strokeWidth = 10
     clickFromCountry(d);
