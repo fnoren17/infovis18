@@ -1,7 +1,7 @@
 var countryData = []; // lagrar länder just nu
 var datalistan='<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">'
     d3.queue()
-      .defer(d3.json, "Data.json")
+      .defer(d3.json, "data.json")
       .await(analyze);
       // Här är datan om utsläppen
       function analyze(error, Data) {
