@@ -71,8 +71,7 @@ var svg = d3.select("#sunburst").append("svg")
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
-d3.json("data.json", function(error, root) {
-    if (error) throw error;
+function drawSunburst(root){
 
     root = d3.hierarchy(root); //Root är mittencirkeln!
     root.sum(function(d) { return d.size; });
@@ -97,7 +96,7 @@ d3.json("data.json", function(error, root) {
         .on("mouseover",mouseover)
         .on("mousemove",mousemove)
         .on("mouseout", mouseout);
-});
+};
 
 
 function mouseover(d){

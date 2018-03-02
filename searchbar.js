@@ -1,31 +1,28 @@
 var countryData = []; // lagrar länder just nu
 var datalistan='<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">'
-    d3.queue()
-      .defer(d3.json, "data.json")
-      .await(analyze);
-      // Här är datan om utsläppen
-      function analyze(error, Data) {
-        if(error) { console.log(error); }
 
-        var tempNum = 0;
-        for (i=0;i<Data.children.length;i++) { // Kontinenter
-        //  countryData.push(dummyData.children[i].name)
-          for (j=0;j<Data.children[i].children.length;j++) { // Länder
-            countryData.push(Data.children[i].children[j].name)
-            //for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
-              //if (countryData.includes(dummyData.children[i].children[j].children[k].name)==false){
-              //countryData.push(dummyData.children[i].children[j].children[k].name)
-              //}
-            //}
-          }
-        }
-        countryData.sort()
-        for (i=0;i<countryData.length;i++) {
-          var quickfix = "'"+countryData[i]+"'"
-          datalistan+='<a href="javascript:;" onclick="clickindropdown(this)">'+countryData[i]+'</a>'
-        }
-        document.getElementById('myDropdown').innerHTML = datalistan;
-        };
+  // Här är datan om utsläppen
+  function searchbar(Data) {
+
+    var tempNum = 0;
+    for (i=0;i<Data.children.length;i++) { // Kontinenter
+    //  countryData.push(dummyData.children[i].name)
+      for (j=0;j<Data.children[i].children.length;j++) { // Länder
+        countryData.push(Data.children[i].children[j].name)
+        //for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+          //if (countryData.includes(dummyData.children[i].children[j].children[k].name)==false){
+          //countryData.push(dummyData.children[i].children[j].children[k].name)
+          //}
+        //}
+      }
+    }
+    countryData.sort()
+    for (i=0;i<countryData.length;i++) {
+      var quickfix = "'"+countryData[i]+"'"
+      datalistan+='<a href="javascript:;" onclick="clickindropdown(this)">'+countryData[i]+'</a>'
+    }
+    document.getElementById('myDropdown').innerHTML = datalistan;
+  };
 
 function clickindropdown(b){
   var arraybuild = {"properties":{"name" : b.textContent}};
