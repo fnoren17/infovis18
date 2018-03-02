@@ -12,51 +12,6 @@ var x = d3.scaleLinear()
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
 
-var color_scheme = [{continent: "Latin America and the Caribbean", color: {colorR: 238, colorG: 99, colorB: 99}}, 
-{continent: "Southern Asia", color:{colorR: 238, colorG: 158, colorB: 99}}, 
-{continent: "South-eastern Asia", color:{colorR: 238, colorG: 220, colorB: 99}}, 
-{continent: "Western Europe", color:{colorR: 204, colorG: 238, colorB: 99}}, 
-{continent: "Eastern Asia", color:{colorR: 99, colorG: 238, colorB: 99}}, 
-{continent: "Southern Europe", color:{colorR: 99, colorG: 238, colorB: 171}}, 
-{continent: "Northern Europe", color:{colorR: 99, colorG: 238, colorB: 210}}, 
-{continent: "Northern America", color:{colorR: 99, colorG: 187, colorB: 238}}, 
-{continent: "Northern Africa", color:{colorR: 102, colorG: 99, colorB: 238}}, 
-{continent: "Sub-Saharan Africa", color:{colorR: 148, colorG: 99, colorB: 238}}, 
-{continent: "Eastern Europe", color:{colorR: 207, colorG: 99, colorB: 238}}, 
-{continent: "Western Asia", color:{colorR: 238, colorG: 99, colorB: 187}}];
-
-function color(object) {
-        
-    if (object.depth == 0) {
-        object.data.color = {colorR: 0, colorG: 0, colorB: 0};
-    }
-    else if (object.depth == 1) { 
-        var parent = object.parent;
-        var numbChildren = object.children.length;
-        for (i=0; i < color_scheme.length; i++) {
-            if (color_scheme[i].continent == object.data.name) {
-                object.data.color = color_scheme[i].color;
-            }
-        }
-    }
-    else {
-        var scalar;
-        var arr = object.parent.children;
-        for (var i = 0, len = arr.length; i < len; i++) {
-            if(arr[i].data.name == object.data.name){
-                var scalar = ((i+1)*5*object.depth);
-            }
-        }
-        var parentColor = object.parent.data.color;
-        var numbChildren = object.parent.children.length;
-        var rDiff = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
-        var gDiff = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
-        var bDiff = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
-        object.data.color = {colorR: parentColor.colorR - rDiff, colorG: parentColor.colorG - gDiff, colorB: parentColor.colorB - bDiff};
-        //d.colorR < 0 ? d.colorR=0 : d.colorR
-    }
-}
-
 var partition = d3.partition();
 var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten.
     .startAngle(function(d) {return Math.max(0, Math.min(2 * Math.PI, x(d.x0))); })
@@ -77,7 +32,8 @@ d3.json("data.json", function(error, root) {
     root = d3.hierarchy(root); //Root är mittencirkeln!
     root.sum(function(d) { return d.size; });
 
-    d3.selectAll("body")
+    // Append tooltip to container
+    d3.selectAll(".container")
         .append("div")
         .attr("class", "text")
         .attr("width", 200)
@@ -91,7 +47,7 @@ d3.json("data.json", function(error, root) {
         .attr("display", function(d){return d.depth ? null : "none"})
         .attr("d", arc)
         .attr("id", function(d){return d.data.name.replace(/\s+/g, '');})
-        .style("fill", function(d) { color(d); return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
+        .style("fill", function(d) { return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
         .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
         .on("click", click)
         .on("mouseover",mouseover)
@@ -114,9 +70,11 @@ function mouseover(d){
         });
 }
 
+//tooltip
 function mousemove(d){
+    yoff = $('.container').offset().top
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX + 10 + "px"})
         .html(d.data.name + "\n" + formatNumber(d.value));
         //.attr("style", "left:" + event.clientX + "px")
 }
