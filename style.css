@@ -47,7 +47,8 @@ path {
 }
 
 #countries, #states {
-  fill: #e4b388;
+  /*fill: #e4b388;*/
+  fill: #fff;
   stroke: #000;
   stroke-linejoin: round;
   stroke-linecap: round;

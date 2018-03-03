@@ -82,11 +82,11 @@ function analyze(error, dummyData) {
                   if (dummyData.children[i].children[j].color) {
                     countryMapColor = dummyData.children[i].children[j].color;
                     //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
-                    return countryMapColor;
+                    return "rgb("+countryMapColor.colorR+","+countryMapColor.colorG+","+countryMapColor.colorB+")";
                   } else {
                   // Else, return some dark color
                     //console.log("Country has no color attribute. Returning some color.");
-                    return "#474646"
+                    return "rgb(255,255,255)";
                   }
 
                   /*
