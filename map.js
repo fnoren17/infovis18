@@ -80,7 +80,8 @@ function analyze(error, dummyData) {
                 if (dummyData.children[i].children[j].name == d.properties.name) {
                   // If country has color attribute
                   if (dummyData.children[i].children[j].color) {
-                    countryMapColor = dummyData.children[i].children[j].color;
+                    // countryMapColor = dummyData.children[i].children[j].color;
+                    countryMapColor = dummyData.children[i].color;
                     //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
                     return "rgb("+countryMapColor.colorR+","+countryMapColor.colorG+","+countryMapColor.colorB+")";
                   } else {
