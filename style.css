@@ -1,7 +1,4 @@
-#map {
-  /*background-color: #fff;
-  border: 1px solid #ccc;*/
-}
+
 h1 {
     text-align: center;
     font-family: "Montserrat", "Helvetica";
@@ -174,8 +171,8 @@ pre.prettyprint {
     position: absolute;
     width: 333px;
     height: 333px;
-    top:0;
-    bottom: 0;
+    top:140px;
+    bottom: 0px;
     left: 0;
     right: 0;
 	z-index: 2;
@@ -190,7 +187,7 @@ pre.prettyprint {
     width: 700px;
     height: 700px;
 	/*change this*/
-    top:0px;
+    top:140px;
     bottom: 0;
     left: 0;
     right: 0;
