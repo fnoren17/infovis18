@@ -8,6 +8,7 @@ h1 {
     font-weight: normal;
     color: white;
     margin: 0;
+	padding: 20px;
 }
 html {
     min-height:100%;
@@ -51,6 +52,12 @@ body {
     cursor: pointer;
 	
 }
+#title{
+	box-sizing: border-box;
+}
+#test {
+	z-index:5;
+}
 
 a:hover {
  cursor:pointer;
@@ -69,9 +76,6 @@ a:hover {
 	display: block;
     margin-left: auto;
     margin-right: auto;
-}
-#info{
-	border:200px;
 }
 
 
@@ -184,7 +188,8 @@ pre.prettyprint {
     position: absolute;
     width: 700px;
     height: 700px;
-    top:0;
+	/*change this*/
+    top:0px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -243,8 +248,12 @@ div.tooltip {
 
 /* diven för innehållet i dropdown */
 .dropdown {
-    position: relative;
+    position: absolute;
+		/*position:absolute*/
+    right: 200px;
+	vertical-align: top;
     display: inline-block;
+	z-index:5;
 }
 
 /* innehållet i dropdown */
@@ -255,6 +264,7 @@ div.tooltip {
     min-width: 230px;
     border: 1px solid #ddd;
     z-index: 1;
+	
 }
 
 /* länkarna innuti dropdown */
@@ -270,3 +280,12 @@ div.tooltip {
 
 .show {display:block;}
 
+
+/*Bottom align info buttons*/
+.bottom-align-text {
+    position: absolute;
+    bottom: 20px;
+  }
+.helperbtns {
+	margin:10px;
+}

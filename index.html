@@ -26,13 +26,16 @@
 	
     <body onload="loadFunction()">
 		
+
+		
 		<!--Navbar-->
+		<!--
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
 			  	<a class="navbar-brand" href="index.html">Mission Emission</a>
 				</div>
-
+				
 				<form class="navbar-form navbar-right" action="/index.html">
 					<div class="form-group">
 						<input type="text" class="form-control" placeholder="Search for country" name="search">
@@ -41,7 +44,20 @@
 				</form>
 			</div>
 		</nav>
+		-->
+		<div class="col-sm-2" id="test">
+			<a class="navbar-brand" href="index.html">Mission Emission</a>
+		</div>
+		<div id=title class="col-sm-8">
+			<h1>Export from Brazil</h1>
+		</div>	
+		<!--Dropdown menu-->
+				<div class="dropdown">
+					<button onclick="myFunction()" class="dropbtn">Dropdown</button>
+					<div id="myDropdown" class="dropdown-content"></div>
+				</div>
 		
+	
 		<!--Modal help-->
 	    <div class="modal fade" id="helpModal" role="dialog">
 			<div class="modal-dialog">
@@ -78,36 +94,29 @@
 			  </div>
 		  </div>
 		</div>
+		
+		<!--Info and help buttons-->
+				<div class="bottom-align-text col-sm-2">
+						<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
+						<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
+				</div>
 
 
 
 		<!--Loader icon-->
 		<div id="loader"></div>
 		<div style="display:none;" id="loadedDiv" class="animate-bottom">
-
 			<!--Start of the sunburst-->
 			<div class="container">
-				<div id="map" class="col-sm-6"></div>
-				<div id="sunburst" class="col-sm-6"></div>
-				<div class="rows">
-					<a data-toggle="modal" data-target="#helpModal"><i id="info" class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
-					<a data-toggle="modal" data-target="#infoModal"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
-				</div>
+				<div id="map" class="col-xl-12"></div>
+				<div id="sunburst" class="col-xl-12"></div>
+				
+				
 			</div>
 		</div>
+
 		
-    
-        <div class="container">
-            <div id="map" class="col-sm-12"></div>
-            <div id="sunburst" class="col-sm-12"></div>
-
-            <div class="dropdown">
-              <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-              <div id="myDropdown" class="dropdown-content">
-              </div>
-            </div>
-        </div>
-
+   
         <script src="map.js"></script>
         <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
