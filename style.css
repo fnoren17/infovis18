@@ -8,6 +8,7 @@ h1 {
 	padding: 20px;
 }
 html {
+	font-family: "Montserrat","Helvetica";
     min-height:100%;
     overflow: hidden;
 }
@@ -50,15 +51,15 @@ body {
 	
 }
 #title{
+	right:150px;
 	box-sizing: border-box;
 }
-#test {
-	z-index:5;
-}
 
+/*
 a:hover {
  cursor:pointer;
-}
+	
+}*/
 
 #menu{
 	padding:20px;
@@ -123,6 +124,12 @@ a:hover {
   to{ bottom:0; opacity:1 }
 }
 
+#sidebar {
+	height: 900px;
+    width: 25%;
+    background-color: #056571;
+}
+
 
 
 path {
@@ -171,7 +178,7 @@ pre.prettyprint {
     position: absolute;
     width: 333px;
     height: 333px;
-    top:140px;
+    top:100px;
     bottom: 0px;
     left: 0;
     right: 0;
@@ -187,7 +194,7 @@ pre.prettyprint {
     width: 700px;
     height: 700px;
 	/*change this*/
-    top:140px;
+    top:100px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -199,6 +206,7 @@ pre.prettyprint {
 .container {
     position: fixed;
     width: 100%;
+	top:50px;
     height: 700px;
 }
 
@@ -286,4 +294,35 @@ div.tooltip {
   }
 .helperbtns {
 	margin:10px;
+}
+.helperbtns:hover {
+	cursor:pointer;
+	color:#414141;
+}
+
+
+.fa-question-circle{
+	color:#CCDFCD;
+}
+.fa fa-info-circle{
+	color:#CCDFCD;
+}
+.fa:active{
+ color: #414141;
+}
+.fa:hover {
+	color:#414141;
+}
+
+.navbar-brand{
+	text-align: center;
+    font-weight: normal;
+	font-size:25px;
+    color: white;
+    margin: 0;
+	padding: 20px;
+	padding: 20px;
+}
+.navbar-brand:hover { 
+	color:#414141;
 }
