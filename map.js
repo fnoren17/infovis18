@@ -43,7 +43,7 @@ var g = svg.append("g");
 // Tooltip för mouseover
   var div = d3.select("body").append("div")
     .attr("class", "tooltip")
-    .style("opacity", 0);
+    .styles({"opacity": 0,"height": "auto"});
 
 d3.queue()
     .defer(d3.json, "data.json")
