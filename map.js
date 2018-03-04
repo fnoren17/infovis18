@@ -74,18 +74,37 @@ function analyze(error, dummyData) {
           .attr("id", function(d) { return d.id; })
           .styles({"fill": function(d){
             var tempNum = 0;
+            var countryMapColor;
             for (i=0;i<dummyData.children.length;i++) { // Kontinenter
               for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
                 if (dummyData.children[i].children[j].name == d.properties.name) {
+                  // If country has color attribute
+                  if (dummyData.children[i].children[j].color) {
+                    countryMapColor = dummyData.children[i].children[j].color;
+                    //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
+                    return "rgb("+countryMapColor.colorR+","+countryMapColor.colorG+","+countryMapColor.colorB+")";
+                  } else {
+                  // Else, return some dark color
+                    //console.log("Country has no color attribute. Returning some color.");
+                    return "rgb(255,255,255)";
+                  }
+
+                  /*
+                  // Heat map code
                   for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
                     tempNum = tempNum + dummyData.children[i].children[j].children[k].size
                   }
+                  // End of Heat map code
+                  */
                 }
               }
             }
             if (d.properties.name == "Brazil"){
                 return "#808080"
             }
+
+            /*
+            // Heat map code
             if ((tempNum / totEmission) > (64 / totCountries)) {
               return "#996633"
             } else if ((tempNum / totEmission) > (32 / totCountries)) {
@@ -113,6 +132,8 @@ function analyze(error, dummyData) {
             } else {
               return "#ffffff"
             }
+            // Heat map code
+            */
           }, "stroke": "black"})
 
           .attr("d", path)
@@ -152,6 +173,9 @@ function analyze(error, dummyData) {
                   .style("left", (d3.event.pageX + 10) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
               })
+        .on("mousemove", function(d){
+          div.styles({"left": (d3.event.clientX + 10) + "px", "top": (d3.event.clientY - 28) + "px"})
+      })
           .on("mouseout", function(d) {
               div.transition()
                   .duration(500)

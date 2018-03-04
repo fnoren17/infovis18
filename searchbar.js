@@ -1,7 +1,7 @@
 var countryData = []; // lagrar länder just nu
 var datalistan='<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">'
     d3.queue()
-      .defer(d3.json, "Data.json")
+      .defer(d3.json, "data.json")
       .await(analyze);
       // Här är datan om utsläppen
       function analyze(error, Data) {
@@ -28,8 +28,15 @@ var datalistan='<input type="text" placeholder="Search.." id="myInput" onkeyup="
         };
 
 function clickindropdown(b){
-  var arraybuild = {"properties":{"name" : b.textContent}}
-  country_clicked(arraybuild)
+  var arraybuild = {"properties":{"name" : b.textContent}};
+    var map = d3.select("g#countries").selectAll("path")
+        .filter(function(d){return d.properties.name == b.textContent});
+     a = map.data()[0];
+    if(a){
+    country_clicked(a);
+    } else {
+        country_clicked(arraybuild);
+    }
 }
 
 /* byter mellan att visa och gömma dropdown informationen */
@@ -41,8 +48,8 @@ function filterFunction() {
   var input, filter, ul, li, a, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
-  div = document.getElementById("myDropdown");
-  a = div.getElementsByTagName("a");
+  dropDownDiv = document.getElementById("myDropdown");
+  a = dropDownDiv.getElementsByTagName("a");
   for (i = 0; i < a.length; i++) {
     if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
       a[i].style.display = "";
