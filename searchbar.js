@@ -39,6 +39,8 @@ function renderlist(data) {
 };
 
 function clickindropdown(b){
+d3.select("#countries-list")
+    .style("display", "none");
   var arraybuild = {"properties":{"name" : b.textContent}};
     var map = d3.select("g#countries").selectAll("path")
         .filter(function(d){return d.properties.name == b.textContent});
