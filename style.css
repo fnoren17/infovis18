@@ -349,9 +349,9 @@ div.tooltip {
   content: '';
   position: absolute;
   width: 6px;
-  background-color: white;
+  background-color: #CCDFCD;
   top: 0;
-  bottom: 0;
+  bottom: 38px;
   left: 50%;
   margin-left: -7px;
 }
@@ -363,10 +363,10 @@ div.tooltip {
 
 /* Container around content */
 .timelineContainer {
-  padding: 10px 40px;
+  padding: 0px 40px 40px;
   position: relative;
   background-color: inherit;
-  width: 100%;
+  width: 80%;
   font-size: 12px;
 }
 
@@ -378,8 +378,8 @@ div.tooltip {
   height: 25px;
   right: -17px;
   background-color: white;
-  border: 4px solid #FF9F55;
-  top: 15px;
+  border: 4px solid #FF6A5C;
+  top: 0px;
   border-radius: 50%;
   z-index: 1;
 }
@@ -399,7 +399,7 @@ div.tooltip {
   content: " ";
   height: 0;
   position: absolute;
-  top: 22px;
+  top: 15px;
   width: 0;
   z-index: 1;
   right: 30px;
@@ -413,12 +413,12 @@ div.tooltip {
   content: " ";
   height: 0;
   position: absolute;
-  top: 22px;
+  top: 12px;
   width: 0;
   z-index: 1;
-  left: 30px;
+  left: 25px;
   border: medium solid white;
-  border-width: 10px 10px 10px 0;
+  border-width: 0 20px 20px 0;
   border-color: transparent white transparent transparent;
 }
 
