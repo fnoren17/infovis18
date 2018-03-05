@@ -299,26 +299,20 @@ div.tooltip {
   }
 .helperbtns {
 	margin:10px;
+	color: #f1f1f1;
 }
 .helperbtns:hover {
 	cursor:pointer;
-	color:#414141;
+	color:#9bc2cf;
 }
 
 .fa-question-circle{
-	color:#CCDFCD;
+	font-size:48px;
 }
 .fa fa-info-circle{
-	color:#CCDFCD;
+	font-size:48px;
 }
-.fa:active{
- color: #414141;
-}
-.fa:hover {
-	color:#414141;
-}
-
-.navbar-brand{
+.MissionEmission{
 	position: absolute;
 	left:50px;
 	text-align: center;
@@ -330,9 +324,11 @@ div.tooltip {
 	padding: 20px;
 	z-index: 10;
 }
+/*
 .navbar-brand:hover { 
 	color:#414141;
 }
+*/
  
 /* Så att tooltipen blir så lång som den behöver */
 .tooltip{
@@ -349,4 +345,8 @@ div.tooltip {
 	position: absolute;
 	top:5px;
 	left:5px;
+	z-index: 10;
+}
+.logo:hover{
+	opacity: 0.9;
 }
