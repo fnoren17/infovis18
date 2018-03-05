@@ -1,6 +1,6 @@
 var myVar;
 		function loadFunction() {
-			myVar = setTimeout(showPage, 500);
+			myVar = setTimeout(showPage, 0);
 		}
 		function showPage() {
 		  document.getElementById("loader").style.display = "none";
