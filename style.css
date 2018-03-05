@@ -178,7 +178,7 @@ pre.prettyprint {
     position: absolute;
     width: 290px;
     height: 290px;
-    top:100px;
+    top:50px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -193,7 +193,7 @@ pre.prettyprint {
     position: absolute;
     width: 600px;
     height: 600px;
-    top:100px;
+    top:50px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -205,7 +205,7 @@ pre.prettyprint {
 .container {
     position: relative;
     width: 100%;
-	top:50px;
+	 /*top:50px;*/
     height: 700px;
 }
 
