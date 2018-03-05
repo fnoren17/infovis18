@@ -150,7 +150,7 @@ function clickFromCountry(d){
     if(a.length != 0){
     click(a[0], d);
     }
-    drawTimeline(a[0]);
+    //drawTimeline(a[0]);
 }
 
 // Timeline variables
@@ -163,12 +163,22 @@ var countryP = document.getElementById("countryP");
 var cargoDiv = document.getElementById("cargoDiv");
 var cargoP = document.getElementById("cargoP");
 
+regionDiv.style.display = "none";
+countryDiv.style.display = "none";
+cargoDiv.style.display = "none";
+
 var clickedLevel;
 
 var temporaryObject;
-function drawTimeline(object) {
-  temporaryObject = object;
-  console.log(object);
+var currentRegionInTimeline;
+var currentCountryInTimeline;
+var currentCargoInTimeline;
+
+function drawTimeline(a) {
+  console.log("function head. a: ");
+  console.log(a);
+
+  var object = a;
 
   try {
     if (object.data.name == "Brazil") {
@@ -196,47 +206,92 @@ function drawTimeline(object) {
 
   switch (clickedLevel) {
     case 9:
-      console.log("Brazil level");
+      // console.log("Brazil level");
       // Display div
       regionDiv.style.display = "none";
       countryDiv.style.display = "none";
       cargoDiv.style.display = "none";
       break;
     case 0: // region
-      console.log("Region level");
+      // Is child showing? keep showing region
+      if ( String(countryDiv.style.display) == "block" ) {
+        regionDiv.style.display = "block";
+        currentRegionInTimeline = object;
+      }
+      // Is regionDiv not showing? Start showing it.
+      else if ( String(regionDiv.style.display) == "none" ) {
+        regionDiv.style.display = "block";
+        currentRegionInTimeline = object;
+      }
+      // Is regionDiv showing? Stop showing it, only if child is not showing
+      else if ( String(regionDiv.style.display) == "block" && String(countryDiv.style.display) == "none" ) {
+        regionDiv.style.display = "none";
+        currentRegionInTimeline = "";
+      }
+
 
       // Display div
-      regionDiv.style.display = "block";
       countryDiv.style.display = "none";
       cargoDiv.style.display = "none";
       // Content
       regionP.textContent = "Region: \n " +object.data.name;
-
       var c02ofBrazil = parseInt((object.value / object.parent.value) * 10000)/100;
-      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +" % of Brazil's C02 emission.";
+      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
       break;
     case 1: // country
-      console.log("Country level");
+
+      // Is child showing? keep showing region
+      if ( String(cargoDiv.style.display) == "block" ) {
+        countryDiv.style.display = "block";
+        currentCountryInTimeline = object;
+      }
+      // Is countryDiv not showing? Start showing it.
+      else if ( String(countryDiv.style.display) == "none" ) {
+        countryDiv.style.display = "block";
+        currentCountryInTimeline = object;
+      }
+      // Is countryDiv showing? Stop showing it, only if child is not showing
+      else if ( String(countryDiv.style.display) == "block" && String(cargoDiv.style.display) == "none" ) {
+        countryDiv.style.display = "none";
+        currentCountryInTimeline = "";
+      }
+
+      currentRegionInTimeline = object.parent;
+
       // Display div
       regionDiv.style.display = "block";
-      countryDiv.style.display = "block";
       cargoDiv.style.display = "none";
       // Content
       regionP.textContent = "Region: \n " +object.parent.data.name;
       countryP.textContent = "Country: \n " +object.data.name;
 
       var c02ofBrazil = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
-      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +" % of Brazil's C02 emission.";
+      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
 
       var c02ofRegion = parseInt((object.value / object.parent.value) * 100);
-      countryInfo.textContent = "CO2 usage: \n " + c02ofRegion +" % of region's C02 emission.";
+      countryInfo.textContent = "CO2 usage: \n " + c02ofRegion +"% of region's C02 emission.";
+
       break;
     case 2: // cargo
-      console.log("Cargo level");
+
+      // Is cargoDiv not showing? Start showing it.
+      if ( String(cargoDiv.style.display) == "none" ) {
+        cargoDiv.style.display = "block";
+        currentCargoInTimeline = object;
+      }
+      // Is cargoDiv showing? Stop showing it, only if child is not showing
+      else if ( String(cargoDiv.style.display) == "block" ) {
+        cargoDiv.style.display = "none";
+        currentCargoInTimeline = "";
+      }
+
+
+      currentRegionInTimeline = object.parent.parent;
+      currentCountryInTimeline = object.parent.name;
+
       // Display div
       regionDiv.style.display = "block";
       countryDiv.style.display = "block";
-      cargoDiv.style.display = "block";
       // Content
       regionP.textContent = "Region: \n " +object.parent.parent.data.name;
       countryP.textContent = "Country: \n " +object.parent.data.name;
@@ -245,20 +300,21 @@ function drawTimeline(object) {
       regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
 
       var c02ofCountry = parseInt((object.value / object.parent.value) * 100);
-      // console.log("cargo emission");
-      // console.log(object.value);
-      //
-      // console.log("country emission");
-      // console.log(object.parent.value);
-      //
-      // console.log("percentage");
-      // console.log(c02ofCountry);
 
       cargoP.textContent =   "Cargo: \n " +object.data.name;
-      cargoInfo.textContent = "CO2 usage: \n " + c02ofCountry +" % of country C02 emission.";
+      cargoInfo.textContent = "CO2 usage: \n " + c02ofCountry +"% of country C02 emission.";
       break;
   }
 }
 
+function regionClickTest () {
+  click(currentRegionInTimeline);
+}
+function countryClickTest () {
+  click(currentCountryInTimeline);
+}
+function cargoClickTest () {
+  click(currentCargoInTimeline);
+}
 
 d3.select(self.frameElement).style("height", height + "px");
