@@ -1,11 +1,11 @@
 var m_width = $("#map").width(),
-    width = 400, //to fit screen better
-    height = 400,
+    width = 290, //to fit screen better
+    height = 290,
     country,
     state;
 
 var projection = d3.geoMercator()
-    .scale(60)
+    .scale(45)
     .translate([width / 2, height / 1.60])
     .precision(.1);
 
@@ -41,9 +41,9 @@ function zoomed() {
 var g = svg.append("g");
 
 // Tooltip för mouseover
-  var div = d3.select("body").append("div")
+  var div = d3.select(".container").append("div")
     .attr("class", "tooltip")
-    .style("opacity", 0);
+    .styles({"opacity": 0,"height": "auto"});
 
 d3.queue()
     .defer(d3.json, "data.json")
@@ -80,7 +80,8 @@ function analyze(error, dummyData) {
                 if (dummyData.children[i].children[j].name == d.properties.name) {
                   // If country has color attribute
                   if (dummyData.children[i].children[j].color) {
-                    countryMapColor = dummyData.children[i].children[j].color;
+                    // countryMapColor = dummyData.children[i].children[j].color;
+                    countryMapColor = dummyData.children[i].color;
                     //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
                     return "rgb("+countryMapColor.colorR+","+countryMapColor.colorG+","+countryMapColor.colorB+")";
                   } else {
@@ -173,8 +174,10 @@ function analyze(error, dummyData) {
                   .style("left", (d3.event.pageX + 10) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
               })
+          // Tooltip för mouseover
         .on("mousemove", function(d){
-          div.styles({"left": (d3.event.clientX + 10) + "px", "top": (d3.event.clientY - 28) + "px"})
+          yoff = $('.container').offset().top
+          div.styles({"left": (d3.event.pageX+ 10) + "px", "top": (d3.event.pageY - yoff - 28) + "px"})
       })
           .on("mouseout", function(d) {
               div.transition()
