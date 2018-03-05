@@ -92,21 +92,37 @@
 
 		<!--Loader icon-->
 		<div id="loader"></div>
-		<div style="display:none;" id="loadedDiv" class="animate-bottom">
+		<div id="loadedDiv" class="animate-bottom">
 			<!--Start of the sunburst-->
 			<div class="container">
 				<div id="map" class="col-xl-12"></div>
 				<div id="sunburst" class="col-xl-12"></div>
 			</div>
-		</div>
-
-		
+		</div>		
    <a href="https://www.w3schools.com">
 <img border="0" alt="W3Schools" src="logo.png" width="100" height="100">
 </a>
+
         <script src="map.js"></script>
         <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
-		<script src="loaderfunc.js"></script>
+		<script>
+            // Load our data
+            d3.queue()
+            .defer(d3.json, "data.json")
+            .defer(d3.json, "countries.topo.json")
+            .await(render);
+            function render(error,data, mapdata){
+            	document.getElementById("loader").style.display = "none";
+                // Draw the map
+                drawmap(data,mapdata);
+                // Give searchbar acess to the data
+                searchbar(data);
+                // Draw the sunburst
+                drawSunburst(data);
+
+                
+            }
+        </script>
     </body>
 </html>
