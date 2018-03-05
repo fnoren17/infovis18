@@ -150,7 +150,7 @@ function clickFromCountry(d){
     if(a.length != 0){
     click(a[0], d);
     }
-    drawTimeline(a);
+    drawTimeline(a[0]);
 }
 
 // Timeline variables
@@ -165,9 +165,10 @@ var cargoP = document.getElementById("cargoP");
 
 var clickedLevel;
 
+var temporaryObject;
 function drawTimeline(object) {
-
-  //console.log(object);
+  temporaryObject = object;
+  console.log(object);
 
   try {
     if (object.data.name == "Brazil") {
@@ -195,38 +196,66 @@ function drawTimeline(object) {
 
   switch (clickedLevel) {
     case 9:
+      console.log("Brazil level");
       // Display div
       regionDiv.style.display = "none";
       countryDiv.style.display = "none";
       cargoDiv.style.display = "none";
       break;
     case 0: // region
+      console.log("Region level");
+
       // Display div
       regionDiv.style.display = "block";
       countryDiv.style.display = "none";
       cargoDiv.style.display = "none";
       // Content
-      regionP.textContent = object.data.name;
+      regionP.textContent = "Region: \n " +object.data.name;
+
+      var c02ofBrazil = parseInt((object.value / object.parent.value) * 10000)/100;
+      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +" % of Brazil's C02 emission.";
       break;
     case 1: // country
+      console.log("Country level");
       // Display div
       regionDiv.style.display = "block";
       countryDiv.style.display = "block";
       cargoDiv.style.display = "none";
       // Content
-      regionP.textContent = object.parent.data.name;
-      countryP.textContent = object.data.name;
+      regionP.textContent = "Region: \n " +object.parent.data.name;
+      countryP.textContent = "Country: \n " +object.data.name;
+
+      var c02ofBrazil = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
+      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +" % of Brazil's C02 emission.";
+
+      var c02ofRegion = parseInt((object.value / object.parent.value) * 100);
+      countryInfo.textContent = "CO2 usage: \n " + c02ofRegion +" % of region's C02 emission.";
       break;
     case 2: // cargo
+      console.log("Cargo level");
       // Display div
       regionDiv.style.display = "block";
       countryDiv.style.display = "block";
       cargoDiv.style.display = "block";
       // Content
-      regionP.textContent = object.parent.parent.data.name;
-      countryP.textContent = object.parent.data.name;
-      cargoP.textContent =   object.data.name;
-      cargoInfo.textContent = "CO2 usage: " + object.data.size +" kg (?)";
+      regionP.textContent = "Region: \n " +object.parent.parent.data.name;
+      countryP.textContent = "Country: \n " +object.parent.data.name;
+
+      var c02ofBrazil = parseInt((object.parent.parent.value / object.parent.parent.parent.value) * 10000)/100;
+      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
+
+      var c02ofCountry = parseInt((object.value / object.parent.value) * 100);
+      // console.log("cargo emission");
+      // console.log(object.value);
+      //
+      // console.log("country emission");
+      // console.log(object.parent.value);
+      //
+      // console.log("percentage");
+      // console.log(c02ofCountry);
+
+      cargoP.textContent =   "Cargo: \n " +object.data.name;
+      cargoInfo.textContent = "CO2 usage: \n " + c02ofCountry +" % of country C02 emission.";
       break;
   }
 }
