@@ -1,25 +1,24 @@
-#map {
-  /*background-color: #fff;
-  border: 1px solid #ccc;*/
-}
+
 h1 {
     text-align: center;
-    font-family: "Avenir Next";
+    font-family: "Montserrat", "Helvetica";
     font-weight: normal;
     color: white;
+    margin: 0;
+	padding: 20px;
 }
 html {
+	font-family: "Montserrat","Helvetica";
     min-height:100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 body {
     margin: 0;
     padding: 0;
     min-height:100%;
-
     background-image:
-    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0) 6%, hsla(0,0%,100%, .1) 7.5%),
-    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)4%, hsla(0,0%,  0%,.03) 4.5%),
+    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
+    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%, 0) 0%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,.15) 100%),
     linear-gradient(150deg, hsl(0,5%,8%) 10%,
         rgb(0,0,0) 70%,
@@ -37,6 +36,102 @@ body {
 	z-index: 3;
 }
 
+.button {
+	font-family: "Montserrat","Helvetica";
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+
+}
+#title{
+	right:150px;
+	box-sizing: border-box;
+}
+
+/*
+a:hover {
+ cursor:pointer;
+
+}*/
+
+#menu{
+	padding:20px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rows{
+	position:absolute;
+	padding-left:1200px;
+	padding-top:650px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Center the loader */
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 }
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom {
+  from{ bottom:-100px; opacity:0 }
+  to{ bottom:0; opacity:1 }
+}
+
+#sidebar {
+	height: 900px;
+    width: 25%;
+    background-color: #056571;
+}
+
+
+
 path {
   stroke: #fff;
 }
@@ -47,7 +142,8 @@ path {
 }
 
 #countries, #states {
-  fill: #e4b388;
+  /*fill: #e4b388;*/
+  fill: #bbb;
   stroke: #000;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -80,51 +176,159 @@ pre.prettyprint {
 
 #map {
     position: absolute;
-    width: 333px;
-    height: 333px;
-    top:0;
+    width: 290px;
+    height: 290px;
+    top:50px;
     bottom: 0;
     left: 0;
     right: 0;
-	z-index: 2;
-	border-radius: 100%;
-	overflow:hidden;
+    z-index: 2;
+    border-radius: 100%;
+    overflow:hidden;
 
     margin: auto;
 }
 
 #sunburst {
     position: absolute;
-    width: 700px;
-    height: 700px;
-    top:0;
+    width: 600px;
+    height: 600px;
+    top:50px;
     bottom: 0;
     left: 0;
     right: 0;
-	z-index: 1;
+	  z-index: 1;
 
     margin: auto;
 }
-/*
+
 .container {
-    position: fixed;
+    position: relative;
     width: 100%;
+	 /*top:50px;*/
     height: 700px;
-} */
+}
 
 div.tooltip {
     position: absolute;
     text-align: center;
-    width: 120px;
-    height: 42px;
+    width: 80px;
+    height: 26px;
     padding: 2px;
     font: 12px sans-serif;
     background: #FFF8DC;
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
+    z-index: 1000;
+}
+/* Dropdown knapp */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
 }
 
+/* Dropdown fokus */
+.dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+}
+
+/* sökfält */
+#myInput {
+  /*border-box: box-sizing;*/
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+/* sökfältet när det klickas på */
+#myInput:focus {outline: 3px solid #ddd;}
+
+/* diven för innehållet i dropdown */
+.dropdown {
+    position: absolute;
+		/*position:absolute*/
+    right: 200px;
+	vertical-align: top;
+    display: inline-block;
+	z-index:5;
+}
+
+/* innehållet i dropdown */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    border: 1px solid #ddd;
+    z-index: 1;
+
+}
+
+/* länkarna innuti dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* ändrar förgen på länkarna när man hoovrar */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+/*Bottom align info buttons*/
+.bottom-align-text {
+    position: absolute;
+    bottom: 20px;
+  }
+.helperbtns {
+	margin:10px;
+}
+.helperbtns:hover {
+	cursor:pointer;
+	color:#414141;
+}
+
+.fa-question-circle{
+	color:#CCDFCD;
+}
+.fa fa-info-circle{
+	color:#CCDFCD;
+}
+.fa:active{
+ color: #414141;
+}
+.fa:hover {
+	color:#414141;
+}
+
+.navbar-brand{
+	text-align: center;
+    font-weight: normal;
+	font-size:25px;
+    color: white;
+    margin: 0;
+	padding: 20px;
+	padding: 20px;
+}
+.navbar-brand:hover {
+	color:#414141;
+}
+
+/* Så att tooltipen blir så lång som den behöver */
+.tooltip{
+    height: auto;
+}
 
 
 /* TIMELINE */
@@ -136,7 +340,8 @@ div.tooltip {
 .timeline {
   position: relative;
   max-width: 400px;
-  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 100px;
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -152,7 +357,7 @@ div.tooltip {
 }
 
 /* Container around content */
-.container {
+.timelineContainer {
   padding: 10px 40px;
   position: relative;
   background-color: inherit;
@@ -160,7 +365,7 @@ div.tooltip {
 }
 
 /* The circles on the timeline */
-.container::after {
+.timelineContainer::after {
   content: '';
   position: absolute;
   width: 25px;
@@ -217,16 +422,11 @@ div.tooltip {
 }
 
 /* The actual content */
-.content {
+.timelineContent {
   padding: 20px 30px;
   background-color: white;
   position: relative;
   border-radius: 6px;
-}
-
-
-.timelineWrapper {
-  bottom: 0;
 }
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
@@ -237,14 +437,14 @@ div.tooltip {
   }
 
 /* Full-width containers */
-  .container {
+  .timelineContainer {
     width: 100%;
     padding-left: 70px;
     padding-right: 25px;
   }
 
 /* Make sure that all arrows are pointing leftwards */
-  .container::before {
+  .timelineContainer::before {
     left: 60px;
     border: medium solid white;
     border-width: 10px 10px 10px 0;

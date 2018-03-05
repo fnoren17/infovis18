@@ -1,5 +1,5 @@
-var width = 700,
-height = 700,
+var width = 600,
+height = 600,
 radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");
@@ -11,37 +11,6 @@ var x = d3.scaleLinear()
 
 var y = d3.scaleSqrt()
     .range([0, radius]); //Ändring av siffran i range här skapar ett vitt utrymme i mitten av sunbursten
-
-var color_scheme = [{continent: "Europe", color: {colorR: 0, colorG: 255, colorB: 0}}, {continent: "Africa", color:{colorR: 255, colorG: 0, colorB: 0}}, {continent: "America", color:{colorR: 0, colorG: 0, colorB: 255}}, {continent: "Asia", color:{colorR: 255, colorG: 255, colorB: 0}}, {continent: "Oceania", color:{colorR: 0, colorG: 0, colorB: 0}}];
-
-function color(object) {
-    if (object.depth == 0) {
-        object.data.color = {colorR: 0, colorG: 0, colorB: 0};
-    } else if (object.depth == 1) {
-        var parent = object.parent;
-        var numbChildren = parent.children.length;
-        for (i=0; i < color_scheme.length; i++) {
-            if (color_scheme[i].continent == object.data.name) {
-                object.data.color = color_scheme[i].color;
-            }
-        }
-    } else {
-        var scalar;
-        var arr = object.parent.children;
-        for (var i = 0, len = arr.length; i < len; i++) {
-            if(arr[i].data.name == object.data.name){
-                var scalar = ((i+1)*5*object.depth);
-            }
-        }
-        var parentColor = object.parent.data.color;
-        var numbChildren = object.parent.children.length;
-        var rDiff = parseInt((parentColor.colorR/numbChildren)/2 + scalar);
-        var gDiff = parseInt((parentColor.colorG/numbChildren)/2 + scalar);
-        var bDiff = parseInt((parentColor.colorB/numbChildren)/2 + scalar);
-        object.data.color = {colorR: parentColor.colorR - rDiff, colorG: parentColor.colorG - gDiff, colorB: parentColor.colorB - bDiff};
-        //d.colorR < 0 ? d.colorR=0 : d.colorR
-    }
-}
 
 var partition = d3.partition();
 var arc = d3.arc() //Varje interation av d här är ett "block" i sunbursten.
@@ -63,7 +32,8 @@ d3.json("data.json", function(error, root) {
     root = d3.hierarchy(root); //Root är mittencirkeln!
     root.sum(function(d) { return d.size; });
 
-    d3.selectAll("body")
+    // Append tooltip to container
+    d3.selectAll(".container")
         .append("div")
         .attr("class", "text")
         .attr("width", 200)
@@ -76,8 +46,8 @@ d3.json("data.json", function(error, root) {
         .attr("class", "sunburst")
         .attr("display", function(d){return d.depth ? null : "none"})
         .attr("d", arc)
-        .attr("id", function(d){return d.data.name})
-        .style("fill", function(d) { color(d); return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
+        .attr("id", function(d){return d.data.name.replace(/\s+/g, '');})
+        .style("fill", function(d) { return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
         .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
         .on("click", click)
         .on("mouseover",mouseover)
@@ -100,9 +70,11 @@ function mouseover(d){
         });
 }
 
+//tooltip
 function mousemove(d){
+    yoff = $('.container').offset().top
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX + 10 + "px"})
         .html(d.data.name + "\n" + formatNumber(d.value));
         //.attr("style", "left:" + event.clientX + "px")
 }
@@ -116,26 +88,44 @@ function mouseout(d){
 
 
 function click(a, d) {
-    console.log(d);
-    if (a.depth == 0) {
-        latestClicked.style.strokeWidth = ""
+    drawTimeline(a);
+    if(latestClicked){
+        latestClicked.style.strokeWidth = "";
+    }
+    if(a.depth == 1){
+        if(currentNode == a){
+            a = a.parent;
+        }
 
+        if(latestClicked){
+            latestClicked.style.strokeWidth = ""
+        }
     }
-    else if (a.depth == 1) {
-        latestClicked.style.strokeWidth = ""
-    }
-    else {
+
+if(a.depth == 2) {
         if (currentNode == a) {
             a = a.parent
             latestClicked.style.strokeWidth = ""
         }
         else {
-            if(d.id){
-                latestClicked = document.getElementById(d.id)
+                map = d3.selectAll("g#countries").selectAll("path")
+                .filter(function(e){return e.properties.name == a.data.name});
+                data = map.data()[0];
+                if(data){
+                latestClicked = document.getElementById(data.id)
                 latestClicked.style.strokeWidth = 1
-            }
+                }
         }
 
+    }
+    if(a.depth == 3){
+        map = d3.selectAll("g#countries").selectAll("path")
+            .filter(function(e){return e.properties.name == a.parent.data.name});
+        data = map.data()[0];
+        if(data){
+        latestClicked = document.getElementById(data.id)
+        latestClicked.style.strokeWidth = 1
+        }
     }
     svg.transition()
         .duration(750)
@@ -156,102 +146,91 @@ function click(a, d) {
 }
 
 function clickFromCountry(d){
-    var a = svg.select("#" + d.properties.name).data();
+    var a = d3.selectAll("path#" + d.properties.name.replace(/\s+/g, '')).data();
+    if(a.length != 0){
     click(a[0], d);
-    drawTimeline(d.properties.name)
+    }
+    drawTimeline(a);
 }
 
-// Variables for function drawTimeline
+// Timeline variables
 var regionDiv = document.getElementById("regionDiv");
 var regionP = document.getElementById("regionP");
 
-var regionDiv = document.getElementById("countryDiv");
-var regionP = document.getElementById("countryP");
+var countryDiv = document.getElementById("countryDiv");
+var countryP = document.getElementById("countryP");
 
-var regionDiv = document.getElementById("cargoDiv");
-var regionP = document.getElementById("cargoP");
+var cargoDiv = document.getElementById("cargoDiv");
+var cargoP = document.getElementById("cargoP");
+
+var clickedLevel;
 
 function drawTimeline(object) {
-    console.log("drawTimeline called");
 
-    console.log("object: " +object);
-    try {
-      switch (object) {
-        case "region":
-          console.log("case: region");
-          // Display
-          regionDiv.style.display = "block";
-          countryDiv.style.display = "none";
-          cargoDiv.style.display = "none";
-          // Content
-          regionP.textContent = "region ugglo";
-          break;
-        case "country":
-          console.log("case: country");
-          // Display
-          regionDiv.style.display = "block";
-          countryDiv.style.display = "block";
-          cargoDiv.style.display = "none";
-          // Content
-          regionP.textContent = "region ugglo";
-          countryP.textContent = "country ugglo";
-          break;
-        case "cargo":
-          console.log("case: cargo");
-          // Display
-          regionDiv.style.display = "block";
-          countryDiv.style.display = "block";
-          cargoDiv.style.display = "block";
-          // Content
-          regionP.textContent = "region ugglo";
-          countryP.textContent = "country ugglo";
-          break;
+  console.log(object);
+
+  try {
+    if (object.data.name == "Brazil") {
+      clickedLevel = 9;
+    }
+  } catch (err) {
+    // brazil was not pressed
+  }
+
+
+  if (object.parent != null) { // Has at least 1 parent
+    // Clicked object is region
+    clickedLevel = 0;
+    if (object.parent.parent != null) { // Has at least 2 parents
+      // No, clicked object is country
+      clickedLevel = 1;
+      if (object.parent.parent.parent != null) { // Has at least 3 parents
+        // No, clicked object is cargo
+        clickedLevel = 2;
       }
     }
-    catch (err) {
-      console.log("error. \n" +object);
-    }
+  } else {
+    // Region clicked
 
+  }
 
+  switch (clickedLevel) {
+    case 9:
+      // Display div
+      regionDiv.style.display = "none";
+      countryDiv.style.display = "none";
+      cargoDiv.style.display = "none";
+      break;
+    case 0: // region
+      // Display div
+      regionDiv.style.display = "block";
+      countryDiv.style.display = "none";
+      cargoDiv.style.display = "none";
+      // Content
+      regionP.textContent = object.data.name;
+      break;
+    case 1: // country
+      // Display div
+      regionDiv.style.display = "block";
+      countryDiv.style.display = "block";
+      cargoDiv.style.display = "none";
+      // Content
+      regionP.textContent = object.parent.data.name;
+      countryP.textContent = object.data.name;
+      break;
+    case 2: // cargo
+      // Display div
+      regionDiv.style.display = "block";
+      countryDiv.style.display = "block";
+      cargoDiv.style.display = "block";
+      // Content
+      regionP.textContent = object.parent.parent.data.name;
+      countryP.textContent = object.parent.data.name;
+      cargoP.textContent =   object.data.name;
+      cargoInfo.textContent = "CO2 usage: " + object.data.size +" kg (?)";
+      break;
+  }
 }
-
-
-function tempDrawTimeline() {
-
-
-
-
-
-/*
-
-    // Create 1st sub-div
-    var containerRight = document.createElement("div");
-    containerRight.setAttribute('class', 'container right');
-    console.log(containerRight);
-
-    // Create 2nd sub-div
-    var content = document.createElement("div");
-    content.setAttribute('class', 'content');
-    containerRight.appendChild(content);
-    console.log(content);
-
-    // Content
-    var p = document.createElement("p");
-    p.textContent = "ugg";
-    content.appendChild(p);
-    console.log(p);
-
-    // Add to html
-    var parent = document.getElementById("innerTimeline");
-    console.log(parent);
-    parent.appendChild(containerRight);
-*/
-
-}
-
-// Create all the necessary divs already before clicking. Keep them hid.
-// On click
-
 
 
 d3.select(self.frameElement).style("height", height + "px");

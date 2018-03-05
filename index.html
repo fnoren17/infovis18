@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
     <head>
         <title>Mission Emission</title>
         <!-- D3js -->
@@ -13,45 +14,118 @@
         <script src="https://code.jquery.com/jquery-2.0.0.js"></script>
         <!-- Bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<!--Ajax we don't really need-->
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!--Fafa icons-->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- CSS code -->
         <link rel="stylesheet" type="text/css" href="style.css">
-
     </head>
-    <body>
-      <!-- <button type="testButton" id="testButton" onclick="tempDrawTimeline()">Click Me!</button> -->
 
-      <div class="container">
-          <div id="map" class="col-sm-12"></div>
-          <div id="sunburst" class="col-sm-12"></div>
-      </div>
+    <body onload="loadFunction()">
+
+		<div class="col-sm-2" id="sidebar">
+			<a class="navbar-brand" href="index.html">Mission Emission</a>
       <div id="timelineWrapper">
         <div id="timeline" class="col-sm-12">
             <div id="innerTimeline" class="timeline">
-              <div class="container right">
-                <div class="content">
+              <div class="timelineContainer right">
+                <div class="timelineContent">
                   <p>Brazil Exports</p>
                 </div>
               </div>
-              <div class="container right" hidden id="regionDiv">
-                <div class="content">
+              <div class="timelineContainer right" hidden id="regionDiv">
+                <div class="timelineContent">
                   <p id="regionP">Region</p>
+                  <p id="regionInfo">regionInfo</p>
                 </div>
               </div>
-              <div class="container right" hidden id="countryDiv">
-                <div class="content">
+              <div class="timelineContainer right" hidden id="countryDiv">
+                <div class="timelineContent">
                   <p id="countryP">Country</p>
+                  <p id="countryInfo">countryInfo</p>
                 </div>
               </div>
-              <div class="container right" hidden id="cargoDiv">
-                <div class="content">
+              <div class="timelineContainer right" hidden id="cargoDiv">
+                <div class="timelineContent">
                   <p id="cargoP">Cargo</p>
+                  <p id="cargoInfo">cargoInfo</p>
                 </div>
               </div>
             </div>
         </div>
       </div>
+		</div>
+		<div id=title class="col-sm-8">
+			<h1>Export from Brazil</h1>
+		</div>
+		<!--Dropdown menu-->
+		<div class="dropdown">
+			<button onclick="myFunction()" class="dropbtn">Dropdown</button>
+			<div id="myDropdown" class="dropdown-content"></div>
+		</div>
+
+		<!--Modal help-->
+	    <div class="modal fade" id="helpModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal help-content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">How it works</h4>
+					</div>
+					<div class="modal-body">
+						<iframe width="570" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+						<p>Some text in the modal.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+	  </div>
+      <!-- Modal info-->
+	  <div class="modal fade" id="infoModal" role="dialog">
+		  <div class="modal-dialog">
+			  <!-- Modal info-content-->
+			  <div class="modal-content">
+				  <div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal">&times;</button>
+					  <h4 class="modal-title">About us</h4>
+				  </div>
+				  <div class="modal-body">
+					  <p>This is Mission Emission. </p>
+				  </div>
+				  <div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  </div>
+			  </div>
+		  </div>
+		</div>
+
+		<!--Info and help buttons-->
+		<div class="bottom-align-text col-sm-2">
+				<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
+				<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
+		</div>
+
+
+		<!--Loader icon-->
+		<div id="loader"></div>
+		<div style="display:none;" id="loadedDiv" class="animate-bottom">
+			<!--Start of the sunburst-->
+			<div class="container">
+				<div id="map" class="col-xl-12"></div>
+				<div id="sunburst" class="col-xl-12"></div>
+			</div>
+		</div>
+
+
 
         <script src="map.js"></script>
+        <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
+		<script src="loaderfunc.js"></script>
     </body>
 </html>
