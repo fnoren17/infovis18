@@ -150,7 +150,6 @@ function clickFromCountry(d){
     if(a.length != 0){
     click(a[0], d);
     }
-    //drawTimeline(a[0]);
 }
 
 // Timeline variables
@@ -174,10 +173,10 @@ var currentRegionInTimeline;
 var currentCountryInTimeline;
 var currentCargoInTimeline;
 
-function drawTimeline(a) {
-  console.log("function head. a: ");
-  console.log(a);
+var brazilP = document.getElementById("brazilInfo");
+brazilP.textContent = "Ship exports in 2014 from Brazil emitted 6313472911192 grams of C02.";
 
+function drawTimeline(a) {
   var object = a;
 
   try {
@@ -235,8 +234,9 @@ function drawTimeline(a) {
       cargoDiv.style.display = "none";
       // Content
       regionP.textContent = "Region: \n " +object.data.name;
-      var c02ofBrazil = parseInt((object.value / object.parent.value) * 10000)/100;
-      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
+
+      var regionC02ofBrazil = parseInt((object.value / object.parent.value) * 10000)/100;
+      regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
       break;
     case 1: // country
 
@@ -265,11 +265,14 @@ function drawTimeline(a) {
       regionP.textContent = "Region: \n " +object.parent.data.name;
       countryP.textContent = "Country: \n " +object.data.name;
 
-      var c02ofBrazil = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
-      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
+      var regionC02ofBrazil = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
+      regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
 
-      var c02ofRegion = parseInt((object.value / object.parent.value) * 100);
-      countryInfo.textContent = "CO2 usage: \n " + c02ofRegion +"% of region's C02 emission.";
+
+      var countryC02ofBrazil = parseInt((object.value / object.parent.parent.value) * 10000)/100;
+      var countryC02ofRegion = parseInt((object.value / object.parent.value) * 10000)/100;
+      countryInfo.textContent = countryC02ofRegion +"% of " +object.parent.data.name + "'s brazilian ship import C02 emission.\n " + +countryC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+
 
       break;
     case 2: // cargo
@@ -285,7 +288,6 @@ function drawTimeline(a) {
         currentCargoInTimeline = "";
       }
 
-
       currentRegionInTimeline = object.parent.parent;
       currentCountryInTimeline = object.parent.name;
 
@@ -296,13 +298,18 @@ function drawTimeline(a) {
       regionP.textContent = "Region: \n " +object.parent.parent.data.name;
       countryP.textContent = "Country: \n " +object.parent.data.name;
 
-      var c02ofBrazil = parseInt((object.parent.parent.value / object.parent.parent.parent.value) * 10000)/100;
-      regionInfo.textContent = "CO2 usage: \n " + c02ofBrazil +"% of Brazil's C02 emission.";
+      var regionC02ofBrazil = parseInt((object.parent.parent.value / object.parent.parent.parent.value) * 10000)/100;
+      regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
 
-      var c02ofCountry = parseInt((object.value / object.parent.value) * 100);
 
+      var countryC02ofBrazil = parseInt((object.parent.value / object.parent.parent.parent.value) * 10000)/100;
+      var countryC02ofRegion = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
+      countryInfo.textContent = countryC02ofRegion +"% of " +object.parent.parent.data.name + "'s brazilian ship import C02 emission.\n " + +countryC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+
+      var cargoC02ofCountry = parseInt((object.value / object.parent.value) * 100);
+      var cargoC02ofBrazil = parseInt((object.value / object.parent.parent.parent.value) * 100);
       cargoP.textContent =   "Cargo: \n " +object.data.name;
-      cargoInfo.textContent = "CO2 usage: \n " + c02ofCountry +"% of country C02 emission.";
+      cargoInfo.textContent = cargoC02ofCountry +"% of " +object.parent.data.name + "'s brazilian ship import CO2 emission.\n " +cargoC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
       break;
   }
 }
