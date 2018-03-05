@@ -14,31 +14,48 @@ reader = csv.DictReader( csvfile, fieldnames)
 i = 0;
 final = []
 lista = []
-regions = []
+regions = ["South-eastern Asia","Southern Asia","Eastern Asia","Western Asia","Eastern Europe","Northern Europe","Western Europe","Southern Europe","Northern Africa","Sub-Saharan Africa","Latin America and the Caribbean","Northern America"]
 brazil = {"name":'Brazil','color':{"colorR": 0, "colorG": 0, "colorB": 0},"children":[]}
 
-color_scheme = [{"name": "Latin America and the Caribbean", "color": {"colorR": 238, "colorG": 99, "colorB": 99}}, 
+color_scheme = [{"name": "South-eastern Asia", "color": {"colorR": 238, "colorG": 99, "colorB": 99}}, 
 {"name": "Southern Asia", "color":{"colorR": 238, "colorG": 158, "colorB": 99}}, 
-{"name": "South-eastern Asia", "color":{"colorR": 238, "colorG": 220, "colorB": 99}}, 
-{"name": "Western Europe", "color":{"colorR": 204, "colorG": 238, "colorB": 99}}, 
-{"name": "Eastern Asia", "color":{"colorR": 99, "colorG": 238, "colorB": 99}}, 
-{"name": "Southern Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 171}}, 
-{"name": "Northern Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 210}}, 
-{"name": "Northern America", "color":{"colorR": 99, "colorG": 187, "colorB": 238}}, 
+{"name": "Eastern Asia", "color":{"colorR": 238, "colorG": 220, "colorB": 99}}, 
+{"name": "Western Asia", "color":{"colorR": 204, "colorG": 238, "colorB": 99}}, 
+{"name": "Eastern Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 99}}, 
+{"name": "Northern Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 171}}, 
+{"name": "Western Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 210}}, 
+{"name": "Southern Europe", "color":{"colorR": 99, "colorG": 187, "colorB": 238}}, 
 {"name": "Northern Africa", "color":{"colorR": 102, "colorG": 99, "colorB": 238}}, 
 {"name": "Sub-Saharan Africa", "color":{"colorR": 148, "colorG": 99, "colorB": 238}}, 
-{"name": "Eastern Europe", "color":{"colorR": 207, "colorG": 99, "colorB": 238}}, 
-{"name": "Western Asia", "color":{"colorR": 238, "colorG": 99, "colorB": 187}}];
+{"name": "Latin America and the Caribbean", "color":{"colorR": 207, "colorG": 99, "colorB": 238}}, 
+{"name": "Northern America", "color":{"colorR": 238, "colorG": 99, "colorB": 187}}];
+
+
+
+# color_scheme = [{"name": "Latin America and the Caribbean", "color": {"colorR": 238, "colorG": 99, "colorB": 99}}, 
+# {"name": "Southern Asia", "color":{"colorR": 238, "colorG": 158, "colorB": 99}}, 
+# {"name": "South-eastern Asia", "color":{"colorR": 238, "colorG": 220, "colorB": 99}}, 
+# {"name": "Western Europe", "color":{"colorR": 204, "colorG": 238, "colorB": 99}}, 
+# {"name": "Eastern Asia", "color":{"colorR": 99, "colorG": 238, "colorB": 99}}, 
+# {"name": "Southern Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 171}}, 
+# {"name": "Northern Europe", "color":{"colorR": 99, "colorG": 238, "colorB": 210}}, 
+# {"name": "Northern America", "color":{"colorR": 99, "colorG": 187, "colorB": 238}}, 
+# {"name": "Northern Africa", "color":{"colorR": 102, "colorG": 99, "colorB": 238}}, 
+# {"name": "Sub-Saharan Africa", "color":{"colorR": 148, "colorG": 99, "colorB": 238}}, 
+# {"name": "Eastern Europe", "color":{"colorR": 207, "colorG": 99, "colorB": 238}}, 
+# {"name": "Western Asia", "color":{"colorR": 238, "colorG": 99, "colorB": 187}}];
+
+
 
 for row in reader:
 	lista.append(row);
 
-for item in lista:
-	if i > 0:
-		region = item['country_region']
-		if (region not in regions):
-			regions.append(item['country_region']);
-	i += 1
+# for item in lista:
+# 	if i > 0:
+# 		region = item['country_region']
+# 		if (region not in regions):
+# 			regions.append(item['country_region']);
+# 	i += 1
 
 for region in regions:
 	tempcolor = {"colorR": 0, "colorG": 0, "colorB": 0}
@@ -110,7 +127,7 @@ def colorPicker(parent, index, region = None):
 	return {"colorR": newR, "colorG": newG, "colorB": newB}
 # co2min = int(float(100000000))
 # Percentage now
-co2min = 10 
+co2min = 4
 
 def percentage(part, whole):
   return 100 * float(part)/float(whole)
@@ -125,6 +142,7 @@ for region in final:
 		for child in country['children']:
 			totalco2 += child['size']
 
+		# cargolist = []
 		otherco2 = int(float(0))
 		for i in range(0, len(country['children'])):
 			lookat = country['children'].pop(0)
@@ -132,10 +150,13 @@ for region in final:
 			if percentage(lookat['size'],totalco2) < co2min:
 				# Add size to other
 				otherco2 += lookat['size']
+				# if lookat['name'] not in cargolist:
+				# 	cargolist.append(lookat['name'])
 			else:
 				# add back to list
 				templist.append(lookat)
 		if otherco2 > 0:
+			# templist.append({"name":"Other","size": otherco2, "cargos":cargolist})
 			templist.append({"name":"Other","size": otherco2})
 		country['children'] = templist
 
