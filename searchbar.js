@@ -1,17 +1,13 @@
 var countryData = []; // lagrar länder just nu
 var datalistan='<input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">'
-    d3.queue()
-      .defer(d3.json, "data.json")
-      .await(analyze);
       // Här är datan om utsläppen
-      function analyze(error, Data) {
-        if(error) { console.log(error); }
+      function searchbar(data) {
 
         var tempNum = 0;
-        for (i=0;i<Data.children.length;i++) { // Kontinenter
+        for (i=0;i<data.children.length;i++) { // Kontinenter
         //  countryData.push(dummyData.children[i].name)
-          for (j=0;j<Data.children[i].children.length;j++) { // Länder
-            countryData.push(Data.children[i].children[j].name)
+          for (j=0;j<data.children[i].children.length;j++) { // Länder
+            countryData.push(data.children[i].children[j].name)
             //for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
               //if (countryData.includes(dummyData.children[i].children[j].children[k].name)==false){
               //countryData.push(dummyData.children[i].children[j].children[k].name)
