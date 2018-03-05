@@ -177,7 +177,6 @@ function drawTimeline(object) {
     // brazil was not pressed
   }
 
-
   if (object.parent != null) { // Has at least 1 parent
     // Clicked object is region
     clickedLevel = 0;
