@@ -1,14 +1,14 @@
-#map {
-  /*background-color: #fff;
-  border: 1px solid #ccc;*/
-}
+
 h1 {
     text-align: center;
-    font-family: "Avenir Next";
+    font-family: "Montserrat", "Helvetica";
     font-weight: normal;
     color: white;
+    margin: 0;
+	padding: 20px;
 }
 html {
+	font-family: "Montserrat","Helvetica";
     min-height:100%;
     /*overflow: hidden;*/
 }
@@ -16,13 +16,12 @@ body {
     margin: 0;
     padding: 0;
     min-height:100%;
-
-    background-image:
-    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0) 6%, hsla(0,0%,100%, .1) 7.5%),
-    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)4%, hsla(0,0%,  0%,.03) 4.5%),
+    background-image: 
+    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
+    -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%, 0) 0%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,.15) 100%),
-    linear-gradient(150deg, hsl(0,5%,8%) 10%,
-        rgb(0,0,0) 70%,
+    linear-gradient(150deg, hsl(0,5%,8%) 10%, 
+        rgb(0,0,0) 70%, 
         rgb(0,0,0) 10%,
         rgb(0,0,0) 30%);
 }
@@ -36,6 +35,102 @@ body {
     display: none;
 	z-index: 3;
 }
+
+.button {
+	font-family: "Montserrat","Helvetica";
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	
+}
+#title{
+	right:150px;
+	box-sizing: border-box;
+}
+
+/*
+a:hover {
+ cursor:pointer;
+	
+}*/
+
+#menu{
+	padding:20px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.rows{
+	position:absolute;
+	padding-left:1200px;
+	padding-top:650px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Center the loader */
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+#sidebar {
+	height: 900px;
+    width: 25%;
+    background-color: #056571;
+}
+
+
 
 path {
   stroke: #fff;
@@ -83,13 +178,13 @@ pre.prettyprint {
     position: absolute;
     width: 290px;
     height: 290px;
-    top:0;
+    top:100px;
     bottom: 0;
     left: 0;
     right: 0;
-	z-index: 2;
-	border-radius: 100%;
-	overflow:hidden;
+    z-index: 2;
+    border-radius: 100%;
+    overflow:hidden;
 
     margin: auto;
 }
@@ -98,11 +193,11 @@ pre.prettyprint {
     position: absolute;
     width: 600px;
     height: 600px;
-    top:0;
+    top:100px;
     bottom: 0;
     left: 0;
     right: 0;
-	z-index: 1;
+	  z-index: 1;
 
     margin: auto;
 }
@@ -110,6 +205,7 @@ pre.prettyprint {
 .container {
     position: relative;
     width: 100%;
+	top:50px;
     height: 700px;
 }
 
@@ -143,7 +239,7 @@ div.tooltip {
 
 /* sökfält */
 #myInput {
-  border-box: box-sizing;
+  /*border-box: box-sizing;*/
   background-image: url('searchicon.png');
   background-position: 14px 12px;
   background-repeat: no-repeat;
@@ -158,8 +254,12 @@ div.tooltip {
 
 /* diven för innehållet i dropdown */
 .dropdown {
-    position: relative;
+    position: absolute;
+		/*position:absolute*/
+    right: 200px;
+	vertical-align: top;
     display: inline-block;
+	z-index:5;
 }
 
 /* innehållet i dropdown */
@@ -170,6 +270,7 @@ div.tooltip {
     min-width: 230px;
     border: 1px solid #ddd;
     z-index: 1;
+	
 }
 
 /* länkarna innuti dropdown */
@@ -184,6 +285,45 @@ div.tooltip {
 .dropdown-content a:hover {background-color: #f1f1f1}
 
 .show {display:block;}
+
+/*Bottom align info buttons*/
+.bottom-align-text {
+    position: absolute;
+    bottom: 20px;
+  }
+.helperbtns {
+	margin:10px;
+}
+.helperbtns:hover {
+	cursor:pointer;
+	color:#414141;
+}
+
+.fa-question-circle{
+	color:#CCDFCD;
+}
+.fa fa-info-circle{
+	color:#CCDFCD;
+}
+.fa:active{
+ color: #414141;
+}
+.fa:hover {
+	color:#414141;
+}
+
+.navbar-brand{
+	text-align: center;
+    font-weight: normal;
+	font-size:25px;
+    color: white;
+    margin: 0;
+	padding: 20px;
+	padding: 20px;
+}
+.navbar-brand:hover { 
+	color:#414141;
+}
  
 /* Så att tooltipen blir så lång som den behöver */
 .tooltip{
