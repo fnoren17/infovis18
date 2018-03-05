@@ -15,30 +15,43 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!-- CSS code -->
         <link rel="stylesheet" type="text/css" href="style.css">
+
     </head>
     <body>
+      <!-- <button type="testButton" id="testButton" onclick="tempDrawTimeline()">Click Me!</button> -->
 
+      <div class="container">
+          <div id="map" class="col-sm-12"></div>
+          <div id="sunburst" class="col-sm-12"></div>
+      </div>
+      <div id="timelineWrapper">
         <div id="timeline" class="col-sm-12">
-            <div class="timeline">
+            <div id="innerTimeline" class="timeline">
               <div class="container right">
                 <div class="content">
                   <p>Brazil Exports</p>
                 </div>
-                <div class="timeline2">
-                  <div class="container right">
-                    <div class="content">
-                      <p>Portugal Imports</p>
-                    </div>
-                  </div>
+              </div>
+              <div class="container right" hidden id="regionDiv">
+                <div class="content">
+                  <p id="regionP">Region</p>
                 </div>
               </div>
-              <div class="container right">
+              <div class="container right" hidden id="countryDiv">
                 <div class="content">
-                  <p>China</p>
+                  <p id="countryP">Country</p>
+                </div>
+              </div>
+              <div class="container right" hidden id="cargoDiv">
+                <div class="content">
+                  <p id="cargoP">Cargo</p>
                 </div>
               </div>
             </div>
         </div>
+      </div>
 
+        <script src="map.js"></script>
+        <script src="sunburst.js"></script>
     </body>
 </html>
