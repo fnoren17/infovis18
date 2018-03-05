@@ -37,13 +37,11 @@
 			
 		</div>	
 		<!--Dropdown menu-->
-		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn">Dropdown</button>
-			<div id="myDropdown" class="dropdown-content"></div>
-		</div>
-		
-		
-		<img src="legend.png" alt="Legend" width="120" height="120" class="legend" class="col-sm-2">
+	    <div class="dropdown">
+	      <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+	      <div id="countries-list" class="dropdown-content"></div>
+	    </div>
+  <img src="legend.png" alt="Legend" width="120" height="120" class="legend" class="col-sm-2">
 	
 		<!--Modal help-->
 	    <div class="modal fade" id="helpModal" role="dialog">
