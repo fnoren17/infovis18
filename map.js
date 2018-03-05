@@ -41,7 +41,7 @@ function zoomed() {
 var g = svg.append("g");
 
 // Tooltip för mouseover
-  var div = d3.select(".container").append("div")
+  var div = d3.select(".vis-wrapper").append("div")
     .attr("class", "tooltip")
     .styles({"opacity": 0,"height": "auto"});
 
@@ -173,7 +173,7 @@ function drawmap(dummyData, mapdata) {
         })
         // Tooltip för mouseover
         .on("mousemove", function(d){
-            yoff = $('.container').offset().top
+            yoff = $('.vis-wrapper').offset().top
             div.styles({"left": (d3.event.pageX+ 10) + "px", "top": (d3.event.pageY - yoff - 28) + "px"})
         })
         .on("mouseout", function(d) {
