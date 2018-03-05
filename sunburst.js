@@ -1,5 +1,5 @@
-var width = 700,
-height = 700,
+var width = 600,
+height = 600,
 radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",d");
@@ -32,7 +32,8 @@ d3.json("data.json", function(error, root) {
     root = d3.hierarchy(root); //Root är mittencirkeln!
     root.sum(function(d) { return d.size; });
 
-    d3.selectAll("body")
+    // Append tooltip to container
+    d3.selectAll(".container")
         .append("div")
         .attr("class", "text")
         .attr("width", 200)
@@ -69,9 +70,11 @@ function mouseover(d){
         });
 }
 
+//tooltip
 function mousemove(d){
+    yoff = $('.container').offset().top
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.clientY + 10 + "px", "left": event.clientX + 10 + "px"})
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX + 10 + "px"})
         .html(d.data.name + "\n" + formatNumber(d.value));
         //.attr("style", "left:" + event.clientX + "px")
 }
