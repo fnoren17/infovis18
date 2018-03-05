@@ -167,7 +167,7 @@ var clickedLevel;
 
 function drawTimeline(object) {
 
-  console.log(object);
+  //console.log(object);
 
   try {
     if (object.data.name == "Brazil") {
