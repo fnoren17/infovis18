@@ -51,8 +51,12 @@ body {
 	
 }
 #title{
-	right:150px;
-	box-sizing: border-box;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	/*right:150px;*/
+	/*box-sizing: border-box;
+	*/
 }
 
 /*
@@ -125,8 +129,9 @@ a:hover {
 }
 
 #sidebar {
-	height: 900px;
-    width: 25%;
+	overflow: hidden;
+	height: 700px;
+    width: 20%;
     background-color: #056571;
 }
 
@@ -300,42 +305,58 @@ div.tooltip {
 .bottom-align-text {
     position: absolute;
     bottom: 20px;
+	z-index: 10;
   }
 .helperbtns {
 	margin:10px;
+	color: #f1f1f1;
 }
 .helperbtns:hover {
 	cursor:pointer;
-	color:#414141;
+	color:#9bc2cf;
 }
 
 .fa-question-circle{
-	color:#CCDFCD;
+	font-size:48px;
 }
 .fa fa-info-circle{
-	color:#CCDFCD;
+	font-size:48px;
 }
-.fa:active{
- color: #414141;
-}
-.fa:hover {
-	color:#414141;
-}
-
-.navbar-brand{
+.MissionEmission{
+	position: absolute;
+	left:50px;
 	text-align: center;
     font-weight: normal;
-	font-size:25px;
+	font-size:20px;
     color: white;
     margin: 0;
 	padding: 20px;
 	padding: 20px;
+	z-index: 10;
 }
+/*
 .navbar-brand:hover { 
 	color:#414141;
 }
+*/
  
 /* Så att tooltipen blir så lång som den behöver */
 .tooltip{
     height: auto;
+}
+
+.legend{
+	position: absolute;
+    bottom:0;
+    right:0;
+}
+
+.logo{
+	position: absolute;
+	top:5px;
+	left:5px;
+	z-index: 10;
+}
+.logo:hover{
+	opacity: 0.9;
 }
