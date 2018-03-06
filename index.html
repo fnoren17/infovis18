@@ -11,63 +11,51 @@
         <!-- Map data -->
         <script src="https://d3js.org/topojson.v1.min.js"></script>
         <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-2.0.0.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<!--Ajax we don't really need-->
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
 		<!--Fafa icons-->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- CSS code -->
         <link rel="stylesheet" type="text/css" href="style.css">
+        <!-- Google font -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     </head>
 
-    <body onload="loadFunction()">
+    <body>
+    	<div class="content clearfix">
+			<div class="col col1" id="sidebar">
+				<div style="text-align: center">
+					<a href="index.html" class="logo"><img src="logo.png" alt="Logo" class="logo"></a>
+					<h1>Mission Emission</h1>
+					<p>CO2 emission caused by boat export in Brazil 2014</p>
+				</div>
+				<div class="icons">
+					<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;"></i></a>
+					<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;"></i></a>
+				</div>
+			</div>
+			<div class="col col2">
+				<!--Loader icon-->
+				<div id="loader"></div>
+					<!--Start of the sunburst-->
+				<div class="vis-wrapper animate-bottom">
+					<div id="map" class="col-xl-12"></div>
+					<div id="sunburst" class="col-xl-12"></div>
+				</div>
+			</div>
+		    <div class="col col3 dropdown">
+		      <input type="text" placeholder="Search countries" id="myInput" onkeyup="filterFunction()">
+		      <div id="countries-list" class="dropdown-content"></div>
+		      <div class="text-center legend-wrap">
+		      	<img src="legend.png" alt="Legend" width="120" height="120" class="legend">
+		      </div>
+		    </div>	
+			<!--Modal help-->
 
-		<div class="col-sm-2" id="sidebar">
-			<a class="navbar-brand" href="index.html">Mission Emission</a>
-      <div id="timelineWrapper">
-        <div id="timeline" class="col-sm-12">
-            <div id="innerTimeline" class="col-sm-12 timeline">
-              <div class="timelineContainer right" onclick="brazilClickTest()" style="z-index: 10;">
-                <div class="timelineContent">
-                  <p>Brazil Exports</p>
-                  <p id="brazilInfo">brazilInfo</p>
-                </div>
-              </div>
-              <div class="timelineContainer right" hidden id="regionDiv" onclick="regionClickTest()" style="z-index: 10;">
-                <div class="timelineContent">
-                  <p id="regionP">Region</p>
-                  <p id="regionInfo">regionInfo</p>
-                </div>
-              </div>
-              <div class="timelineContainer right" hidden id="countryDiv" onclick="countryClickTest()" style="z-index: 10;">
-                <div class="timelineContent">
-                  <p id="countryP">Country</p>
-                  <p id="countryInfo">countryInfo</p>
-                </div>
-              </div>
-              <div class="timelineContainer right" hidden id="cargoDiv" onclick="cargoClickTest()" style="z-index: 10;">
-                <div class="timelineContent">
-                  <p id="cargoP">Cargo</p>
-                  <p id="cargoInfo">cargoInfo</p>
-                </div>
-              </div>
-            </div>
-        </div>
-      </div>
-		</div>
-		<div id=title class="col-sm-8">
-			<h1>Export from Brazil</h1>
-		</div>
-		<!--Dropdown menu-->
-		<div class="dropdown">
-			<button onclick="myFunction()" class="dropbtn">Dropdown</button>
-			<div id="myDropdown" class="dropdown-content"></div>
-		</div>
-
-		<!--Modal help-->
 	    <div class="modal fade" id="helpModal" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal help-content-->
@@ -77,8 +65,8 @@
 						<h4 class="modal-title">How it works</h4>
 					</div>
 					<div class="modal-body">
-						<iframe width="570" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
-						<p>Some text in the modal.</p>
+
+						Here, you see a world map in the middle of a sunburst. Both the sunburst and the map is interactive and you can explore this by clicking either on the sunburst or on the map. You can also click the search bar to see a list of countries and, of course, search for one, if you don't find it on the map or in the sunburst.
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -96,37 +84,37 @@
 					  <h4 class="modal-title">About us</h4>
 				  </div>
 				  <div class="modal-body">
-					  <p>This is Mission Emission. </p>
+
+					  <p>The goal of Mission Emission is to visualize the carbon dioxide emissions that comes from Brazil's export via shipments. We want the user to be able to explore where the ships are going and which countries that imports most from Brazil, in a carbon dioxide emmision point of view.</p>
+
 				  </div>
 				  <div class="modal-footer">
 					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				  </div>
 			  </div>
-		  </div>
-		</div>
 
-		<!--Info and help buttons-->
-		<div class="bottom-align-text col-sm-2">
-				<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
-				<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;color:antiquewhite"></i></a>
-		</div>
-
-
-		<!--Loader icon-->
-		<div id="loader"></div>
-		<div style="display:none;" id="loadedDiv" class="animate-bottom">
-			<!--Start of the sunburst-->
-			<div class="container">
-				<div id="map" class="col-xl-12"></div>
-				<div id="sunburst" class="col-xl-12"></div>
 			</div>
 		</div>
-
-
-
         <script src="map.js"></script>
         <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
-		<script src="loaderfunc.js"></script>
+		<script>
+            // Load our data
+            d3.queue()
+            .defer(d3.json, "data.json")
+            .defer(d3.json, "countries.topo.json")
+            .await(render);
+            function render(error,data, mapdata){
+            	document.getElementById("loader").style.display = "none";
+                // Draw the map
+                drawmap(data,mapdata);
+                // Give searchbar acess to the data
+                searchbar(data);
+                // Draw the sunburst
+                drawSunburst(data);
+
+                
+            }
+        </script>
     </body>
 </html>

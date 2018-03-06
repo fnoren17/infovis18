@@ -28,14 +28,13 @@ var svg = d3.select("#sunburst").append("svg")
     .append("g")
     .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
-d3.json("data.json", function(error, root) {
-    if (error) throw error;
-
+function drawSunburst(root){
     root = d3.hierarchy(root); //Root är mittencirkeln!
     root.sum(function(d) { return d.size; });
 
-    // Append tooltip to container
-    d3.selectAll(".container")
+
+    // Append tooltip to vis-wrapper
+    d3.selectAll(".vis-wrapper")
         .append("div")
         .attr("class", "text")
         .attr("width", 200)
@@ -55,7 +54,7 @@ d3.json("data.json", function(error, root) {
         .on("mouseover",mouseover)
         .on("mousemove",mousemove)
         .on("mouseout", mouseout);
-});
+}
 
 
 function mouseover(d){
@@ -74,9 +73,11 @@ function mouseover(d){
 
 //tooltip
 function mousemove(d){
-    yoff = $('.container').offset().top
+
+    yoff = $('.vis-wrapper').offset().top
+    xoff = $('#sidebar').width();
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX + 10 + "px"})
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 20 + "px"})
         .html(d.data.name + "\n" + formatNumber(d.value));
         //.attr("style", "left:" + event.clientX + "px")
 }
@@ -90,6 +91,7 @@ function mouseout(d){
 
 
 function click(a, d) {
+
     drawTimeline(a);
     if(latestClicked){
         latestClicked.style.strokeWidth = "";
@@ -98,7 +100,6 @@ function click(a, d) {
         if(currentNode == a){
             a = a.parent;
         }
-
         if(latestClicked){
             latestClicked.style.strokeWidth = ""
         }
@@ -116,7 +117,10 @@ if(a.depth == 2) {
                 if(data){
                 latestClicked = document.getElementById(data.id)
                 latestClicked.style.strokeWidth = 1
+
                 }
+
+                           
         }
 
     }
@@ -152,6 +156,7 @@ function clickFromCountry(d){
     if(a.length != 0){
     click(a[0], d);
     }
+
 }
 
 // Timeline variables
@@ -333,6 +338,7 @@ function drawTimeline(a) {
       cargoInfo.textContent = cargoC02ofCountry +"% of " +object.parent.data.name + "'s brazilian ship import CO2 emission.\n " +cargoC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
       break;
   }
+
 }
 var brazilObject = d3.selectAll("path#Brazil").data()[0];
 
