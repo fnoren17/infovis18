@@ -30,8 +30,8 @@ function drawSunburst(root){
     root = d3.hierarchy(root); //Root är mittencirkeln!
     root.sum(function(d) { return d.size; });
 
-    // Append tooltip to container
-    d3.selectAll(".container")
+    // Append tooltip to vis-wrapper
+    d3.selectAll(".vis-wrapper")
         .append("div")
         .attr("class", "text")
         .attr("width", 200)
@@ -70,9 +70,10 @@ function mouseover(d){
 
 //tooltip
 function mousemove(d){
-    yoff = $('.container').offset().top
+    yoff = $('.vis-wrapper').offset().top
+    xoff = $('#sidebar').width();
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX + 10 + "px"})
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 20 + "px"})
         .html(d.data.name + "\n" + formatNumber(d.value));
         //.attr("style", "left:" + event.clientX + "px")
 }

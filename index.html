@@ -11,39 +11,48 @@
         <!-- Map data -->
         <script src="https://d3js.org/topojson.v1.min.js"></script>
         <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-2.0.0.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-		<!--Ajax we don't really need-->
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<!--Fafa icons-->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- CSS code -->
         <link rel="stylesheet" type="text/css" href="style.css">
+        <!-- Google font -->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     </head>
 
     <body onload="loadFunction()">
-		
-		<div class="col-sm-2" id="sidebar">
-			
-			<a href="index.html" class="logo"><img src="logo.png" alt="Logo" width="50" height="50" class="logo"></a>
-	
-			<p class="MissionEmission">Mission Emission</p>
-			<!--<p>CO2 emission caused by boat export in Brazil 2014</p>-->
-		</div>
-		<div id=title class="col-sm-8">
-			<h1>Export from Brazil</h1>
-			
-		</div>	
-		<!--Dropdown menu-->
-	    <div class="dropdown">
-	      <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-	      <div id="countries-list" class="dropdown-content"></div>
-	    </div>
-  <img src="legend.png" alt="Legend" width="120" height="120" class="legend" class="col-sm-2">
-	
-		<!--Modal help-->
+    	<div class="content clearfix">
+			<div class="col col1" id="sidebar">
+				<div style="text-align: center">
+					<a href="index.html" class="logo"><img src="logo.png" alt="Logo" class="logo"></a>
+					<h1>Mission Emission</h1>
+					<p>CO2 emission caused by boat export in Brazil 2014</p>
+				</div>
+				<div class="icons">
+					<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;"></i></a>
+					<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;"></i></a>
+				</div>
+			</div>
+			<div class="col col2">
+				<!--Loader icon-->
+				<div id="loader"></div>
+					<!--Start of the sunburst-->
+				<div class="vis-wrapper animate-bottom">
+					<div id="map" class="col-xl-12"></div>
+					<div id="sunburst" class="col-xl-12"></div>
+				</div>
+			</div>
+		    <div class="col col3 dropdown">
+		      <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+		      <div id="countries-list" class="dropdown-content"></div>
+		      <div class="text-center">
+		      	<img src="legend.png" alt="Legend" width="120" height="120" class="legend">
+		      </div>
+		    </div>	
+			<!--Modal help-->
 	    <div class="modal fade" id="helpModal" role="dialog">
 			<div class="modal-dialog">
 				<!-- Modal help-content-->
@@ -77,25 +86,8 @@
 					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				  </div>
 			  </div>
-		  </div>
-		</div>
-		
-		<!--Info and help buttons-->
-		<div class="bottom-align-text col-sm-2">
-				<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;"></i></a>
-				<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;"></i></a>
-		</div>
-
-
-		<!--Loader icon-->
-		<div id="loader"></div>
-		<div id="loadedDiv" class="animate-bottom">
-			<!--Start of the sunburst-->
-			<div class="container">
-				<div id="map" class="col-xl-12"></div>
-				<div id="sunburst" class="col-xl-12"></div>
 			</div>
-		</div>		
+		</div>
         <script src="map.js"></script>
         <script src="searchbar.js"></script>
         <script src="sunburst.js"></script>
