@@ -81,12 +81,15 @@ for region in regions:
 
 print('First section done, we got a list of regions and countries!')
 
+# Go from gram to ton
+ton = 1000000;
+
 for row in lista:
 	for region in final:
 		for country in region['children']:
 			if row['country_name'] == country['name']:
 				if not country['children']:
-					tdict = {"name":row['HS2_desc'],"size": int(float(row['total_co2']))}
+					tdict = {"name":row['HS2_desc'],"size": int(float(row['total_co2']))/ton}
 					country['children'].append(tdict)
 				else:
 					temptemp = []
@@ -94,10 +97,10 @@ for row in lista:
 						temptemp.append(child['name'])
 
 					if row['HS2_desc'] not in temptemp:
-						tdict = {"name":row['HS2_desc'],"size": int(float(row['total_co2']))}
+						tdict = {"name":row['HS2_desc'],"size": int(float(row['total_co2']))/ton}
 						country['children'].append(tdict)	
 					else:
-						child['size'] = child['size'] + int(float(row['total_co2']))
+						child['size'] = child['size'] + int(float(row['total_co2']))/ton
 						# child['size'] = 10
 
 print('Second section is done, we got a tree with cargo types')

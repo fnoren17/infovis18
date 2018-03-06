@@ -1,7 +1,7 @@
 
-*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+/**, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 .clearfix:before, .clearfix:after { content: ''; display: table; }
-.clearfix:after { clear: both; }
+.clearfix:after { clear: both; }*/
 
 html {
 	font-family: 'Montserrat', sans-serif;
@@ -14,6 +14,9 @@ body {
     min-height: 700px;
 	background-color: #414141;
     /*background-image: 
+
+    background: #414141;
+/*    background-image: 
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,  0%,0) 0%, hsla(0,0%,  0%,0)   4%, hsla(0,0%,  0%,.03) 4.5%),
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%, 0) 0%, hsla(0,0%,100%,0) 0%, hsla(0,0%,100%,.15) 100%),
@@ -21,7 +24,9 @@ body {
         rgb(0,0,0) 70%, 
         rgb(0,0,0) 10%,
         rgb(0,0,0) 30%);
-	*/
+	
+
+        rgb(0,0,0) 30%);*/
 }
 
 h1 {
@@ -298,6 +303,12 @@ div.tooltip {
     height: auto;
 }
 
+.legend-wrap {
+  position: absolute;
+  bottom:50px;
+  left: 0;
+  right: 0;
+}
 .legend {
   margin-top: 50px;
 }
