@@ -239,9 +239,26 @@ function drawTimeline(a) {
       regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
       break;
     case 1: // country
+      console.log("currentCountryInTimeline:");
+      console.log(currentCountryInTimeline);
+      console.log("object:");
+      console.log(object);
+      // Is country clicked? if so, show country IF it is not the same one clicked again
+      if (object.parent.parent.data.name == "Brazil" && currentCountryInTimeline != object) {
+        countryDiv.style.display = "block";
+        currentCountryInTimeline = object;
+      }
+      // Is the same country clicked twice? Dont display country
+      else if (currentCountryInTimeline == object) {
+        countryDiv.style.display = "none";
+        currentCountryInTimeline = "";
+      }
 
+      // console.log("is object a country?");
+      // console.log(object.data.name);
+      // console.log(object.parent.parent.data.name);
       // Is child showing? keep showing region
-      if ( String(cargoDiv.style.display) == "block" ) {
+      else if ( String(cargoDiv.style.display) == "block" ) {
         countryDiv.style.display = "block";
         currentCountryInTimeline = object;
       }
@@ -250,11 +267,12 @@ function drawTimeline(a) {
         countryDiv.style.display = "block";
         currentCountryInTimeline = object;
       }
-      // Is countryDiv showing? Stop showing it, only if child is not showing
-      else if ( String(countryDiv.style.display) == "block" && String(cargoDiv.style.display) == "none" ) {
+      // Is countryDiv showing? Stop showing it, only if child is not showing and currentCountryInTimeline != ""
+      else if ( String(countryDiv.style.display) == "block" && String(cargoDiv.style.display) == "none") {
         countryDiv.style.display = "none";
         currentCountryInTimeline = "";
       }
+
 
       currentRegionInTimeline = object.parent;
 
