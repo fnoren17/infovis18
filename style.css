@@ -297,6 +297,12 @@ div.tooltip {
     height: auto;
 }
 
+.legend-wrap {
+  position: absolute;
+  bottom:50px;
+  left: 0;
+  right: 0;
+}
 .legend {
   margin-top: 50px;
 }
