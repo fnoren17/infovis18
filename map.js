@@ -45,10 +45,6 @@ var g = svg.append("g");
     .attr("class", "tooltip")
     .styles({"opacity": 0,"height": "auto"});
 
-d3.queue()
-    .defer(d3.json, "data.json")
-    .await(analyze);
-
 // Här är datan om utsläppen
 function drawmap(dummyData, mapdata) {
 
@@ -186,8 +182,8 @@ function drawmap(dummyData, mapdata) {
 
 
 function country_clicked(d) {
-    console.log(d)
-    console.log("You clicked on " + d.properties.name);
+    // console.log(d)
+    // console.log("You clicked on " + d.properties.name);
     //b._groups[0][0].style.strokeWidth = 10
     clickFromCountry(d);
 }
