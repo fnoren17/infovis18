@@ -1,7 +1,7 @@
 
-*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+/**, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 .clearfix:before, .clearfix:after { content: ''; display: table; }
-.clearfix:after { clear: both; }
+.clearfix:after { clear: both; }*/
 
 html {
 	font-family: 'Montserrat', sans-serif;
@@ -12,6 +12,9 @@ body {
     padding: 0;
     height:100%;
     min-height: 700px;
+	background-color: #414141;
+    /*background-image: 
+
     background: #414141;
 /*    background-image:
     -webkit-repeating-linear-gradient(120deg, hsla(0,0%,100%,0) 50%, hsla(0,0%,100%,0)   6%, hsla(0,0%,100%, .1) 7.5%),
@@ -20,6 +23,9 @@ body {
     linear-gradient(150deg, hsl(0,5%,8%) 10%,
         rgb(0,0,0) 70%,
         rgb(0,0,0) 10%,
+        rgb(0,0,0) 30%);
+	
+
         rgb(0,0,0) 30%);*/
 }
 
