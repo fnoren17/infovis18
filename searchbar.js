@@ -53,11 +53,15 @@ function clickindropdown(b){
     }
 }
 
+
+
 function filterFunction() {
   var input, filter, ul, li, a, i;
   input = document.getElementById("myInput");
   filter = input.value.toUpperCase();
+
   dropDownDiv = document.getElementById("countries-list");
+
   a = dropDownDiv.getElementsByTagName("a");
   for (i = 0; i < a.length; i++) {
     if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
@@ -66,4 +70,5 @@ function filterFunction() {
       a[i].style.display = "none";
     }
   }
+
 }
