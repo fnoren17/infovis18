@@ -176,7 +176,7 @@ var currentCountryInTimeline;
 var currentCargoInTimeline;
 
 var brazilP = document.getElementById("brazilInfo");
-brazilP.textContent = "Ship exports in 2014 from Brazil emitted 6313472911192 grams of C02.";
+brazilP.textContent = "Ship exports in 2014 from Brazil emitted 6,313,472 ton of C02.";
 
 function drawTimeline(a) {
   var object = a;
