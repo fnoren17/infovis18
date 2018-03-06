@@ -329,7 +329,7 @@ div.tooltip {
 }
 
 #timelineWrapper {
-	margin-left: -50px;
+	margin-left: -200px;
 }
 /* The actual timeline (the vertical ruler) */
 .timeline {
@@ -352,7 +352,7 @@ div.tooltip {
 }
 
 #innerTimeline {
-  margin-left: -200px;
+  margin-left: -70px;
 
 }
 
@@ -429,7 +429,7 @@ div.tooltip {
   position: relative;
   border-radius: 6px;
 	font-size: 11px;
-	width: 100px;
+	width: auto;
 
 }
 
