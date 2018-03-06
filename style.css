@@ -275,6 +275,10 @@ div.tooltip {
   
 }
 
+.fa-question-circle {
+  margin-right: 5px;
+}
+
 .fa-question-circle,
 .fa-info-circle{
   font-size:48px;
