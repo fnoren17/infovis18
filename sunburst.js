@@ -6,6 +6,8 @@ var formatNumber = d3.format(",d");
 var currentNode;
 var latestClicked;
 
+
+
 var x = d3.scaleLinear()
     .range([0, 2 * Math.PI]); //Längd av arcs?
 
@@ -178,6 +180,9 @@ brazilP.textContent = "Ship exports in 2014 from Brazil emitted 6313472911192 gr
 
 function drawTimeline(a) {
   var object = a;
+  console.log("object in dratimeline header");
+  console.log(object);
+
 
   try {
     if (object.data.name == "Brazil") {
@@ -239,10 +244,7 @@ function drawTimeline(a) {
       regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
       break;
     case 1: // country
-      console.log("currentCountryInTimeline:");
-      console.log(currentCountryInTimeline);
-      console.log("object:");
-      console.log(object);
+
       // Is country clicked? if so, show country IF it is not the same one clicked again
       if (object.parent.parent.data.name == "Brazil" && currentCountryInTimeline != object) {
         countryDiv.style.display = "block";
@@ -307,7 +309,8 @@ function drawTimeline(a) {
       }
 
       currentRegionInTimeline = object.parent.parent;
-      currentCountryInTimeline = object.parent.name;
+      currentCountryInTimeline = object.parent;
+
 
       // Display div
       regionDiv.style.display = "block";
@@ -331,7 +334,11 @@ function drawTimeline(a) {
       break;
   }
 }
+var brazilObject = d3.selectAll("path#Brazil").data()[0];
 
+function brazilClickTest () {
+  click(d3.selectAll("path#Brazil").data()[0]);
+}
 function regionClickTest () {
   click(currentRegionInTimeline);
 }
@@ -341,5 +348,8 @@ function countryClickTest () {
 function cargoClickTest () {
   click(currentCargoInTimeline);
 }
+
+
+
 
 d3.select(self.frameElement).style("height", height + "px");
