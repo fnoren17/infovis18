@@ -31,6 +31,38 @@
 					<h1>Mission Emission</h1>
 					<p>CO2 emission caused by boat export in Brazil 2014</p>
 				</div>
+        <div id="timelineWrapper">
+          <div id="timeline" class="col-sm-12">
+              <div id="innerTimeline" class="col-sm-12 timeline">
+                <div class="timelineContainer right" onclick="brazilClickTest()" style="z-index: 10;">
+                  <div class="timelineContent">
+                    <p>Brazil Exports</p>
+                    <p id="brazilInfo">brazilInfo</p>
+                  </div>
+                </div>
+                <div class="timelineContainer right"  id="regionDiv" onclick="regionClickTest()" style="z-index: 10;">
+                  <div class="timelineContent">
+                    <p id="regionP">Region</p>
+                    <p id="regionInfo">regionInfo</p>
+                  </div>
+                </div>
+                <div class="timelineContainer right"  id="countryDiv" onclick="countryClickTest()" style="z-index: 10;">
+                  <div class="timelineContent">
+                    <p id="countryP">Country</p>
+                    <p id="countryInfo">countryInfo</p>
+                  </div>
+                </div>
+                <div class="timelineContainer right"  id="cargoDiv" onclick="cargoClickTest()" style="z-index: 10;">
+                  <div class="timelineContent">
+                    <p id="cargoP">Cargo</p>
+                    <p id="cargoInfo">cargoInfo</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
 				<div class="icons">
 					<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;"></i></a>
 					<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;"></i></a>
@@ -51,7 +83,7 @@
 		      <div class="text-center legend-wrap">
 		      	<img src="legend.png" alt="Legend" width="120" height="120" class="legend">
 		      </div>
-		    </div>	
+		    </div>
 			<!--Modal help-->
 	    <div class="modal fade" id="helpModal" role="dialog">
 			<div class="modal-dialog">
@@ -106,7 +138,7 @@
                 // Draw the sunburst
                 drawSunburst(data);
 
-                
+
             }
         </script>
     </body>
