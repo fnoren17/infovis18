@@ -49,6 +49,7 @@ h1 {
   padding: 20px;
   width: 20%;
   height: 100%;
+  overflow-y: scroll;
   position: fixed;
 
   background: #CCDFCD;
@@ -270,10 +271,10 @@ div.tooltip {
 
 
 .icons {
-  position: absolute;
+/*  position: absolute;
   bottom: 50px;
   left: 0;
-  right: 0;
+  right: 0;*/
 
   text-align: center;
   width: 100%;
@@ -329,14 +330,17 @@ div.tooltip {
 }
 
 #timelineWrapper {
-	margin-left: -200px;
+	/*margin-left: -200px;*/
 }
 /* The actual timeline (the vertical ruler) */
 .timeline {
   position: relative;
   max-width: 500px;
-  margin-left: -50px;
+  /*margin-left: -50px;*/
   margin-top: 0px;
+
+  cursor: pointer;
+  
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -347,12 +351,12 @@ div.tooltip {
   background-color: #056571;
   top: 0;
   bottom: 38px;
-  left: 50%;
+  left: 10%;
   margin-left: -7px;
 }
 
 #innerTimeline {
-  margin-left: -70px;
+  /*margin-left: -70px;*/
 
 }
 
@@ -386,7 +390,7 @@ div.tooltip {
 
 /* Place the container to the right */
 .right {
-  left: 50%;
+  left: 10%;
 }
 
 /* Add arrows to the left container (pointing right) */
