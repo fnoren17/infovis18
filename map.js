@@ -180,7 +180,7 @@ function drawmap(dummyData, mapdata) {
         .on("mousemove", function(d){
             yoff = $('.vis-wrapper').offset().top
             xoff = $('#sidebar').width();
-            div.styles({"left": (d3.event.pageX - 20 - xoff) + "px", "top": (d3.event.pageY - yoff - 20) + "px"})
+            div.styles({"left": (d3.event.pageX - 70 - xoff) + "px", "top": (d3.event.pageY - yoff - 20) + "px"})
         })
         .on("mouseout", function(d) {
             div.transition()
