@@ -1,6 +1,15 @@
-var width = 600,
-height = 600,
-radius = (Math.min(width, height) / 2) - 10;
+var container = $('.vis-wrapper');
+var map = $('#map');
+
+var width = container.width(),
+height = container.height(),
+radius = (Math.min(width, height) / 2);
+
+map.css({
+  width: radius,
+  height: radius
+});
+
 
 var formatNumber = d3.format(",d");
 var currentNode;

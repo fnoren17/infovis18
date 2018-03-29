@@ -1,11 +1,20 @@
+var container = $('.vis-wrapper');
+
+var cwidth = container.width(),
+cheight = container.height(),
+radius = (Math.min(cwidth, cheight) / 2);
+
+
 var m_width = $("#map").width(),
-    width = 290, //to fit screen better
-    height = 290,
+    width = radius, //to fit screen better
+    height = radius,
     country,
     state;
 
+var scaling = radius/10 + 20;
+
 var projection = d3.geoMercator()
-    .scale(45)
+    .scale(scaling)
     .translate([width / 2, height / 1.60])
     .precision(.1);
 
@@ -15,8 +24,8 @@ var path = d3.geoPath()
 var svg = d3.select("#map").append("svg")
     .attr("preserveAspectRatio", "xMidYMid")
     .attr("viewBox", "0 0 " + width + " " + height)
-    .attr("width", m_width)
-    .attr("height", m_width * height / width);
+    .attr("width", radius)
+    .attr("height", radius);
 
 svg.append("rect")
     .attr("class", "background")
@@ -31,7 +40,7 @@ svg.append("rect")
     .style("pointer-events", "all")
     .call(d3.zoom()
     .scaleExtent([1,4])
-    .translateExtent([[0,0], [m_width, m_width * height / width]])
+    .translateExtent([[0,0], [radius, radius]])
     .on("zoom", zoomed));
 
 function zoomed() {
@@ -188,8 +197,8 @@ function country_clicked(d) {
     clickFromCountry(d);
 }
 
-$(window).resize(function() {
-var w = $("#map").width();
-svg.attr("width", w);
-svg.attr("height", w * height / width);
-});
+// $(window).resize(function() {
+// var w = $("#map").width();
+// svg.attr("width", w);
+// svg.attr("height", w * height / width);
+// });

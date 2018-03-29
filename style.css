@@ -49,7 +49,7 @@ h1 {
   padding: 20px;
   width: 20%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: fixed;
 
   background: #CCDFCD;
@@ -72,8 +72,18 @@ h1 {
 
 .vis-wrapper {
   margin-top: 20px;
-  min-height: 600px;
+  margin-left: 50px;
+  min-height: 800px;
   position: relative;
+}
+
+@media screen and (max-width: 900px) {
+    .vis-wrapper {
+      margin-top: 20px;
+      margin-left: 50px;
+      min-height: 400px;
+      position: relative;
+    }
 }
 
 /* sunburst tooltip */
@@ -173,8 +183,10 @@ pre.prettyprint {
 
 #map {
     position: absolute;
-    width: 290px;
-    height: 290px;
+/*    width: 290px;
+    height: 290px;*/
+    width: 48%;
+    height: 48%;
     top:0;
     bottom: 0;
     left: 0;
@@ -188,8 +200,10 @@ pre.prettyprint {
 
 #sunburst {
     position: absolute;
-    width: 600px;
-    height: 600px;
+/*    width: 600px;
+    height: 600px;*/
+    width: 100%;
+    height: 100%;
     top:0;
     bottom: 0;
     left: 0;
