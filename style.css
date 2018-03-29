@@ -47,6 +47,7 @@ h1 {
 
 .col1 {
   padding: 20px;
+  margin-right: 50px;
   width: 20%;
   height: 100%;
   overflow-y: auto;
@@ -72,15 +73,21 @@ h1 {
 
 .vis-wrapper {
   margin-top: 20px;
-  /*margin-left: 50px;*/
+  margin-left: 50px;
   min-height: 800px;
   position: relative;
+}
+
+@media screen and (max-width: 1440px) {
+    .vis-wrapper {
+      min-height: 600px;
+      position: relative;
+    }
 }
 
 @media screen and (max-width: 900px) {
     .vis-wrapper {
       margin-top: 20px;
-      margin-left: 50px;
       min-height: 400px;
       position: relative;
     }
@@ -160,6 +167,7 @@ path {
   stroke-linejoin: round;
   stroke-linecap: round;
   stroke-width: 0.08;
+  cursor: pointer;
 }
 
 #countries .active {
@@ -194,6 +202,7 @@ pre.prettyprint {
     z-index: 2;
     border-radius: 100%;
     overflow:hidden;
+    /*cursor: zoom-in;*/
 
     margin: auto;
 }

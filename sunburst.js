@@ -82,7 +82,7 @@ function mousemove(d){
     yoff = $('.vis-wrapper').offset().top
     xoff = $('#sidebar').width();
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 20 + "px"})
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 70 + "px"})
         .html(d.data.name + "\n" + formatNumber(d.value) + " ton CO2");
         //.attr("style", "left:" + event.clientX + "px")
 }
