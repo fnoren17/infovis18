@@ -70,7 +70,7 @@ function mouseover(d){
 
 //tooltip
 function mousemove(d){
-    yoff = $('.vis-wrapper').offset().top
+    yoff = $('.vis-wrapper').offset().top;
     xoff = $('#sidebar').width();
     d3.selectAll(".text")
         .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 20 + "px"})
@@ -80,14 +80,14 @@ function mousemove(d){
 
 function mouseout(d){
     d3.selectAll("path")
-        .style("opacity", function(d){return d.depth == 0 ? 0 : 1});
+        .style("opacity", function(d){return d.depth == 0 ? 0 : 1;});
     d3.selectAll(".text")
         .style("display", "none");
 }
 
 
 function click(a, d) {
-    drawTimeline(a)
+    drawTimeline(a);
     if(latestClicked){
         latestClicked.style.strokeWidth = "";
     }
@@ -97,33 +97,37 @@ function click(a, d) {
         }
 
         if(latestClicked){
-            latestClicked.style.strokeWidth = ""
+            latestClicked.style.strokeWidth = "";
         }
     }
 
 if(a.depth == 2) {
         if (currentNode == a) {
-            a = a.parent
-            latestClicked.style.strokeWidth = ""
+            a = a.parent;
+            latestClicked.style.strokeWidth = "";
         }
         else {
                 map = d3.selectAll("g#countries").selectAll("path")
-                .filter(function(e){return e.properties.name == a.data.name});
+                .filter(function(e){return e.properties.name == a.data.name;});
                 data = map.data()[0];
                 if(data){
-                latestClicked = document.getElementById(data.id)
-                latestClicked.style.strokeWidth = 1
+                  var xyz = get_xyz(data);
+                  zoom(xyz);
+                  
+                  latestClicked = document.getElementById(data.id);
+                  latestClicked.style.strokeWidth = 1;
                 }
+
         }
 
     }
     if(a.depth == 3){
         map = d3.selectAll("g#countries").selectAll("path")
-            .filter(function(e){return e.properties.name == a.parent.data.name});
+            .filter(function(e){return e.properties.name == a.parent.data.name;});
         data = map.data()[0];
         if(data){
-        latestClicked = document.getElementById(data.id)
-        latestClicked.style.strokeWidth = 1
+        latestClicked = document.getElementById(data.id);
+        latestClicked.style.strokeWidth = 1;
         }
     }
     svg.transition()
