@@ -125,9 +125,6 @@ if(a.depth == 2) {
                 .filter(function(e){return e.properties.name == a.data.name;});
                 data = map.data()[0];
                 if(data){
-                  var xyz = get_xyz(data);
-                  zoom(xyz);
-                  
                   latestClicked = document.getElementById(data.id);
                   latestClicked.style.strokeWidth = 1;
                 }
@@ -142,8 +139,6 @@ if(a.depth == 2) {
         if(data){
         latestClicked = document.getElementById(data.id);
         latestClicked.style.strokeWidth = 1;
-        var xyz = get_xyz(data);
-        zoom(xyz);
         }
     }
     svg.transition()
