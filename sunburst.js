@@ -102,6 +102,9 @@ function click(a, d) {
     if(a.depth == 1){
         if(currentNode == a){
             a = a.parent;
+            g.transition()
+              .duration(750)
+              .attr("transform", "translate(0,0)");
         }
 
         if(latestClicked){
@@ -113,6 +116,9 @@ if(a.depth == 2) {
         if (currentNode == a) {
             a = a.parent;
             latestClicked.style.strokeWidth = "";
+            g.transition()
+              .duration(750)
+              .attr("transform", "translate(0,0)");
         }
         else {
                 map = d3.selectAll("g#countries").selectAll("path")

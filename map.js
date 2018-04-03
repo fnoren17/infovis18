@@ -38,7 +38,8 @@ function zoomed() {
     g.attr("transform", d3.event.transform);
 }
 
-var g = svg.append("g");
+var g = svg.append("g")
+  .attr("id", "zoom");
 
 // Tooltip för mouseover
   var div = d3.select(".vis-wrapper").append("div")
