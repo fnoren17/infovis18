@@ -7,7 +7,7 @@ var m_width = $("#map").width(),
 var projection = d3.geoMercator()
     .scale(45)
     .translate([width / 2, height / 1.60])
-    .precision(0.1);
+    .precision(.1);
 
 var path = d3.geoPath()
     .projection(projection);
