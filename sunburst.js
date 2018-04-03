@@ -42,11 +42,19 @@ function drawSunburst(root){
         .data(partition(root).descendants())
         .enter().append("path")
         .attr("class", "sunburst")
-        .attr("display", function(d){return d.depth ? null : "none"})
+        .attr("display", function(d){
+          return d.depth ? null : "none";
+        })
         .attr("d", arc)
-        .attr("id", function(d){return d.data.name.replace(/\s+/g, '');})
-        .style("fill", function(d) { return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
-        .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
+        .attr("id", function(d){
+          return d.data.name.replace(/\s+/g, '');
+        })
+        .style("fill", function(d) { 
+          return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")";
+        })
+        .attr("opacity", function(d){
+          return d.depth == 0 ? 0 : 1;
+        })
         .on("click", click)
         .on("mouseover",mouseover)
         .on("mousemove",mousemove)
@@ -128,6 +136,8 @@ if(a.depth == 2) {
         if(data){
         latestClicked = document.getElementById(data.id);
         latestClicked.style.strokeWidth = 1;
+        var xyz = get_xyz(data);
+        zoom(xyz);
         }
     }
     svg.transition()
