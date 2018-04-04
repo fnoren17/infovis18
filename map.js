@@ -25,6 +25,7 @@ svg.append("rect")
     .on("click", country_clicked);
 
 svg.append("rect")
+    .attr("id", "zoom")
     .attr("width", width)
     .attr("height", height)
     .style("fill", "none")
@@ -218,11 +219,13 @@ function country_clicked(d) {
   if (d && country !== d) {
     var xyz = get_xyz(d);
     country = d;
-    zoom (xyz);
+    zoom(xyz);
+    d3.select("rect#zoom").style("display", "none");
   } else {
   g.transition()
     .duration(750)
     .attr("transform", "translate(0,0)");
+    d3.select("rect#zoom").style("display", "block");
   }
     clickFromCountry(d);
 }
