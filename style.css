@@ -32,6 +32,7 @@ h1 {
   min-height: 700px;
 }
 
+
 .col1 {
   padding: 20px;
   margin-right: 50px;
@@ -56,6 +57,31 @@ h1 {
   padding: 20px;
   width: 20%;
   float: left;
+}
+
+.hej {
+    height: 150px;
+    width: 100%;
+    background-color: #CCDFCD;
+}
+
+.col5 {
+    width: 100%;
+    height: 10%;
+    position: fixed;
+}
+
+.info {
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    width: 80%;
+    height: 400px;
+    border: 5px solid black;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px;
+    background-color: white;
 }
 
 .vis-wrapper {
@@ -329,6 +355,21 @@ div.tooltip {
   margin-bottom: 10px;
   width: 40%;
 }
+
+.logo2{
+    z-index: 10;
+    padding: 15px;
+    height: 80%;
+    width: auto;
+}
+
+.map_picture{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    
+}
+
 .logo:hover{
 	opacity: 0.9;
 }
