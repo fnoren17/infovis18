@@ -340,17 +340,15 @@ div.tooltip {
 }
 
 #timelineWrapper {
-	/*margin-left: -200px;*/
 }
 /* The actual timeline (the vertical ruler) */
 .timeline {
   position: relative;
   max-width: 500px;
-  /*margin-left: -50px;*/
   margin-top: 0px;
 
   cursor: pointer;
-  
+
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -366,7 +364,6 @@ div.tooltip {
 }
 
 #innerTimeline {
-  /*margin-left: -70px;*/
 
 }
 
