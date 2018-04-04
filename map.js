@@ -83,13 +83,10 @@ function drawmap(dummyData, mapdata) {
               if (dummyData.children[i].children[j].name == d.properties.name) {
                 // If country has color attribute
                 if (dummyData.children[i].children[j].color) {
-                  // countryMapColor = dummyData.children[i].children[j].color;
                   countryMapColor = dummyData.children[i].color;
-                  //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
                   return "rgb("+countryMapColor.colorR+","+countryMapColor.colorG+","+countryMapColor.colorB+")";
                 } else {
                 // Else, return some dark color
-                  //console.log("Country has no color attribute. Returning some color.");
                   return "rgb(255,255,255)";
                 }
 
@@ -143,7 +140,6 @@ function drawmap(dummyData, mapdata) {
         .attr("d", path)
         .on("click", country_clicked)
         .on("mouseover", function(d) { // Tanken är att när man hovrar över ett land så kan man få snabbinfo
-            //console.log(d)
             div.transition()
                 .duration(200)
                 .style("opacity", .9);

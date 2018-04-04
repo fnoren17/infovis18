@@ -188,9 +188,6 @@ brazilP.textContent = "Ship exports from Brazil in 2014 emitted 6,313,472 tons C
 
 function drawTimeline(a) {
   var object = a;
-  // console.log("object in dratimeline header");
-  // console.log(object);
-
 
   try {
     if (object.data.name == "Brazil") {
@@ -213,12 +210,10 @@ function drawTimeline(a) {
     }
   } else {
     // Region clicked
-
   }
 
   switch (clickedLevel) {
     case 9:
-      // console.log("Brazil level");
       // Display div
       regionDiv.style.display = "none";
       countryDiv.style.display = "none";
@@ -265,9 +260,6 @@ function drawTimeline(a) {
         currentCountryInTimeline = "";
       }
 
-      // console.log("is object a country?");
-      // console.log(object.data.name);
-      // console.log(object.parent.parent.data.name);
       // Is child showing? keep showing region
       else if ( String(cargoDiv.style.display) == "block" ) {
         countryDiv.style.display = "block";
