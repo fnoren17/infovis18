@@ -82,6 +82,7 @@ h1 {
     padding: 25px;
     margin: 25px;
     background-color: white;
+    opacity: 0.5;
 }
 
 .vis-wrapper {
