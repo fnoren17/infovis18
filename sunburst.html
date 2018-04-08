@@ -29,44 +29,45 @@
 				<div style="text-align: center">
 					<a href="index.html" class="logo"><img src="logo.png" alt="Logo" class="logo"></a>
 					<h1>Mission Emission</h1>
-					<p>CO2 emission caused by nautical export in Brazil 2014</p>
+					<p>CO2 emission caused by nautical export from Brazil 2014</p>
 				</div>
         <div id="timelineWrapper">
           <div id="timeline" class="">
               <div id="innerTimeline" class="timeline">
                 <div class="timelineContainer right" onclick="brazilClickTest()" style="z-index: 10;">
                   <div class="timelineContent">
-                    <p>Brazil Exports</p>
+                    <p style="font-weight: bold;">Brazil's Export</p>
                     <p id="brazilInfo">brazilInfo</p>
                   </div>
                 </div>
                 <div class="timelineContainer right"  id="regionDiv" onclick="regionClickTest()" style="z-index: 10;">
                   <div class="timelineContent">
-                    <p id="regionP">Region</p>
+                    <p style="font-weight: bold;" id="regionP">Region</p>
                     <p id="regionInfo">regionInfo</p>
                   </div>
                 </div>
                 <div class="timelineContainer right"  id="countryDiv" onclick="countryClickTest()" style="z-index: 10;">
                   <div class="timelineContent">
-                    <p id="countryP">Country</p>
+                    <p style="font-weight: bold;" id="countryP">Country</p>
                     <p id="countryInfo">countryInfo</p>
                   </div>
                 </div>
                 <div class="timelineContainer right"  id="cargoDiv" onclick="cargoClickTest()" style="z-index: 10;">
                   <div class="timelineContent">
-                    <p id="cargoP">Cargo</p>
+                    <p style="font-weight: bold;" id="cargoP">Cargo</p>
                     <p id="cargoInfo">cargoInfo</p>
                   </div>
                 </div>
               </div>
           </div>
         </div>
-
-
-				<div class="icons">
+<!-- 				<div class="icons">
 					<a data-toggle="modal" data-target="#helpModal" class="helperbtns"><i class="fa fa-question-circle" class="col-sm-12" style="font-size:48px;"></i></a>
 					<a data-toggle="modal" data-target="#infoModal" class="helperbtns"><i class="fa fa-info-circle" class="col-sm-12" style="font-size:48px;"></i></a>
-				</div>
+				</div> -->
+				<div class="text-center legend-wrap">
+		      	<img src="legend.png" alt="Legend" width="120" height="120" class="legend">
+		      </div>
 			</div>
 			<div class="col col2">
 				<!--Loader icon-->
@@ -80,9 +81,6 @@
 		    <div class="col col3 dropdown">
 		      <input type="text" placeholder="Search countries" id="myInput" onkeyup="filterFunction()">
 		      <div id="countries-list" class="dropdown-content"></div>
-		      <div class="text-center legend-wrap">
-		      	<img src="legend.png" alt="Legend" width="120" height="120" class="legend">
-		      </div>
 		    </div>
 			<!--Modal help-->
 	    <div class="modal fade" id="helpModal" role="dialog">
@@ -100,13 +98,15 @@
 						</p><br>
 						<h4>How to navigate</h4>
 						<p>
-							The website features an interactive sunburst with an interactive world map inside of it. The sunburst is divided into three different layers, each with it's own level of specificity. Hovering over each layer gives infomation about that part of the layer's CO2 emission. The sunburst's innermost layer is categorized as Regions, as given in the data produced by SEI. The middle layer is Countries and the outermost layer is the Category of product exported. Clicking any of the nodes of the sunburst collapses every other node on that layer to give a better view of that single node. Clicking the node again zooms the sunburst out. 
+
+							The website features an interactive sunburst with an interactive world map inside of it. The sunburst is divided into three different layers, each with it's own level of specificity. Hovering over each layer gives infomation about that part of the layer's CO2 emission. The sunburst's innermost layer is categorized as Regions, as given in the data produced by SEI. The middle layer is Countries and the outermost layer is the Category of product exported. Clicking any of the nodes of the sunburst collapses every other node on that layer to give a better view of that single node. Clicking the node again zooms out the sunburst.
+
 						</p>
 						<p>
-							The world map is zoomable and draggable for easy access to smaller countries. It is also colorcoded according to the different Regions. Clicking a country on the world map does the same thing as clicking a node on the sunburst. The user also has the opportunity to search for a country directly in the search bar. 
+							The world map is zoomable and draggable for easy access to smaller countries. It is also colorcoded according to the different Regions. Clicking a country on the world map does the same thing as clicking a node on the sunburst. The user also has the opportunity to search for a country directly in the search bar.
 						</p>
-						
-					
+
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -156,8 +156,6 @@
                 searchbar(data);
                 // Draw the sunburst
                 drawSunburst(data);
-
-
             }
         </script>
 		</div>

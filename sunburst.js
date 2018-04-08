@@ -1,6 +1,15 @@
-var width = 600,
-height = 600,
-radius = (Math.min(width, height) / 2) - 10;
+var container = $('.vis-wrapper');
+var map = $('#map');
+
+var width = container.width(),
+height = container.height(),
+radius = (Math.min(width, height) / 2);
+
+map.css({
+  width: radius,
+  height: radius
+});
+
 
 var formatNumber = d3.format(",d");
 var currentNode;
@@ -81,8 +90,8 @@ function mousemove(d){
     yoff = $('.vis-wrapper').offset().top;
     xoff = $('#sidebar').width();
     d3.selectAll(".text")
-        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 20 + "px"})
-        .html(d.data.name + "\n" + formatNumber(d.value) + " ton CO2");
+        .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 70 + "px"})
+        .html(d.data.name + "\n" + formatNumber(d.value) + " tons CO2");
         //.attr("style", "left:" + event.clientX + "px")
 }
 
@@ -196,13 +205,10 @@ var currentCountryInTimeline;
 var currentCargoInTimeline;
 
 var brazilP = document.getElementById("brazilInfo");
-brazilP.textContent = "Ship exports in 2014 from Brazil emitted 6,313,472 ton of C02.";
+brazilP.textContent = "Ship exports from Brazil in 2014 emitted 6,313,472 tons C02.";
 
 function drawTimeline(a) {
   var object = a;
-  // console.log("object in dratimeline header");
-  // console.log(object);
-
 
   try {
     if (object.data.name == "Brazil") {
@@ -225,12 +231,10 @@ function drawTimeline(a) {
     }
   } else {
     // Region clicked
-
   }
 
   switch (clickedLevel) {
     case 9:
-      // console.log("Brazil level");
       // Display div
       regionDiv.style.display = "none";
       countryDiv.style.display = "none";
@@ -261,7 +265,8 @@ function drawTimeline(a) {
       regionP.textContent = "Region: \n " +object.data.name;
 
       var regionC02ofBrazil = parseInt((object.value / object.parent.value) * 10000)/100;
-      regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+      var rTot = formatNumber(parseInt(object.value));
+      regionInfo.textContent = rTot + " tons CO2, " + regionC02ofBrazil + "% of Brazil's total shipping emissions.";
       break;
     case 1: // country
 
@@ -276,9 +281,6 @@ function drawTimeline(a) {
         currentCountryInTimeline = "";
       }
 
-      // console.log("is object a country?");
-      // console.log(object.data.name);
-      // console.log(object.parent.parent.data.name);
       // Is child showing? keep showing region
       else if ( String(cargoDiv.style.display) == "block" ) {
         countryDiv.style.display = "block";
@@ -306,12 +308,14 @@ function drawTimeline(a) {
       countryP.textContent = "Country: \n " +object.data.name;
 
       var regionC02ofBrazil = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
-      regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+      var rTot = formatNumber(parseInt(object.parent.value));
+      regionInfo.textContent = rTot + " tons CO2, " + regionC02ofBrazil + "% of Brazil's total shipping emissions.";
 
 
       var countryC02ofBrazil = parseInt((object.value / object.parent.parent.value) * 10000)/100;
       var countryC02ofRegion = parseInt((object.value / object.parent.value) * 10000)/100;
-      countryInfo.textContent = countryC02ofRegion +"% of " +object.parent.data.name + "'s brazilian ship import C02 emission.\n " + +countryC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+      var cTot = formatNumber(parseInt(object.value));
+      countryInfo.textContent = cTot + " tons CO2, " + countryC02ofRegion +"% of " +object.parent.data.name + "'s shipping import from Brazil.\n " + countryC02ofBrazil +"% of Brazil's total shipping emissions.";
 
 
       break;
@@ -340,17 +344,20 @@ function drawTimeline(a) {
       countryP.textContent = "Country: \n " +object.parent.data.name;
 
       var regionC02ofBrazil = parseInt((object.parent.parent.value / object.parent.parent.parent.value) * 10000)/100;
-      regionInfo.textContent = regionC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+      var rTot = formatNumber(parseInt(object.parent.parent.value));
+      regionInfo.textContent = rTot + " tons CO2, " + regionC02ofBrazil + "% of Brazil's total shipping emissions.";
 
 
       var countryC02ofBrazil = parseInt((object.parent.value / object.parent.parent.parent.value) * 10000)/100;
       var countryC02ofRegion = parseInt((object.parent.value / object.parent.parent.value) * 10000)/100;
-      countryInfo.textContent = countryC02ofRegion +"% of " +object.parent.parent.data.name + "'s brazilian ship import C02 emission.\n " + +countryC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+      var cTot = formatNumber(parseInt(object.parent.value));
+      countryInfo.textContent = cTot + " tons CO2, " + countryC02ofRegion +"% of " +object.parent.parent.data.name + "'s shipping import from Brazil.\n " + countryC02ofBrazil +"% of Brazil's total shipping emissions.";
 
       var cargoC02ofCountry = parseInt((object.value / object.parent.value) * 100);
       var cargoC02ofBrazil = parseInt((object.value / object.parent.parent.parent.value) * 100);
       cargoP.textContent =   "Cargo: \n " +object.data.name;
-      cargoInfo.textContent = cargoC02ofCountry +"% of " +object.parent.data.name + "'s brazilian ship import CO2 emission.\n " +cargoC02ofBrazil +"% of Brazil's total ship export CO2 emission.";
+      var caTot = formatNumber(parseInt(object.value));
+      cargoInfo.textContent = caTot + " tons CO2, " + cargoC02ofCountry +"% of " +object.parent.data.name + "'s shipping import from Brazil.\n " +cargoC02ofBrazil +"% of Brazil's total shipping emissions.";
       break;
   }
 }
