@@ -13,8 +13,6 @@ var path = d3.geoPath()
     .projection(projection);
 
 var svg = d3.select("#map").append("svg")
-    .attr("preserveAspectRatio", "xMidYMid")
-    .attr("viewBox", "0 0 " + width + " " + height)
     .attr("width", m_width)
     .attr("height", m_width * height / width);
 
@@ -24,20 +22,6 @@ svg.append("rect")
     .attr("height", height)
     .on("click", country_clicked);
 
-svg.append("rect")
-    .attr("id", "zoom")
-    .attr("width", width)
-    .attr("height", height)
-    .style("fill", "none")
-    .style("pointer-events", "all")
-    .call(d3.zoom()
-    .scaleExtent([1,4])
-    .translateExtent([[0,0], [m_width, m_width * height / width]])
-    .on("zoom", zoomed));
-
-function zoomed() {
-    g.attr("transform", d3.event.transform);
-}
 
 var g = svg.append("g")
   .attr("id", "zoom");

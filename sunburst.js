@@ -164,9 +164,11 @@ if(a.depth == 2) {
 }
 
 function clickFromCountry(d){
+  if(d){
     var a = d3.selectAll("path#" + d.properties.name.replace(/\s+/g, '')).data();
     if(a.length != 0){
     click(a[0], d);
+  }
     }
 }
 
