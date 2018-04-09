@@ -316,9 +316,8 @@ div.tooltip {
 
 .legend-wrap {
   position: absolute;
-  bottom:50px;
-  left: 0;
-  right: 0;
+  bottom:20px;
+  right: 20px;
 }
 .legend {
   margin-top: 50px;
