@@ -11,6 +11,7 @@ var m_width = $("#map").width(),
     country,
     state;
 
+
 var scaling = radius/10 + 20;
 
 var projection = d3.geoMercator()
@@ -19,7 +20,7 @@ var projection = d3.geoMercator()
     .precision(0.1);
 
 var path = d3.geoPath()
-    .projection(projection);
+.projection(projection);
 
 var svg = d3.select("#map").append("svg")
     .attr("preserveAspectRatio", "xMidYMid")
@@ -28,34 +29,34 @@ var svg = d3.select("#map").append("svg")
     .attr("height", radius);
 
 svg.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", country_clicked);
-
+.attr("class", "background")
+.attr("width", width)
+.attr("height", height)
+.on("click", country_clicked);
 
 
 var g = svg.append("g")
-  .attr("id", "zoom");
+.attr("id", "zoom");
 
 // Tooltip för mouseover
-  var div = d3.select(".vis-wrapper").append("div")
-    .attr("class", "tooltip")
-    .styles({"opacity": 0,"height": "auto"});
+var div = d3.select(".vis-wrapper").append("div")
+.attr("class", "tooltip")
+.styles({"opacity": 0,"height": "auto"});
 
 // Här är datan om utsläppen
 function drawmap(dummyData, mapdata) {
 
-  totCountries = 0; // Totala antalet länder
-  totEmission = 0; // Det totala utsälppet för alla exporter
-  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
-    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
-      totCountries = totCountries + 1;
-      for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
-        totEmission = totEmission + dummyData.children[i].children[j].children[k].size;
-      }
-    }
-  }
+totCountries = 0; // Totala antalet länder
+totEmission = 0; // Det totala utsälppet för alla exporter
+for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+  totCountries = totCountries + 1;
+for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+  totEmission = totEmission + dummyData.children[i].children[j].children[k].size;
+}
+}
+}
+
 
     g.append("g")
         .attr("id", "countries")
@@ -179,11 +180,11 @@ function drawmap(dummyData, mapdata) {
 
 function zoom(xyz) {
   g.transition()
-    .duration(750)
-    .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
-    .selectAll(["#countries", "#states", "#cities"])
-    .selectAll(".city")
-    .attr("d", path.pointRadius(20.0 / xyz[2]));
+  .duration(750)
+  .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
+  .selectAll(["#countries", "#states", "#cities"])
+  .selectAll(".city")
+  .attr("d", path.pointRadius(20.0 / xyz[2]));
 }
 
 function get_xyz(d) {
@@ -191,8 +192,8 @@ function get_xyz(d) {
   var w_scale = (bounds[1][0] - bounds[0][0]) / width;
   var h_scale = (bounds[1][1] - bounds[0][1]) / height;
   var z = 0.432 / Math.max(w_scale, h_scale);
-  if (z > 4) {
-    z = 4;
+  if (z > 3) {
+    z = 3;
   }
   var x = (bounds[1][0] + bounds[0][0]) / 2;
   var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6);
@@ -200,10 +201,10 @@ function get_xyz(d) {
 }
 
 function country_clicked(d) {
-    // console.log(d)
-    // console.log("You clicked on " + d.properties.name);
-    //b._groups[0][0].style.strokeWidth = 10
-    g.selectAll(["#states", "#cities"]).remove();
+// console.log(d)
+// console.log("You clicked on " + d.properties.name);
+//b._groups[0][0].style.strokeWidth = 10
+  g.selectAll(["#states", "#cities"]).remove();
   state = null;
 
   if (country) {
@@ -215,13 +216,8 @@ function country_clicked(d) {
     country = d;
     zoom(xyz);
     d3.select("rect#zoom").style("display", "none");
-  } else {
-  g.transition()
-    .duration(750)
-    .attr("transform", "translate(0,0)");
-    d3.select("rect#zoom").style("display", "block");
   }
-    clickFromCountry(d);
+  clickFromCountry(d);
 }
 
 // $(window).resize(function() {
