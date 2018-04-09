@@ -11,15 +11,16 @@ var m_width = $("#map").width(),
     country,
     state;
 
+
 var scaling = radius/10 + 20;
 
 var projection = d3.geoMercator()
     .scale(scaling)
     .translate([width / 2, height / 1.60])
-    .precision(.1);
+    .precision(0.1);
 
 var path = d3.geoPath()
-    .projection(projection);
+.projection(projection);
 
 var svg = d3.select("#map").append("svg")
     .attr("preserveAspectRatio", "xMidYMid")
@@ -28,45 +29,34 @@ var svg = d3.select("#map").append("svg")
     .attr("height", radius);
 
 svg.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", country_clicked);
+.attr("class", "background")
+.attr("width", width)
+.attr("height", height)
+.on("click", country_clicked);
 
-svg.append("rect")
-    .attr("width", width)
-    .attr("height", height)
-    .style("fill", "none")
-    .style("pointer-events", "all")
-    .call(d3.zoom()
-    .scaleExtent([1,4])
-    .translateExtent([[0,0], [radius, radius]])
-    .on("zoom", zoomed));
 
-function zoomed() {
-    g.attr("transform", d3.event.transform);
-}
-
-var g = svg.append("g");
+var g = svg.append("g")
+.attr("id", "zoom");
 
 // Tooltip för mouseover
-  var div = d3.select(".vis-wrapper").append("div")
-    .attr("class", "tooltip")
-    .styles({"opacity": 0,"height": "auto"});
+var div = d3.select(".vis-wrapper").append("div")
+.attr("class", "tooltip")
+.styles({"opacity": 0,"height": "auto"});
 
 // Här är datan om utsläppen
 function drawmap(dummyData, mapdata) {
 
-  totCountries = 0; // Totala antalet länder
-  totEmission = 0; // Det totala utsälppet för alla exporter
-  for (i=0;i<dummyData.children.length;i++) { // Kontinenter
-    for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
-      totCountries = totCountries + 1
-      for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
-        totEmission = totEmission + dummyData.children[i].children[j].children[k].size
-      }
-    }
-  }
+totCountries = 0; // Totala antalet länder
+totEmission = 0; // Det totala utsälppet för alla exporter
+for (i=0;i<dummyData.children.length;i++) { // Kontinenter
+for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
+  totCountries = totCountries + 1;
+for (k=0;k<dummyData.children[i].children[j].children.length;k++) { // Produkter
+  totEmission = totEmission + dummyData.children[i].children[j].children[k].size;
+}
+}
+}
+
 
     g.append("g")
         .attr("id", "countries")
@@ -83,13 +73,10 @@ function drawmap(dummyData, mapdata) {
               if (dummyData.children[i].children[j].name == d.properties.name) {
                 // If country has color attribute
                 if (dummyData.children[i].children[j].color) {
-                  // countryMapColor = dummyData.children[i].children[j].color;
                   countryMapColor = dummyData.children[i].color;
-                  //console.log("Country: " +dummyData.children[i].children[j].name +". Color: " +dummyData.children[i].children[j].color);
                   return "rgb("+countryMapColor.colorR+","+countryMapColor.colorG+","+countryMapColor.colorB+")";
                 } else {
                 // Else, return some dark color
-                  //console.log("Country has no color attribute. Returning some color.");
                   return "rgb(255,255,255)";
                 }
 
@@ -104,7 +91,7 @@ function drawmap(dummyData, mapdata) {
             }
           }
           if (d.properties.name == "Brazil"){
-              return "#808080"
+              return "#808080";
           }
 
           /*
@@ -143,10 +130,9 @@ function drawmap(dummyData, mapdata) {
         .attr("d", path)
         .on("click", country_clicked)
         .on("mouseover", function(d) { // Tanken är att när man hovrar över ett land så kan man få snabbinfo
-            //console.log(d)
             div.transition()
                 .duration(200)
-                .style("opacity", .9);
+                .style("opacity", 0.9);
                 // top2 = [{"name": "No Import", "size": 0}, {"name": "No Import", "size": 0}]; // De två produkterna med mest emission
                 // for (i=0;i<dummyData.children.length;i++) { // Kontinenter
                 //   for (j=0;j<dummyData.children[i].children.length;j++) { // Länder
@@ -178,9 +164,11 @@ function drawmap(dummyData, mapdata) {
         })
         // Tooltip för mouseover
         .on("mousemove", function(d){
-            yoff = $('.vis-wrapper').offset().top
+            yoff = $('.vis-wrapper').offset().top;
             xoff = $('#sidebar').width();
+
             div.styles({"left": (d3.event.pageX - 70 - xoff) + "px", "top": (d3.event.pageY - yoff - 20) + "px"})
+
         })
         .on("mouseout", function(d) {
             div.transition()
@@ -190,11 +178,46 @@ function drawmap(dummyData, mapdata) {
 }
 
 
+function zoom(xyz) {
+  g.transition()
+  .duration(750)
+  .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
+  .selectAll(["#countries", "#states", "#cities"])
+  .selectAll(".city")
+  .attr("d", path.pointRadius(20.0 / xyz[2]));
+}
+
+function get_xyz(d) {
+  var bounds = path.bounds(d);
+  var w_scale = (bounds[1][0] - bounds[0][0]) / width;
+  var h_scale = (bounds[1][1] - bounds[0][1]) / height;
+  var z = 0.432 / Math.max(w_scale, h_scale);
+  if (z > 3) {
+    z = 3;
+  }
+  var x = (bounds[1][0] + bounds[0][0]) / 2;
+  var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6);
+  return [x, y, z];
+}
+
 function country_clicked(d) {
-    // console.log(d)
-    // console.log("You clicked on " + d.properties.name);
-    //b._groups[0][0].style.strokeWidth = 10
-    clickFromCountry(d);
+// console.log(d)
+// console.log("You clicked on " + d.properties.name);
+//b._groups[0][0].style.strokeWidth = 10
+  g.selectAll(["#states", "#cities"]).remove();
+  state = null;
+
+  if (country) {
+    g.selectAll("#" + country.id).style('display', null);
+  }
+
+  if (d && country !== d) {
+    var xyz = get_xyz(d);
+    country = d;
+    zoom(xyz);
+    d3.select("rect#zoom").style("display", "none");
+  }
+  clickFromCountry(d);
 }
 
 // $(window).resize(function() {

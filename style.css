@@ -391,9 +391,8 @@ div.tooltip {
 
 .legend-wrap {
   position: absolute;
-  bottom:50px;
-  left: 0;
-  right: 0;
+  bottom:20px;
+  right: 20px;
 }
 .legend {
   margin-top: 50px;
@@ -431,17 +430,15 @@ div.tooltip {
 }
 
 #timelineWrapper {
-	/*margin-left: -200px;*/
 }
 /* The actual timeline (the vertical ruler) */
 .timeline {
   position: relative;
   max-width: 500px;
-  /*margin-left: -50px;*/
   margin-top: 0px;
 
   cursor: pointer;
-  
+
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -457,7 +454,6 @@ div.tooltip {
 }
 
 #innerTimeline {
-  /*margin-left: -70px;*/
 
 }
 

@@ -51,11 +51,19 @@ function drawSunburst(root){
         .data(partition(root).descendants())
         .enter().append("path")
         .attr("class", "sunburst")
-        .attr("display", function(d){return d.depth ? null : "none"})
+        .attr("display", function(d){
+          return d.depth ? null : "none";
+        })
         .attr("d", arc)
-        .attr("id", function(d){return d.data.name.replace(/\s+/g, '');})
-        .style("fill", function(d) { return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")"})
-        .attr("opacity", function(d){return d.depth == 0 ? 0 : 1})
+        .attr("id", function(d){
+          return d.data.name.replace(/\s+/g, '');
+        })
+        .style("fill", function(d) { 
+          return "rgb("+d.data.color.colorR+","+d.data.color.colorG+","+d.data.color.colorB+")";
+        })
+        .attr("opacity", function(d){
+          return d.depth == 0 ? 0 : 1;
+        })
         .on("click", click)
         .on("mouseover",mouseover)
         .on("mousemove",mousemove)
@@ -79,7 +87,7 @@ function mouseover(d){
 
 //tooltip
 function mousemove(d){
-    yoff = $('.vis-wrapper').offset().top
+    yoff = $('.vis-wrapper').offset().top;
     xoff = $('#sidebar').width();
     d3.selectAll(".text")
         .styles({"display": "block","top": event.pageY - yoff + 10 + "px", "left": event.pageX -xoff - 70 + "px"})
@@ -89,50 +97,65 @@ function mousemove(d){
 
 function mouseout(d){
     d3.selectAll("path")
-        .style("opacity", function(d){return d.depth == 0 ? 0 : 1});
+        .style("opacity", function(d){return d.depth == 0 ? 0 : 1;});
     d3.selectAll(".text")
         .style("display", "none");
 }
 
 
 function click(a, d) {
-    drawTimeline(a)
+    drawTimeline(a);
     if(latestClicked){
         latestClicked.style.strokeWidth = "";
     }
     if(a.depth == 1){
         if(currentNode == a){
             a = a.parent;
+            g.transition()
+              .duration(750)
+              .attr("transform", "translate(0,0)");
         }
 
         if(latestClicked){
-            latestClicked.style.strokeWidth = ""
+            latestClicked.style.strokeWidth = "";
         }
     }
 
 if(a.depth == 2) {
         if (currentNode == a) {
-            a = a.parent
-            latestClicked.style.strokeWidth = ""
+            a = a.parent;
+            latestClicked.style.strokeWidth = "";
+            g.transition()
+              .duration(750)
+              .attr("transform", "translate(0,0)");
         }
         else {
                 map = d3.selectAll("g#countries").selectAll("path")
-                .filter(function(e){return e.properties.name == a.data.name});
+                .filter(function(e){return e.properties.name == a.data.name;});
                 data = map.data()[0];
                 if(data){
-                latestClicked = document.getElementById(data.id)
-                latestClicked.style.strokeWidth = 1
+                  var xyz = get_xyz(data);
+                  zoom(xyz);
+                  latestClicked = document.getElementById(data.id);
+                  latestClicked.style.strokeWidth = 1;
+                  var xyz = get_xyz(data);
+                  zoom(xyz);
                 }
+
         }
 
     }
     if(a.depth == 3){
         map = d3.selectAll("g#countries").selectAll("path")
-            .filter(function(e){return e.properties.name == a.parent.data.name});
+            .filter(function(e){return e.properties.name == a.parent.data.name;});
         data = map.data()[0];
         if(data){
-        latestClicked = document.getElementById(data.id)
-        latestClicked.style.strokeWidth = 1
+        var xyz = get_xyz(data);
+        zoom(xyz);
+        latestClicked = document.getElementById(data.id);
+        latestClicked.style.strokeWidth = 1;
+        var xyz = get_xyz(data);
+        zoom(xyz);
         }
     }
     svg.transition()
@@ -154,10 +177,18 @@ if(a.depth == 2) {
 }
 
 function clickFromCountry(d){
+  if(d){
     var a = d3.selectAll("path#" + d.properties.name.replace(/\s+/g, '')).data();
     if(a.length != 0){
     click(a[0], d);
+  }
+  } else {
+    var a = d3.selectAll("path#Brazil").data();
+    if(a.length != 0){
+    click(a[0], d);
     }
+
+  }
 }
 
 
@@ -184,13 +215,10 @@ var currentCountryInTimeline;
 var currentCargoInTimeline;
 
 var brazilP = document.getElementById("brazilInfo");
-brazilP.textContent = "Ship exports from Brazil in 2014 emitted 6,313,472 tons C02.";
+brazilP.textContent = "Ship exports from Brazil in 2014 emitted 6,313,472 tons CO2.";
 
 function drawTimeline(a) {
   var object = a;
-  // console.log("object in dratimeline header");
-  // console.log(object);
-
 
   try {
     if (object.data.name == "Brazil") {
@@ -213,16 +241,18 @@ function drawTimeline(a) {
     }
   } else {
     // Region clicked
-
   }
 
   switch (clickedLevel) {
     case 9:
-      // console.log("Brazil level");
       // Display div
       regionDiv.style.display = "none";
       countryDiv.style.display = "none";
       cargoDiv.style.display = "none";
+    g.transition()
+    .duration(750)
+    .attr("transform", "translate(0,0)");
+    d3.select("rect#zoom").style("display", "block");
       break;
     case 0: // region
       // Is child showing? keep showing region
@@ -265,9 +295,6 @@ function drawTimeline(a) {
         currentCountryInTimeline = "";
       }
 
-      // console.log("is object a country?");
-      // console.log(object.data.name);
-      // console.log(object.parent.parent.data.name);
       // Is child showing? keep showing region
       else if ( String(cargoDiv.style.display) == "block" ) {
         countryDiv.style.display = "block";
