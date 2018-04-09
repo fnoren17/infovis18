@@ -84,8 +84,7 @@ h1 {
     border-radius: 15px;
     padding: 25px;
     margin: 25px;
-    background-color: white;
-    opacity: 0.8;
+    background-color: rgba(255,255,255,0.8);
 }
 
 .aboutUs{
@@ -99,10 +98,13 @@ h1 {
     border-radius: 15px;
     padding: 25px;
     margin: 25px;
-    background-color: white;
-    opacity: 0.8;
+	background-color: rgba(255,255,255,0.8);
 }
 
+.images {
+	background-color: rgba(255,255,255,1.0);
+	border-radius: 10px;
+}
 
 .button-wrap {
     margin-top: 20px;
