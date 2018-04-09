@@ -82,7 +82,6 @@ h1 {
     left: 10%;
     width: 80%;
     height: relative;
-    border: 5px solid black;
     border-radius: 15px;
     padding: 25px;
     margin: 25px;
@@ -117,6 +116,20 @@ h1 {
   display: inline-block;
   border-radius: 4px;
   background-color: #FF6A5C;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  width: 250px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.button:hover{
+  display: inline-block;
+  border-radius: 4px;
   border: none;
   color: #FFFFFF;
   text-align: center;
@@ -533,6 +546,8 @@ div.tooltip {
 	width: auto;
 
 }
+
+
 
 /* Media queries - Responsive timeline on screens less than 600px wide */
 @media all and (max-width: 600px) {
