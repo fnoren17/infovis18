@@ -97,11 +97,11 @@ h1 {
     left: 10%;
     width: 80%;
     height: relative;
-    border: 5px solid black;
     border-radius: 15px;
     padding: 25px;
     margin: 25px;
-	background-color: rgba(255,255,255,0.8);
+    text-align: center;
+	  background-color: rgba(255,255,255,0.8);
 }
 
 .images {
