@@ -74,6 +74,7 @@ h1 {
 }
 
 .info {
+    display:block;
     position: absolute;
     top: 8%;
     left: 10%;
@@ -86,6 +87,22 @@ h1 {
     background-color: white;
     opacity: 0.8;
 }
+
+.aboutUs{
+    display:none;
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    width: 80%;
+    height: relative;
+    border: 5px solid black;
+    border-radius: 15px;
+    padding: 25px;
+    margin: 25px;
+    background-color: white;
+    opacity: 0.8;
+}
+
 
 .button-wrap {
     margin-top: 20px;
