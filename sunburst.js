@@ -182,7 +182,6 @@ function clickFromCountry(d){
     if(a.length != 0){
     click(a[0], d);
   }
-    }
   } else {
     var a = d3.selectAll("path#Brazil").data();
     if(a.length != 0){
