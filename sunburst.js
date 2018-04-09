@@ -127,6 +127,8 @@ if(a.depth == 2) {
                 if(data){
                   latestClicked = document.getElementById(data.id);
                   latestClicked.style.strokeWidth = 1;
+                  var xyz = get_xyz(data);
+                  zoom(xyz);
                 }
 
         }
@@ -139,6 +141,8 @@ if(a.depth == 2) {
         if(data){
         latestClicked = document.getElementById(data.id);
         latestClicked.style.strokeWidth = 1;
+        var xyz = get_xyz(data);
+        zoom(xyz);
         }
     }
     svg.transition()
@@ -160,10 +164,18 @@ if(a.depth == 2) {
 }
 
 function clickFromCountry(d){
+  if(d){
     var a = d3.selectAll("path#" + d.properties.name.replace(/\s+/g, '')).data();
     if(a.length != 0){
     click(a[0], d);
     }
+  } else {
+    var a = d3.selectAll("path#Brazil").data();
+    if(a.length != 0){
+    click(a[0], d);
+    }
+
+  }
 }
 
 
@@ -229,6 +241,10 @@ function drawTimeline(a) {
       regionDiv.style.display = "none";
       countryDiv.style.display = "none";
       cargoDiv.style.display = "none";
+    g.transition()
+    .duration(750)
+    .attr("transform", "translate(0,0)");
+    d3.select("rect#zoom").style("display", "block");
       break;
     case 0: // region
       // Is child showing? keep showing region
