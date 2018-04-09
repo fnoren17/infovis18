@@ -18,6 +18,101 @@
     </head>
 
     <body>
-    <a href="sunburst.html">Länk till sunbursten</a>
+        <div class="header">
+			<a href="index.html"><img src="logo.png" alt="Logo" class="col-sm-3 logo2"></a>
+            <div class="col-sm-9" style="text-align: center">
+                <h2>Welcome to Mission Emission</h2>
+                <h3>A visualization tool for cargo ship emissions exported from Brazil in 2014</h3>
+            </div>
+        </div>
+        <div class="col5">
+            <div class="col-sm-12">
+                <div class="info" id="info">
+                    <h4>In this project, CO2 emissions that stem from nautical exports from Brazil in 2014 are visualised. The user can explore where the exports are shipped and which countries import what products from Brazil. Most importantly, the visualisation displays how much carbon dioxide is emitted for each of the product categories. </h4>
+                    <h4>How to navigate:</h4>
+						<p>
+							The website features an interactive sunburst with an interactive world map inside of it. The sunburst is divided into three different layers. Hovering over each layer gives the user infomation about that part of the layer. The sunburst's innermost layer represents regions, as given in the data produced by Stockholm Environment Institute. The middle layer represents countries and the outermost layer represents the category of the exported product. Clicking any of the nodes of the sunburst collapses every other node on that layer to give a better view of that single node. Clicking the node again zooms out the sunburst.
+						</p>
+						<p>
+							The world map is color coded according to the different Regions, and will zoom in on the country you're currently observing. Clicking a country on the world map does the same thing as clicking a node on the sunburst. The user also has the opportunity to search for a country directly in the search bar.
+						</p>
+                    <h4>Functionalities in the visualization:</h4>
+                    <ul>
+                        <li>Hover over splices to get more information</li>
+                        <li>Click on splices to warp the sunburst and get more details</li>
+                        <li>Click a country on the map to get details for that specific country</li>
+                        <li>Use the search field to filter out a country using text</li>
+                        <li>Use the navigational structure on the left side to navigate up and down through the levels of the sunburst</li>
+                    </ul>
+                    <div class="button-wrap">
+                        <a href="sunburst.html" class="button b1">Go to visualization</a>
+                        <p style="display:inline"> or </p>
+                        <a href="" class="button b2" onclick="return hideDiv()">Learn more about the project</a>
+                        
+                        <script>
+                            function hideDiv() {
+								var x = document.getElementById("info");
+								console.log(x);
+								x.style.display = "none";
+								var y = document.getElementById("aboutUs");
+								y.style.display="block";
+								return false;
+							}
+                        </script>
+                    </div>
+                    <div style="text-align: center"><h5 style="margin-top: 30px">Project Mission Emission was created in cooperation with <a href="https://www.sei.org/">Stockholm Environment Institute</a></h5></div>
+                   
+                </div>
+                   
+                </div>
+                <div class="aboutUs" id="aboutUs">
+					<h2>Created by</h2>
+					<div class="container">
+						<div class="row">
+							<div class="col-sm-3">
+								<img src="/profiles/anton.jpeg" alt="Anton" height="150px" width="150px" class="images">
+								<p>Anton Martinsson</p>
+								<img src="/profiles/erik.jpg" alt="Erik" height="150px" width="150px" class="images">
+								<p>Erik Lindström</p>
+							</div>
+							<div class="col-sm-3">
+								<img src="/profiles/axel.png" alt="Axel" height="150px" width="150px" class="images">
+								<p>Axel Weinz</p>
+								<img src="/profiles/petra.jpg" alt="Petra" height="150px" width="150px" class="images">
+								<p>Petra Olsson</p>
+							</div>
+							<div class="col-sm-3">
+								<img src="/profiles/felix.jpg" alt="Felix" height="150px" width="150px" class="images">
+								<p>Felix Noren</p>
+								<img src="/profiles/oscar.jpg" alt="Oscar" height="150px" width="150px" class="images">
+								<p>Oscar Ström</p>
+							</div>
+							<div class="col-sm-3">
+								<img src="/profiles/gustav.jpg" alt="Gustav" height="150px" width="150px" class="images">
+								<p>Gustav Bergman</p>
+								<img src="/profiles/andreas.jpg" alt="Andreas" height="150px" width="150px" class="images">
+								<p>Andreas Almqvist</p>
+							</div>
+						</div>
+					</div>
+					
+				
+					  <p>
+						<br>
+						  The goal of Mission Emission is to visualize the carbon dioxide emissions that comes from Brazil's export via shipments in 2014. Mission Emission is done in collaboration with <a href= "https://www.sei-international.org/">SEI</a> who provided the data. The template from the world map is based on the work of <a href="https://github.com/tomnoda/interactive_d3_map">Tom Noda</a>.
+					  </p>
+
+					  <p>
+						  Technologies Used
+						  For the data processing, a Python Script was developed in order to convert the 50MB csv file into a 53KB JSON file. For the sunburst and the world map, D3.js was used.<br> <a href="https://github.com/fnoren17/infovis18">View the project on Github</a>
+					  </p>
+                     <div class="button-wrap">
+                        <a href="sunburst.html" class="button b1">Go to visualization</a>
+                        <p style="display:inline"> or </p>
+                        <a href="" class="button b2">Go back to instructions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
