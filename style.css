@@ -70,6 +70,8 @@ h1 {
     height: 80%;
     position: fixed;
     overflow-y: scroll;
+	background:url("map-light.png") no-repeat center;
+	background-size: contain;
     
 }
 
